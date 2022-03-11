@@ -14,8 +14,8 @@
        from [Google Style Guide](https://github.com/google/styleguide).
     2. Set up the downloaded file in the IDE preferences.
 
-Step 4 is a MUST if you want to open a pull request. Otherwise, your code will not pass the check
-status and your code changes will not be reviewed.
+[ IMPORTANT ] Step 4 is a MUST if you want to open a pull request. Otherwise, your code will not
+pass the check status and your code changes will not be reviewed.
 
 ### CODE STANDARDS
 
@@ -34,6 +34,9 @@ from [Google Java Style Guide](https://google.github.io/styleguide/javaguide.htm
 - All the configuration classes must go in the config package.
 - The integration test must go into the bigtest package.
 - If you add a new endpoint, make sure to set the role access for it in the SecurityConfig class.
+
+- [ Optional ] You will find an example of how to work with the project architecture in
+  architecture-example branch.
 
 ### KEEP IN MIND FOR PULL REQUEST AND CODE REVIEW
 
