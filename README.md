@@ -13,6 +13,8 @@
     1. Based on your selection, download the `*-style.xml` file for your IDE
        from [Google Style Guide](https://github.com/google/styleguide).
     2. Set up the downloaded file in the IDE preferences.
+    3. Ensure `import with '*'` option is configured as 99. 
+5. Download and install [Postman](https://www.postman.com/downloads/).
 
 [ IMPORTANT ] Step 4 is a MUST if you want to open a pull request. Otherwise, your code will not
 pass the check status and your code changes will not be reviewed.
