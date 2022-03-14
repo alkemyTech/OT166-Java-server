@@ -42,9 +42,9 @@ from [Google Java Style Guide](https://google.github.io/styleguide/javaguide.htm
 
 #### FORMAT:
 
-- The branch name format is: {jiraTicket#}.
-- The pull request title format is: "{jiraTicket#}: {jiraTitle}".
-- The commits format is: "{jiraTicket#}: {commitDescription}". Small commits are a nice to have.
+- The branch name format is: `{jiraTicket#}`.
+- The pull request title format is: `{jiraTicket#}: {jiraTitle}`.
+- The commits format is: `{jiraTicket#}: {commitDescription}`. Small commits are a nice to have.
 - The pull request has to contain only the changes related to the scope defined in the ticket.
     - If you pull request contains unrelated changes, it will be rejected until those changes be
       removed.
@@ -76,3 +76,23 @@ You can generate the Checkstyle report by explicitly executing below command fro
 ```
 mvn checkstyle:checkstyle
 ```
+
+### LINKS
+
+- [Data-Transfer Objects (DTO)](https://dzone.com/articles/dtos)
+- SOLID:
+    - [SOLID principles](http://www.blackwasp.co.uk/SOLIDPrinciples.aspx)
+    - [Design principles](https://www.oodesign.com/design-principles.html)
+- [Best practices API design](https://docs.microsoft.com/en-us/azure/architecture/best-practices/api-design)
+- [Writing clean code](https://enos.itcollege.ee/~jpoial/oop/naited/Clean%20Code.pdf)
+- [Design patterns](https://refactoring.guru/design-patterns)
+- [Exception handling for REST with Spring](https://www.baeldung.com/exception-handling-for-rest-with-spring)
+- Software testing:
+    - [How to get started with software testing](https://medium.com/@netxm/how-to-get-started-with-software-testing-9fa1ce4f2a64)
+    - [Introduction to Test Driven Development (TDD)](https://medium.com/hackernoon/introduction-to-test-driven-development-tdd-61a13bc92d92)
+    - [Mockito tutorial](https://www.baeldung.com/mockito-series)
+    - [Unit tests with Mockito](https://www.vogella.com/tutorials/Mockito/article.html)
+    - [jUnit5: user guide](https://junit.org/junit5/docs/current/user-guide/#overview)
+- Agile:
+    - [How do you measure value?](https://www.thoughtworks.com/insights/blog/how-do-you-measure-value)
+    - [Exploring value oriented incremental delivery](https://www.thoughtworks.com/insights/blog/exploring-value-oriented-incremental-delivery)
