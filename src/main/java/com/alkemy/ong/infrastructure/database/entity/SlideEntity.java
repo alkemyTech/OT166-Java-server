@@ -21,7 +21,7 @@ public class SlideEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "SLIDE_ID")
-  private Long slideId;
+  private Long id;
 
   @Column(name = "IMAGE_URL", nullable = false)
   private String imageUrl;
