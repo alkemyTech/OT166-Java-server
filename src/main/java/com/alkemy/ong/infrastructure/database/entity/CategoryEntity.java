@@ -24,7 +24,7 @@ public class CategoryEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "CATEGORY_ID")
-  private Long categoryId;
+  private Long id;
 
   @Column(name = "NAME", nullable = false)
   private String name;
@@ -35,11 +35,11 @@ public class CategoryEntity {
   @Column(name = "IMAGE")
   private String image;
 
-  @Column(name = "CREATE_TIMESTAMPS")
+  @Column(name = "CREATE_TIMESTAMP")
   @CreationTimestamp
-  private Timestamp createTimestamps;
+  private Timestamp createTimestamp;
 
   @Column(name = "SOFT_DELETED")
-  private boolean softDeleted = Boolean.FALSE;
+  private Boolean softDeleted;
 
 }
