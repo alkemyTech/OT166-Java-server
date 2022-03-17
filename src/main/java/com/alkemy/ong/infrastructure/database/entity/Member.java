@@ -12,8 +12,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 @Entity
 @Getter
@@ -21,14 +19,12 @@ import org.hibernate.annotations.Where;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "MEMBERS")
-@SQLDelete(sql = "UPDATE member SET deleted = true WHERE id=?")
-@Where(clause = "deleted=false")
 public class Member {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "ID_MEMBER")
-  private Long idMember;
+  @Column(name = "ID")
+  private Long id;
 
   @Column(name = "NAME", nullable = false)
   private String name;
@@ -48,11 +44,11 @@ public class Member {
   @Column(name = "DESCRIPTION")
   private String description;
 
-  @Column(name = "SOFT_DELETED")
-  private boolean softDeleted = Boolean.FALSE;
+  @Column(name = "SOFT_DELETE")
+  private Boolean softDelete = Boolean.FALSE;
 
   @CreationTimestamp
-  @Column(name = "TIMESTAMP")
-  private Timestamp timestamp;
+  @Column(name = "CREATE_TIMESTAMP")
+  private Timestamp creteTimestamp;
 
 }
