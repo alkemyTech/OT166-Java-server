@@ -1,7 +1,5 @@
 package com.alkemy.ong.infrastructure.database.entity;
 
-import com.sun.istack.NotNull;
-import com.sun.istack.Nullable;
 import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,36 +26,30 @@ public class OrganizationEntity {
   @Column(name = "ORGANIZATIONS_ID")
   private Long organizationId;
   
-  @NotNull
-  @Column(name = "NAME")
+  @Column(name = "NAME", nullable = false)
   private String name;
   
-  @NotNull
-  @Column(name = "IMAGE")
+  @Column(name = "IMAGE", nullable = false)
   private String image;
   
-  @Nullable
   @Column(name = "ADDRESS")
   private String address;
   
-  @Nullable
   @Column(name = "PHONE")
   private String phone;
   
-  @NotNull
-  @Column(name = "EMAIL")
+  @Column(name = "EMAIL", nullable = false)
   private String email;
   
-  @NotNull
-  @Column(name = "WELCOME_TEXT")
+  @Column(name = "WELCOME_TEXT", nullable = false)
   private String welcomeText;
   
-  @Nullable
   @Column(name = "ABOUT_US_TEXT")
   private String aboutUsText;
   
+  @CreationTimestamp
   @Column(name = "CREATE_TIMESTAMPS")
-  private Timestamp createTimestamps = new Timestamp(System.currentTimeMillis());
+  private Timestamp createTimestamps;
   
   @Column(name = "SOFTDELETE")
   private Boolean softDelete;
