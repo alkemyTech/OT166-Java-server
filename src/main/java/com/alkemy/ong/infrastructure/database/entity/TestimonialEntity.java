@@ -34,7 +34,8 @@ public class TestimonialEntity {
   @Column(name = "CONTENT")
   private String content;
 
-  @Column(name = "CREATE_TIMESTAMPS")
+  @Column(name = "CREATE_TIMESTAMP")
+  @CreationTimestamp
   private Timestamp createTimestamp;
 
   @Column(name = "SOFT_DELETE")
