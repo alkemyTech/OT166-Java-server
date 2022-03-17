@@ -19,11 +19,11 @@ import org.hibernate.annotations.CreationTimestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "MEMBERS")
-public class Member {
+public class MemberEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "ID")
+  @Column(name = "MEMBER_ID")
   private Long id;
 
   @Column(name = "NAME", nullable = false)
@@ -45,10 +45,10 @@ public class Member {
   private String description;
 
   @Column(name = "SOFT_DELETE")
-  private Boolean softDelete = Boolean.FALSE;
+  private Boolean softDelete;
 
   @CreationTimestamp
   @Column(name = "CREATE_TIMESTAMP")
-  private Timestamp creteTimestamp;
+  private Timestamp createTimestamp;
 
 }
