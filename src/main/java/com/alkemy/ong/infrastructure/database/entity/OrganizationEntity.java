@@ -23,8 +23,8 @@ public class OrganizationEntity {
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "ORGANIZATIONS_ID")
-  private Long organizationId;
+  @Column(name = "ORGANIZATION_ID")
+  private Long id;
   
   @Column(name = "NAME", nullable = false)
   private String name;
@@ -48,8 +48,8 @@ public class OrganizationEntity {
   private String aboutUsText;
   
   @CreationTimestamp
-  @Column(name = "CREATE_TIMESTAMPS")
-  private Timestamp createTimestamps;
+  @Column(name = "CREATE_TIMESTAMP")
+  private Timestamp createTimestamp;
   
   @Column(name = "SOFTDELETE")
   private Boolean softDelete;
