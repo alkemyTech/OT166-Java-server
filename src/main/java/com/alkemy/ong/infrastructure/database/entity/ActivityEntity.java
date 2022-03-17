@@ -7,13 +7,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.CreationTimestamp;
+
 
 @Getter
 @Setter
@@ -21,8 +20,6 @@ import org.hibernate.annotations.Where;
 @NoArgsConstructor
 @Entity
 @Table(name = "ACTIVITIES")
-@SQLDelete(sql = "UPDATE ACTIVITIES SET DELETED = true WHERE ACTIVITY_ID=?")
-@Where(clause = "DELETED=false")
 public class ActivityEntity {
 
   @Id
@@ -30,21 +27,20 @@ public class ActivityEntity {
   @Column(name = "ACTIVITY_ID")
   private Long activityId;
 
-  @Column(name = "NAME")
-  @NotNull
+  @Column(name = "NAME", nullable = false)
   private String name;
 
-  @Column(name = "CONTENT")
-  @NotNull
+  @Column(name = "CONTENT", nullable = false)
   private String content;
 
-  @Column(name = "IMAGE")
-  @NotNull
+  @Column(name = "IMAGE", nullable = false)
   private String image;
 
-  @Column(name = "DELETED")
-  private boolean deleted = Boolean.FALSE;
+  @Column(name = "SOFT_DELETE")
+  private Boolean softDelete;
 
-  private Timestamp createTimpestamps;
+  @Column(name = "CREATE_TIMESTAMP")
+  @CreationTimestamp
+  private Timestamp createTimpestamp;
 
 }
