@@ -36,7 +36,7 @@ public class MemberEntity {
   private String instagramUrl;
 
   @Column(name = "LINKEDIN_URL")
-  private String linkedinUrl;
+  private String linkedInUrl;
 
   @Column(name = "IMAGE", nullable = false)
   private String image;
@@ -44,8 +44,8 @@ public class MemberEntity {
   @Column(name = "DESCRIPTION")
   private String description;
 
-  @Column(name = "SOFT_DELETE")
-  private Boolean softDelete;
+  @Column(name = "SOFT_DELETED")
+  private Boolean softDeleted;
 
   @CreationTimestamp
   @Column(name = "CREATE_TIMESTAMP")
