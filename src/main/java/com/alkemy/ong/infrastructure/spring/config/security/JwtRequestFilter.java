@@ -1,6 +1,6 @@
 package com.alkemy.ong.infrastructure.spring.config.security;
 
-import com.alkemy.ong.infrastructure.util.JwtUtil;
+import com.alkemy.ong.infrastructure.util.JwtUtils;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,50 +9,50 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
+  private static final String CREDENTIALS = "";
+
   @Autowired
-  private JwtUtil jwtUtil;
+  private JwtUtils jwtUtils;
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
 
-    final String authorizationHeader = request.getHeader("Authorization");
+    String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-    String username = null;
-    String jwt = null;
-    List<String> authorities = null;
-
-    if (jwtUtil.isTokenSet(authorizationHeader)) {
-      jwt = authorizationHeader.substring(7);
-      username = jwtUtil.extractUsername(jwt);
-      authorities = jwtUtil.getAuthorities(jwt);
+    if (jwtUtils.isTokenSet(authorizationHeader)) {
+      setAuthentication(authorizationHeader);
+    } else {
+      SecurityContextHolder.clearContext();
     }
 
-    if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-      if (authorities != null) {
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-            new UsernamePasswordAuthenticationToken(
-                username,
-                "",
-                authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
-
-        usernamePasswordAuthenticationToken.setDetails(
-            new WebAuthenticationDetailsSource().buildDetails(request));
-
-        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-      }
-    }
     filterChain.doFilter(request, response);
   }
+
+  private void setAuthentication(String authorizationHeader) {
+    List<String> authorities = jwtUtils.getAuthorities(authorizationHeader);
+    if (authorities != null) {
+      UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+          jwtUtils.extractUsername(authorizationHeader),
+          CREDENTIALS,
+          getGrantedAuthorities(authorities));
+
+      SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+    }
+  }
+
+  private List<SimpleGrantedAuthority> getGrantedAuthorities(List<String> authorities) {
+    return authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+  }
+
 }
