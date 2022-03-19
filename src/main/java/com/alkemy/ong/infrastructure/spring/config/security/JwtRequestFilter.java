@@ -42,12 +42,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
   private void setAuthentication(String authorizationHeader) {
     List<String> authorities = jwtUtils.getAuthorities(authorizationHeader);
     if (authorities != null) {
-      UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
           jwtUtils.extractUsername(authorizationHeader),
           CREDENTIALS,
           getGrantedAuthorities(authorities));
 
-      SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+      SecurityContextHolder.getContext().setAuthentication(authentication);
     }
   }
 
