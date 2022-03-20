@@ -20,6 +20,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Table(name = "TESTIMONIALS")
 public class TestimonialEntity {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "TESTIMONIAL_ID")

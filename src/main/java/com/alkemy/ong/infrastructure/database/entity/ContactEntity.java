@@ -1,5 +1,6 @@
 package com.alkemy.ong.infrastructure.database.entity;
 
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,26 +12,32 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "SLIDES")
-public class SlideEntity {
+@Table(name = "CONTACTS")
+public class ContactEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "SLIDE_ID")
+  @Column(name = "CONTACT_ID")
   private Long id;
 
-  @Column(name = "IMAGE_URL", nullable = false)
-  private String imageUrl;
+  @Column(name = "NAME", nullable = false)
+  private String name;
 
-  @Column(name = "TEXT")
-  private String text;
+  @Column(name = "PHONE")
+  private String phone;
 
-  @Column(name = "SLIDE_ORDER", nullable = false)
-  private Integer order;
+  @Column(name = "EMAIL", nullable = false)
+  private String email;
+
+  @Column(name = "MESSAGE", nullable = false)
+  private String message;
+
+  @Column(name = "DELETED_AT", nullable = false)
+  private Date deletedAt;
 
 }

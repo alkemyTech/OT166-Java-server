@@ -36,11 +36,11 @@ public class ActivityEntity {
   @Column(name = "IMAGE", nullable = false)
   private String image;
 
-  @Column(name = "SOFT_DELETE")
-  private Boolean softDelete;
+  @Column(name = "SOFT_DELETED")
+  private Boolean softDeleted;
 
   @Column(name = "CREATE_TIMESTAMP")
   @CreationTimestamp
-  private Timestamp createTimpestamp;
+  private Timestamp createTimestamp;
 
 }

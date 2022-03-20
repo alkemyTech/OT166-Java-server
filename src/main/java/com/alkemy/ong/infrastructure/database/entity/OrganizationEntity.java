@@ -20,37 +20,46 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Table(name = "ORGANIZATIONS")
 public class OrganizationEntity {
-  
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ORGANIZATION_ID")
   private Long id;
-  
+
   @Column(name = "NAME", nullable = false)
   private String name;
-  
+
   @Column(name = "IMAGE", nullable = false)
   private String image;
-  
+
   @Column(name = "ADDRESS")
   private String address;
-  
+
   @Column(name = "PHONE")
   private String phone;
-  
+
   @Column(name = "EMAIL", nullable = false)
   private String email;
-  
+
   @Column(name = "WELCOME_TEXT", nullable = false)
   private String welcomeText;
-  
+
   @Column(name = "ABOUT_US_TEXT")
   private String aboutUsText;
-  
+
+  @Column(name = "FACEBOOK_URL")
+  private String facebookUrl;
+
+  @Column(name = "LINKEDIN_URL")
+  private String linkedInUrl;
+
+  @Column(name = "INSTAGRAM_URL")
+  private String instagramUrl;
+
   @CreationTimestamp
   @Column(name = "CREATE_TIMESTAMP")
   private Timestamp createTimestamp;
-  
-  @Column(name = "SOFTDELETE")
-  private Boolean softDelete;
+
+  @Column(name = "SOFT_DELETED")
+  private Boolean softDeleted;
 }
