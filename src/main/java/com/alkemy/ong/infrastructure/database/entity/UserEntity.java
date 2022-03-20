@@ -47,10 +47,10 @@ public class UserEntity {
 
   @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
   @Column(name = "ROLE_ID", nullable = false)
-  private List<RoleEntity> roleId;
+  private List<RoleEntity> roles;
 
-  @Column(name = "SOFT_DELETE")
-  private Boolean softDelete;
+  @Column(name = "SOFT_DELETED")
+  private Boolean softDeleted;
 
   @Column(name = "CREATE_TIMESTAMP")
   @CreationTimestamp
