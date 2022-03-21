@@ -1,5 +1,6 @@
 package com.alkemy.ong.infrastructure.database.entity;
 
+import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,27 +11,35 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "SLIDES")
-public class SlideEntity {
+@Table(name = "TESTIMONIALS")
+public class TestimonialEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "SLIDE_ID")
+  @Column(name = "TESTIMONIAL_ID")
   private Long id;
 
-  @Column(name = "IMAGE_URL", nullable = false)
-  private String imageUrl;
+  @Column(name = "NAME", nullable = false)
+  private String name;
 
-  @Column(name = "TEXT")
-  private String text;
+  @Column(name = "IMAGE")
+  private String image;
 
-  @Column(name = "SLIDE_ORDER", nullable = false)
-  private Integer order;
+  @Column(name = "CONTENT")
+  private String content;
+
+  @Column(name = "CREATE_TIMESTAMP")
+  @CreationTimestamp
+  private Timestamp createTimestamp;
+
+  @Column(name = "SOFT_DELETE")
+  private Boolean softDelete;
 
 }

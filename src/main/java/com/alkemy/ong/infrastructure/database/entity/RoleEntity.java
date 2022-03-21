@@ -1,5 +1,6 @@
 package com.alkemy.ong.infrastructure.database.entity;
 
+import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,27 +11,29 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
+@Entity
+@Table(name = "ROLES")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "SLIDES")
-public class SlideEntity {
+public class RoleEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "SLIDE_ID")
+  @Column(name = "ROLE_ID")
   private Long id;
 
-  @Column(name = "IMAGE_URL", nullable = false)
-  private String imageUrl;
+  @Column(name = "NAME", nullable = false)
+  private String name;
 
-  @Column(name = "TEXT")
-  private String text;
+  @Column(name = "DESCRIPTION")
+  private String description;
 
-  @Column(name = "SLIDE_ORDER", nullable = false)
-  private Integer order;
+  @CreationTimestamp
+  @Column(name = "CREATE_TIMESTAMP")
+  private Timestamp createTimestamp;
 
 }
