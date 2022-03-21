@@ -3,13 +3,22 @@ package com.alkemy.ong.application.rest.response;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.http.HttpStatus;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+
 @AllArgsConstructor
+@Getter
+@Setter
 public class ApiErrorResponse {
 
-  private HttpStatus status;
+  private int statusCode;
   private String message;
-  private List<String> errores;
+  private List<String> errors;
+
+  @Override
+  public String toString() {
+    return "ApiErrorResponse{" + "statusCode=" + statusCode + ", message='"
+        + message + '\'' + ", errors=" + errors + '}';
+  }
 }

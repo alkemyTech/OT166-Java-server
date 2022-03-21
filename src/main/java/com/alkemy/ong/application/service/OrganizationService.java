@@ -22,11 +22,11 @@ public class OrganizationService implements IOrganizationService {
 
 
   @Override
-  public OrganizationResponse getPublicOrganization() throws Exception {
+  public OrganizationResponse getPublicOrganization() throws EntityNotFound {
 
     List<OrganizationEntity> organizations = organizationRepository.findAll();
-    if (organizations == null || organizations.isEmpty()) {
-      throw new EntityNotFound("Data not found");
+    if (organizations.isEmpty()) {
+      throw new EntityNotFound("Missing record in organization table.");
     }
     return organizationMapper.toOrganizationResponse(organizations.get(0));
   }

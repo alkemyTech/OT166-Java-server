@@ -1,5 +1,6 @@
 package com.alkemy.ong.application.rest.resource;
 
+import com.alkemy.ong.application.exception.EntityNotFound;
 import com.alkemy.ong.application.rest.response.OrganizationResponse;
 import com.alkemy.ong.application.service.abstraction.IOrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,8 @@ public class OrganizationResource {
   private IOrganizationService organizationService;
 
   @GetMapping("/public")
-  public ResponseEntity<OrganizationResponse> listOrganizationPublicDetails() throws Exception {
+  public ResponseEntity<OrganizationResponse> listOrganizationPublicDetails()
+      throws EntityNotFound {
     return ResponseEntity.ok().body(organizationService.getPublicOrganization());
   }
 
