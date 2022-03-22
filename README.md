@@ -13,7 +13,7 @@
     1. Based on your selection, download the `*-style.xml` file for your IDE
        from [Google Style Guide](https://github.com/google/styleguide).
     2. Set up the downloaded file in the IDE preferences.
-    3. Ensure `import with '*'` option is configured as 99. 
+    3. Ensure `import with '*'` option is configured as 99.
 5. Download and install [Postman](https://www.postman.com/downloads/).
 
 [ IMPORTANT ] Step 4 is a MUST if you want to open a pull request. Otherwise, your code will not
@@ -89,12 +89,12 @@ mvn checkstyle:checkstyle
 - [Writing clean code](https://enos.itcollege.ee/~jpoial/oop/naited/Clean%20Code.pdf)
 - [Design patterns](https://refactoring.guru/design-patterns)
 - Exception handling
-  - [Exception handling for REST with Spring](https://www.baeldung.com/exception-handling-for-rest-with-spring)
-  - [Handling exceptions and custom exceptions](https://www.javadevjournal.com/spring/exception-handling-for-rest-with-spring/)
+    - [Exception handling for REST with Spring](https://www.baeldung.com/exception-handling-for-rest-with-spring)
+    - [Handling exceptions and custom exceptions](https://www.javadevjournal.com/spring/exception-handling-for-rest-with-spring/)
 - JPA:
-  - [Cascade types](https://www.baeldung.com/jpa-cascade-types)
-  - [Eager/Lazy Loading](https://www.baeldung.com/hibernate-lazy-eager-loading)
-  - [Hibernate FetchType EAGER is a code smell](https://vladmihalcea.com/eager-fetching-is-a-code-smell)
+    - [Cascade types](https://www.baeldung.com/jpa-cascade-types)
+    - [Eager/Lazy Loading](https://www.baeldung.com/hibernate-lazy-eager-loading)
+    - [Hibernate FetchType EAGER is a code smell](https://vladmihalcea.com/eager-fetching-is-a-code-smell)
 - Software testing:
     - [How to get started with software testing](https://medium.com/@netxm/how-to-get-started-with-software-testing-9fa1ce4f2a64)
     - [Introduction to Test Driven Development (TDD)](https://medium.com/hackernoon/introduction-to-test-driven-development-tdd-61a13bc92d92)

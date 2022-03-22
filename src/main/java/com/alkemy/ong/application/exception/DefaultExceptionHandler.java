@@ -1,6 +1,6 @@
 package com.alkemy.ong.application.exception;
 
-import com.alkemy.ong.application.rest.response.ApiErrorResponse;
+import com.alkemy.ong.application.rest.response.ErrorResponse;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class DefaultExceptionHandler {
 
   @ExceptionHandler({EntityNotFound.class})
-  protected ResponseEntity<ApiErrorResponse> handleEntityNotFound(EntityNotFound ex) {
-    ApiErrorResponse errorResponse = new ApiErrorResponse(
+  protected ResponseEntity<ErrorResponse> handleEntityNotFound(EntityNotFound e) {
+    ErrorResponse errorResponse = new ErrorResponse(
         HttpStatus.BAD_REQUEST.value(),
-        ex.getMessage(),
+        e.getMessage(),
         List.of("Entity not found")
     );
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
+
 }

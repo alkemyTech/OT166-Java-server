@@ -11,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OrganizationResponse {
+
   private String name;
   private String image;
   private String address;
