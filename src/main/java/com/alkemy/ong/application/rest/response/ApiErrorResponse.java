@@ -2,7 +2,6 @@ package com.alkemy.ong.application.rest.response;
 
 import java.util.List;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,9 +15,4 @@ public class ApiErrorResponse {
   private String message;
   private List<String> errors;
 
-  @Override
-  public String toString() {
-    return "ApiErrorResponse{" + "statusCode=" + statusCode + ", message='"
-        + message + '\'' + ", errors=" + errors + '}';
-  }
 }

@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class DefaultExceptionHandler {
 
   @ExceptionHandler({EntityNotFound.class})
-  protected ResponseEntity<Object> handleEntityNotFound(EntityNotFound ex) {
+  protected ResponseEntity<ApiErrorResponse> handleEntityNotFound(EntityNotFound ex) {
     ApiErrorResponse errorResponse = new ApiErrorResponse(
-        400,
+        HttpStatus.BAD_REQUEST.value(),
         ex.getMessage(),
         List.of("Entity not found")
     );

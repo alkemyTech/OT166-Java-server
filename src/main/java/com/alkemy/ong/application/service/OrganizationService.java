@@ -2,7 +2,7 @@ package com.alkemy.ong.application.service;
 
 import com.alkemy.ong.application.exception.EntityNotFound;
 import com.alkemy.ong.application.rest.response.OrganizationResponse;
-import com.alkemy.ong.application.service.abstraction.IOrganizationService;
+import com.alkemy.ong.application.service.abstraction.IGetOrganizationDetailsService;
 import com.alkemy.ong.infrastructure.database.entity.OrganizationEntity;
 import com.alkemy.ong.infrastructure.database.mapper.abstraction.IOrganizationMapper;
 import com.alkemy.ong.infrastructure.database.repository.IOrganizationRepository;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class OrganizationService implements IOrganizationService {
+public class OrganizationService implements IGetOrganizationDetailsService {
 
   @Autowired
   private IOrganizationRepository organizationRepository;
@@ -22,7 +22,7 @@ public class OrganizationService implements IOrganizationService {
 
 
   @Override
-  public OrganizationResponse getPublicOrganization() throws EntityNotFound {
+  public OrganizationResponse getPublicOrganization() {
 
     List<OrganizationEntity> organizations = organizationRepository.findAll();
     if (organizations.isEmpty()) {
