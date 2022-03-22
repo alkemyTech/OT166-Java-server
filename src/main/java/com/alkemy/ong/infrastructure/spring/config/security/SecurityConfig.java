@@ -36,6 +36,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   @Bean
+  public AuthenticationEntryPoint authenticationEntryPoint() {
+    return new Http403ForbiddenEntryPoint();
+  }
+
+  @Bean
   @Override
   public AuthenticationManager authenticationManagerBean() throws Exception {
     return super.authenticationManagerBean();
@@ -45,11 +50,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   public void configure(AuthenticationManagerBuilder managerBuilder) throws Exception {
     managerBuilder.userDetailsService(userDetailsService)
         .passwordEncoder(passwordEncoder());
-  }
-
-  @Bean
-  public AuthenticationEntryPoint authenticationEntryPoint() {
-    return new Http403ForbiddenEntryPoint();
   }
 
   @Override
