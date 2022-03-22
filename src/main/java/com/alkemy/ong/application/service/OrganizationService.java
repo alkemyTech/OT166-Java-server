@@ -17,6 +17,7 @@ public class OrganizationService implements IGetOrganizationDetailsService {
 
   @Autowired
   private IOrganizationRepository organizationRepository;
+
   @Autowired
   private IOrganizationMapper organizationMapper;
 
