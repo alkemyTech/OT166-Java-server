@@ -13,6 +13,6 @@ public class ErrorResponse {
 
   private int statusCode;
   private String message;
-  private List<String> errors;
+  private List<String> moreInfo;
 
 }
