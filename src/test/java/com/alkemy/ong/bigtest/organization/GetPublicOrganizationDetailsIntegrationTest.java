@@ -7,50 +7,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.alkemy.ong.OngApplication;
-import com.alkemy.ong.infrastructure.database.entity.OrganizationEntity;
-import com.alkemy.ong.infrastructure.database.repository.IOrganizationRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.After;
-import org.junit.Before;
+import com.alkemy.ong.bigtest.util.BigTest;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.event.annotation.AfterTestMethod;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.transaction.AfterTransaction;
-import org.springframework.test.web.servlet.MockMvc;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(
-    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-    properties = "spring.main.allow-bean-definition-overriding=true",
-    classes = OngApplication.class)
-@AutoConfigureMockMvc
-public class GetPublicOrganizationDetailsIntegrationTest {
 
-  @Autowired
-  protected MockMvc mockMvc;
-
-  @Autowired
-  protected ObjectMapper objectMapper;
-
-  @Autowired
-  private IOrganizationRepository organizationRepository;
-
-  @Before
-  public void setup() {
-    organizationRepository.deleteAll();
-  }
-
-  @After
-  public void tearDown() {
-    organizationRepository.deleteAll();
-  }
+public class GetPublicOrganizationDetailsIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnErrorResponseWhenNonOrganizationRecordIsRetrieved() throws Exception {
@@ -74,17 +36,6 @@ public class GetPublicOrganizationDetailsIntegrationTest {
         .andExpect(jsonPath("$.phone", equalTo("+5411345678")))
         .andExpect(jsonPath("$.address", equalTo("Elm Street 3")))
         .andExpect(status().isOk());
-  }
-
-  private void saveOrganizationDetails() {
-    organizationRepository.save(OrganizationEntity.builder()
-        .name("Somos Mas")
-        .image("https://s3.com/logo.jpg/")
-        .welcomeText("Welcome to Somos Mas")
-        .email("somos.mas@ong.com")
-        .phone("+5411345678")
-        .address("Elm Street 3")
-        .build());
   }
 
 }
