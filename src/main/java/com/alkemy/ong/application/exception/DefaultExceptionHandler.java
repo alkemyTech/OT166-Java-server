@@ -16,7 +16,7 @@ public class DefaultExceptionHandler {
     ErrorResponse errorResponse = buildErrorResponse(
         HttpStatus.BAD_REQUEST,
         e.getMessage(),
-        "Entity not found");
+        "Entity not found.");
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
@@ -31,9 +31,10 @@ public class DefaultExceptionHandler {
   }
 
   private ErrorResponse buildErrorResponse(HttpStatus httpStatus, String message, String moreInfo) {
-    return new ErrorResponse(
-        httpStatus.value(),
-        message,
-        List.of(moreInfo));
+    return ErrorResponse.builder()
+        .statusCode(httpStatus.value())
+        .message(message)
+        .moreInfo(List.of(moreInfo))
+        .build();
   }
 }

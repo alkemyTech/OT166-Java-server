@@ -16,4 +16,5 @@ public class OrganizationResponse {
   private String image;
   private String address;
   private String phone;
+
 }
