@@ -9,9 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 
 @EnableWebSecurity
 @Configuration
@@ -23,9 +21,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests().anyRequest().permitAll().and().httpBasic()
-        .authenticationEntryPoint(authenticationEntryPoint());
-    /* http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); */
+    http.authorizeRequests().anyRequest().permitAll();
+    /*http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);*/
+    http.exceptionHandling().authenticationEntryPoint(forbiddenEntryPoint());
   }
 
   @Override
@@ -34,10 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   @Bean
-  public AuthenticationEntryPoint authenticationEntryPoint() {
-    BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
-    entryPoint.setRealmName("admin realm");
-    return entryPoint;
+  public Http403ForbiddenEntryPoint forbiddenEntryPoint() {
+    return new Http403ForbiddenEntryPoint();
   }
 
 }
