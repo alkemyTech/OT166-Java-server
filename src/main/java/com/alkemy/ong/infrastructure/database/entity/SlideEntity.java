@@ -18,6 +18,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "SLIDES")
 public class SlideEntity {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "SLIDE_ID")
@@ -29,7 +30,7 @@ public class SlideEntity {
   @Column(name = "TEXT")
   private String text;
 
-  @Column(name = "ORDER", nullable = false)
+  @Column(name = "SLIDE_ORDER", nullable = false)
   private Integer order;
 
 }

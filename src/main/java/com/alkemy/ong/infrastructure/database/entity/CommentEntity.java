@@ -1,11 +1,15 @@
 package com.alkemy.ong.infrastructure.database.entity;
 
 import java.sql.Timestamp;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,34 +17,31 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
-
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "ACTIVITIES")
-public class ActivityEntity {
+@Table(name = "COMMENTS")
+public class CommentEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "ACTIVITY_ID")
+  @Column(name = "COMMENT_ID")
   private Long id;
 
-  @Column(name = "NAME", nullable = false)
-  private String name;
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "USER_ID")
+  private UserEntity user;
 
-  @Column(name = "CONTENT", nullable = false)
-  private String content;
+  @Column(name = "BODY")
+  private String body;
 
-  @Column(name = "IMAGE", nullable = false)
-  private String image;
-
-  @Column(name = "SOFT_DELETED")
-  private Boolean softDeleted;
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "NEWS_ID")
+  private NewsEntity news;
 
   @Column(name = "CREATE_TIMESTAMP")
   @CreationTimestamp
   private Timestamp createTimestamp;
-
 }
