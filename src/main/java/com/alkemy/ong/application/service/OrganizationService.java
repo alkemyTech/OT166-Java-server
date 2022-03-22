@@ -22,7 +22,7 @@ public class OrganizationService implements IGetOrganizationDetailsService {
 
 
   @Override
-  public OrganizationResponse getPublicOrganization() {
+  public OrganizationResponse getPublicOrganizationDetails() {
     List<OrganizationEntity> organizations = organizationRepository.findAll();
     if (organizations.isEmpty()) {
       throw new EntityNotFound("Missing record in organization table.");

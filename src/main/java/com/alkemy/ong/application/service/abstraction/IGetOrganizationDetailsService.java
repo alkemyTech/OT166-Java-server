@@ -4,6 +4,6 @@ import com.alkemy.ong.application.rest.response.OrganizationResponse;
 
 public interface IGetOrganizationDetailsService {
 
-  OrganizationResponse getPublicOrganization();
+  OrganizationResponse getPublicOrganizationDetails();
 
 }

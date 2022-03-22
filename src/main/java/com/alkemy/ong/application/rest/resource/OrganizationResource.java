@@ -16,8 +16,8 @@ public class OrganizationResource {
   private IGetOrganizationDetailsService organizationService;
 
   @GetMapping("/public")
-  public ResponseEntity<OrganizationResponse> getOrganizationPublicDetails() {
-    return ResponseEntity.ok().body(organizationService.getPublicOrganization());
+  public ResponseEntity<OrganizationResponse> getPublicOrganizationDetails() {
+    return ResponseEntity.ok().body(organizationService.getPublicOrganizationDetails());
   }
 
 }
