@@ -20,8 +20,8 @@ public class AuthenticationResource {
   private IAuthenticationService authService;
 
   @PostMapping(path = "/login",
-      consumes = {MediaType.APPLICATION_JSON_VALUE},
-      produces = {MediaType.APPLICATION_JSON_VALUE})
+      consumes = MediaType.APPLICATION_JSON_VALUE,
+      produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<AuthenticationResponse> login(
       @Valid @RequestBody AuthenticationRequest authenticationRequest) {
     return ResponseEntity.ok().body(authService.login(authenticationRequest));

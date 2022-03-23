@@ -1,6 +1,8 @@
-package com.alkemy.ong.infrastructure.spring.config.security;
+package com.alkemy.ong.infrastructure.spring.config.security.filer;
 
 import com.alkemy.ong.infrastructure.util.JwtUtils;
+import com.alkemy.ong.infrastructure.util.ResponseUtils;
+import io.jsonwebtoken.JwtException;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,12 +33,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
     if (jwtUtils.isTokenSet(authorizationHeader)) {
-      setAuthentication(authorizationHeader);
+      try {
+        setAuthentication(authorizationHeader);
+        filterChain.doFilter(request, response);
+      } catch (JwtException e) {
+        ResponseUtils.setCustomForbiddenResponse(response);
+      }
     } else {
       SecurityContextHolder.clearContext();
+      filterChain.doFilter(request, response);
     }
-
-    filterChain.doFilter(request, response);
   }
 
   private void setAuthentication(String authorizationHeader) {
