@@ -2,9 +2,12 @@ package com.alkemy.ong.application.exception;
 
 import com.alkemy.ong.application.rest.response.ErrorResponse;
 import java.util.List;
+import java.util.stream.Collectors;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -38,8 +41,9 @@ public class DefaultExceptionHandler {
         .build();
   }
 
-  @ExceptionHandler(value = WrongCredentials.class)
-  protected ResponseEntity<ErrorResponse> handleWrongCredentials(WrongCredentials e) {
+  @ExceptionHandler(value = WrongCredentialsException.class)
+  protected ResponseEntity<ErrorResponse> handleWrongCredentialsException(
+      WrongCredentialsException e) {
 
     ErrorResponse errorResponse = buildErrorResponse(
         HttpStatus.UNAUTHORIZED,
@@ -47,6 +51,18 @@ public class DefaultExceptionHandler {
         "The server can’t return a response due to invalid credentials.");
     return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
 
+  }
+
+  @ExceptionHandler(value = MethodArgumentNotValidException.class)
+  public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
+      MethodArgumentNotValidException e) {
+    ErrorResponse errorResponse = ErrorResponse.builder()
+        .statusCode(HttpStatus.BAD_REQUEST.value())
+        .message("Invalid input data.")
+        .moreInfo(e.getBindingResult().getFieldErrors().stream()
+            .map(DefaultMessageSourceResolvable::getDefaultMessage)
+            .collect(Collectors.toList())).build();
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
 }

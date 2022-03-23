@@ -1,9 +1,9 @@
 package com.alkemy.ong.application.service;
 
-import com.alkemy.ong.application.exception.WrongCredentials;
-import com.alkemy.ong.application.rest.request.AuthorizationRequest;
-import com.alkemy.ong.application.rest.response.AuthorizationResponse;
-import com.alkemy.ong.application.service.abstraction.IPostAuthorizationService;
+import com.alkemy.ong.application.exception.WrongCredentialsException;
+import com.alkemy.ong.application.rest.request.AuthenticationRequest;
+import com.alkemy.ong.application.rest.response.AuthenticationResponse;
+import com.alkemy.ong.application.service.abstraction.IAuthenticationService;
 import com.alkemy.ong.infrastructure.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthorizationService implements IPostAuthorizationService {
+public class AuthenticationService implements IAuthenticationService {
 
   @Autowired
   private AuthenticationManager authManager;
@@ -22,19 +22,19 @@ public class AuthorizationService implements IPostAuthorizationService {
   private JwtUtils jwtUtils;
 
   @Override
-  public AuthorizationResponse login(AuthorizationRequest authorizationRequest) {
+  public AuthenticationResponse login(AuthenticationRequest authenticationRequest) {
 
     UserDetails userDetails;
     try {
       Authentication auth = authManager.authenticate(
-          new UsernamePasswordAuthenticationToken(authorizationRequest.getEmail(),
-              authorizationRequest.getPassword()));
+          new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
+              authenticationRequest.getPassword()));
       userDetails = (UserDetails) auth.getPrincipal();
     } catch (Exception e) {
-      throw new WrongCredentials("Wrong email or password.");
+      throw new WrongCredentialsException("Wrong email or password.");
     }
     final String jwt = jwtUtils.generateToken(userDetails);
-    return new AuthorizationResponse(jwt);
+    return new AuthenticationResponse(jwt);
 
   }
 }

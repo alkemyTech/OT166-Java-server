@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class AuthorizationResponse {
+public class AuthenticationResponse {
 
-  private String jwt;
+  private String token;
 
 }
