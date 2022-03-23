@@ -33,18 +33,9 @@ public class DefaultExceptionHandler {
     return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
   }
 
-  private ErrorResponse buildErrorResponse(HttpStatus httpStatus, String message, String moreInfo) {
-    return ErrorResponse.builder()
-        .statusCode(httpStatus.value())
-        .message(message)
-        .moreInfo(List.of(moreInfo))
-        .build();
-  }
-
   @ExceptionHandler(value = WrongCredentialsException.class)
   protected ResponseEntity<ErrorResponse> handleWrongCredentialsException(
       WrongCredentialsException e) {
-
     ErrorResponse errorResponse = buildErrorResponse(
         HttpStatus.UNAUTHORIZED,
         e.getMessage(),
@@ -56,13 +47,25 @@ public class DefaultExceptionHandler {
   @ExceptionHandler(value = MethodArgumentNotValidException.class)
   public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
       MethodArgumentNotValidException e) {
-    ErrorResponse errorResponse = ErrorResponse.builder()
-        .statusCode(HttpStatus.BAD_REQUEST.value())
-        .message("Invalid input data.")
-        .moreInfo(e.getBindingResult().getFieldErrors().stream()
+    ErrorResponse errorResponse = buildErrorResponse(
+        HttpStatus.BAD_REQUEST,
+        "Invalid input data.",
+        e.getBindingResult().getFieldErrors().stream()
             .map(DefaultMessageSourceResolvable::getDefaultMessage)
-            .collect(Collectors.toList())).build();
+            .collect(Collectors.toList()));
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
+  private ErrorResponse buildErrorResponse(HttpStatus httpStatus, String message,
+      List<String> moreInfo) {
+    return ErrorResponse.builder()
+        .statusCode(httpStatus.value())
+        .message(message)
+        .moreInfo(moreInfo)
+        .build();
+  }
+
+  private ErrorResponse buildErrorResponse(HttpStatus httpStatus, String message, String moreInfo) {
+    return buildErrorResponse(httpStatus, message, List.of(moreInfo));
+  }
 }
