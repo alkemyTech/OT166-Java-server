@@ -7,9 +7,11 @@ import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -64,11 +66,12 @@ public class JwtUtils {
     return authority.get().getAuthority();
   }
 
-  public Boolean isTokenSet(String authorizationHeader) {
+  public boolean isTokenSet(String authorizationHeader) {
     return authorizationHeader != null && authorizationHeader.startsWith(BEARER_PART);
   }
 
-  public List<String> getAuthorities(String token) {
-    return (List<String>) extractAllClaims(token).get(AUTHORITIES);
+  public List<GrantedAuthority> getAuthorities(String token) {
+    return AuthorityUtils.commaSeparatedStringToAuthorityList(
+        Objects.toString(extractAllClaims(token).get(AUTHORITIES)));
   }
 }
