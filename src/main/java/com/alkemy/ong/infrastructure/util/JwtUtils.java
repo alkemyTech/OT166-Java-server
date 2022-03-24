@@ -5,13 +5,16 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class JwtUtils {
@@ -44,7 +47,7 @@ public class JwtUtils {
 
   public String generateToken(UserDetails userDetails) {
     String token = Jwts.builder()
-        .claim(AUTHORITIES, getFirstAuthority(userDetails))
+        .claim(AUTHORITIES, getAllAuthorities(userDetails))
         .setSubject(userDetails.getUsername())
         .setIssuedAt(Date.from(ZonedDateTime.now().toInstant()))
         .setExpiration(Date.from(ZonedDateTime.now().plusMinutes(30).toInstant()))
@@ -52,23 +55,29 @@ public class JwtUtils {
     return String.format(BEARER_TOKEN, token);
   }
 
-  private String getFirstAuthority(UserDetails userDetails) {
-    Optional<? extends GrantedAuthority> authority = userDetails.getAuthorities()
-        .stream()
-        .findFirst();
-
+  private List<String> getAllAuthorities(UserDetails userDetails) {
+    List<String> authority = userDetails.getAuthorities()
+        .stream().map(GrantedAuthority::getAuthority)
+        .collect(Collectors.toList());
     if (authority.isEmpty()) {
       throw new IllegalArgumentException("User must have one authority.");
     }
-
-    return authority.get().getAuthority();
+    return authority;
   }
 
   public boolean isTokenSet(String authorizationHeader) {
     return authorizationHeader != null && authorizationHeader.startsWith(BEARER_PART);
   }
 
-  public List<String> getAuthorities(String token) {
-    return (List<String>) extractAllClaims(token).get(AUTHORITIES);
+  public List<GrantedAuthority> getAuthorities(String token) {
+    Object authorities = extractAllClaims(token).get(AUTHORITIES);
+    if (authorities instanceof String) {
+      return AuthorityUtils.commaSeparatedStringToAuthorityList((String) authorities);
+    } else if (authorities instanceof Collection) {
+      return AuthorityUtils.commaSeparatedStringToAuthorityList(
+          StringUtils.collectionToCommaDelimitedString((Collection<?>) authorities));
+    } else {
+      throw new IllegalArgumentException("User must have one authority.");
+    }
   }
 }
