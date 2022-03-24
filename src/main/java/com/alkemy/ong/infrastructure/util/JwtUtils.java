@@ -64,7 +64,7 @@ public class JwtUtils {
     return authority.get().getAuthority();
   }
 
-  public Boolean isTokenSet(String authorizationHeader) {
+  public boolean isTokenSet(String authorizationHeader) {
     return authorizationHeader != null && authorizationHeader.startsWith(BEARER_PART);
   }
 

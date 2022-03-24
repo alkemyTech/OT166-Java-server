@@ -1,5 +1,8 @@
 package com.alkemy.ong.infrastructure.spring.config.security;
 
+import com.alkemy.ong.infrastructure.spring.config.security.filer.CustomAccessDeniedHandler;
+import com.alkemy.ong.infrastructure.spring.config.security.filer.CustomAuthenticationEntryPoint;
+import com.alkemy.ong.infrastructure.spring.config.security.filer.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -16,7 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
@@ -36,8 +39,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   @Bean
+  public AccessDeniedHandler accessDeniedHandler() {
+    return new CustomAccessDeniedHandler();
+  }
+
+  @Bean
   public AuthenticationEntryPoint authenticationEntryPoint() {
-    return new Http403ForbiddenEntryPoint();
+    return new CustomAuthenticationEntryPoint();
   }
 
   @Bean
@@ -73,6 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
         .exceptionHandling()
+        .accessDeniedHandler(accessDeniedHandler())
         .authenticationEntryPoint(authenticationEntryPoint());
   }
 
