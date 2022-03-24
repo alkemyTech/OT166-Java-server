@@ -23,6 +23,7 @@ public class MemberService implements ISaveMember {
   @Override
   public MemberResponse save(MemberRequest request) {
     MemberEntity entity = memberMapper.toMemberEntity(request);
+    entity.setSoftDeleted(false);
     return memberMapper.toMemberResponse(memberRepository.save(entity));
   }
 }
