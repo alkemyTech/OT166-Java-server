@@ -1,6 +1,6 @@
 package com.alkemy.ong.application.service.abstraction;
 
-public interface IDeleteSlide {
+public interface IDeleteSlideService {
 
   void delete(Long id);
 

@@ -1,13 +1,13 @@
 package com.alkemy.ong.application.rest.resource;
 
-import com.alkemy.ong.application.exception.EntityNotFound;
-import com.alkemy.ong.application.service.abstraction.IDeleteSlide;
+import com.alkemy.ong.application.service.abstraction.IDeleteSlideService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,13 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class SlideResource {
 
   @Autowired
-  private IDeleteSlide service;
+  private IDeleteSlideService deleteSlideService;
 
-  // ^\d+$ -> positive integers (regular expressions)
-  @ResponseStatus(HttpStatus.NO_CONTENT)
-  @DeleteMapping(path = "/{id:^\\d+$}")
-  public void delete(@PathVariable Long id) throws EntityNotFound {
-    service.delete(id);
+  @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Void> delete(@PathVariable Long id) {
+    deleteSlideService.delete(id);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
 }
