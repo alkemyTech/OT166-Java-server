@@ -11,7 +11,6 @@ import com.alkemy.ong.bigtest.util.BigTest;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 
-
 public class GetPublicOrganizationDetailsIntegrationTest extends BigTest {
 
   @Test

@@ -24,24 +24,23 @@ public class EmailDelegate {
   private String from;
 
   public void send(IEmail email) {
-
     Email to = new Email(email.getTo());
-    Content content = new Content(email.getContent().getContentType(),
+    Content content = new Content(
+        email.getContent().getContentType(),
         email.getContent().getBody());
-    String subject = email.getSubject();
 
-    Mail mail = new Mail(new Email(from),subject,to,content);
+    Mail mail = new Mail(new Email(from), email.getSubject(), to, content);
     SendGrid sendGrid = new SendGrid(apiKey);
-    Request request = new Request();
 
     try {
+      Request request = new Request();
       request.setMethod(Method.POST);
       request.setEndpoint("mail/send");
       request.setBody(mail.build());
 
       Response response = sendGrid.api(request);
-      log.info("Sendgrid status code: " + response.getStatusCode());
-      log.info("Sendgrid body: " + response.getBody());
+      log.info("SendGrid status code: " + response.getStatusCode());
+      log.info("SendGrid body: " + response.getBody());
 
       if (response.getStatusCode() != 202) {
         throw new SendEmailException("Failed to send email: " + response.getBody());
