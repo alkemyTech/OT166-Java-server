@@ -52,7 +52,7 @@ public class UserEntity implements UserDetails {
   @Column(name = "PHOTO")
   private String photo;
 
-  @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+  @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
   @JoinColumn(name = "ROLE_ID")
   private RoleEntity role;
 

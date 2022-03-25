@@ -18,8 +18,8 @@ public class DefaultExceptionHandler {
   protected ResponseEntity<ErrorResponse> handleEntityNotFound(EntityNotFound e) {
     ErrorResponse errorResponse = buildErrorResponse(
         HttpStatus.BAD_REQUEST,
-        e.getMessage(),
-        "Entity not found.");
+        "Entity not found.",
+        e.getMessage());
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
