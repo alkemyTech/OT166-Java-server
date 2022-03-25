@@ -22,7 +22,8 @@ public class CategoryResource {
 
     deleteCategoryService.delete(id);
 
-    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    return ResponseEntity.noContent().build();
+
   }
 
 }
