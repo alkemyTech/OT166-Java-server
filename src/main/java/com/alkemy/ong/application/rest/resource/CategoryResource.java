@@ -18,7 +18,7 @@ public class CategoryResource {
   private IDeleteCategoryService deleteCategoryService;
 
   @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Void> delete(@PathVariable Long id){
+  public ResponseEntity<Void> delete(@PathVariable Long id) {
 
     deleteCategoryService.delete(id);
 

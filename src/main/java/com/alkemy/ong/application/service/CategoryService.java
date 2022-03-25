@@ -16,7 +16,7 @@ public class CategoryService implements IDeleteCategoryService {
   private ICategoryRepository repository;
 
   @Override
-  public void delete(Long id){
+  public void delete(Long id) {
 
     Optional<CategoryEntity> result = repository.findById(id);
 
