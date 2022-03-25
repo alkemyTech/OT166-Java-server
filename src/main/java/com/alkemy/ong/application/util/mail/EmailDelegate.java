@@ -43,11 +43,11 @@ public class EmailDelegate {
       log.info("Sendgrid status code: " + response.getStatusCode());
       log.info("Sendgrid body: " + response.getBody());
 
-      if (response.getStatusCode() != 202){
+      if (response.getStatusCode() != 202) {
         throw new SendEmailException("Failed to send email: " + response.getBody());
       }
 
-    }catch (IOException | RuntimeException e){
+    } catch (IOException | RuntimeException e) {
       throw new SendEmailException(e.getMessage());
     }
 
