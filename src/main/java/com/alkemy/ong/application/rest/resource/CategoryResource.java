@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "categories")
+@RequestMapping("categories")
 public class CategoryResource {
 
   @Autowired
@@ -19,11 +19,8 @@ public class CategoryResource {
 
   @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Void> delete(@PathVariable Long id) {
-
     deleteCategoryService.delete(id);
-
     return ResponseEntity.noContent().build();
-
   }
 
 }
