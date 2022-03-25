@@ -21,9 +21,9 @@ public class MemberService implements ICreateMemberService {
   private IMemberMapper memberMapper;
 
   @Override
-  public MemberResponse save(CreateMemberRequest request) {
-    MemberEntity entity = memberMapper.toMemberEntity(request);
-    entity.setSoftDeleted(false);
-    return memberMapper.toMemberResponse(memberRepository.save(entity));
+  public MemberResponse save(CreateMemberRequest createMemberRequest) {
+    MemberEntity memberEntity = memberMapper.toMemberEntity(createMemberRequest);
+    memberEntity.setSoftDeleted(false);
+    return memberMapper.toMemberResponse(memberRepository.save(memberEntity));
   }
 }

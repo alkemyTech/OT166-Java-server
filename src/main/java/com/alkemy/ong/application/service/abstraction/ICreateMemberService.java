@@ -6,4 +6,5 @@ import com.alkemy.ong.application.rest.response.MemberResponse;
 public interface ICreateMemberService {
 
   MemberResponse save(CreateMemberRequest member);
+
 }
