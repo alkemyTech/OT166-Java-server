@@ -11,16 +11,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class MemberRequest {
+public class CreateMemberRequest {
 
-  @NotNull(message = "This field must not be null")
-  @Pattern(regexp = "^\\p{L}+[\\p{L}\\p{Z}\\p{P}]{0,}", message = "The name has invalid format.")
+  @NotNull(message = "The name must not be null")
+  @Pattern(regexp = "^[a-zA-Z_ ]*$", message = "The name has invalid format.")
   private String name;
   private String facebookUrl;
   private String instagramUrl;
   private String linkedInUrl;
-  @NotNull(message = "This field must not be null")
-  @Pattern(regexp = "^\\p{L}+[\\p{L}\\p{P}\\d]{0,}", message = "The image has invalid format.")
+  @NotNull(message = "The image must not be null")
+  @Pattern(regexp = "^[a-zA-Z0-9_]*$", message = "The image has invalid format.")
   private String image;
   private String description;
 
