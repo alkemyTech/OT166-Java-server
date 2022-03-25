@@ -3,7 +3,6 @@ package com.alkemy.ong.infrastructure.database.entity;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,9 +10,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +25,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -50,9 +52,9 @@ public class UserEntity implements UserDetails {
   @Column(name = "PHOTO")
   private String photo;
 
-  @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-  @Column(name = "ROLE_ID", nullable = false)
-  private List<RoleEntity> roles;
+  @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+  @JoinColumn(name = "ROLE_ID")
+  private RoleEntity role;
 
   @Column(name = "SOFT_DELETED")
   private Boolean softDeleted;
@@ -63,9 +65,7 @@ public class UserEntity implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return this.getRoles().stream()
-        .map(role -> new SimpleGrantedAuthority(role.getName()))
-        .collect(Collectors.toList());
+    return List.of(new SimpleGrantedAuthority(role.getName()));
   }
 
   @Override
