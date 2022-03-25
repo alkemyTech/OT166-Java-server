@@ -17,10 +17,10 @@ public class DefaultExceptionHandler {
   @ExceptionHandler(value = EntityNotFound.class)
   protected ResponseEntity<ErrorResponse> handleEntityNotFound(EntityNotFound e) {
     ErrorResponse errorResponse = buildErrorResponse(
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.NOT_FOUND,
         "Entity not found.",
         e.getMessage());
-    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
   }
 
   @ExceptionHandler(value = UsernameNotFoundException.class)
