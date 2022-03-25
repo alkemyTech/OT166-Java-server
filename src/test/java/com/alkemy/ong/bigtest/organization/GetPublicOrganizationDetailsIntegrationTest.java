@@ -18,11 +18,11 @@ public class GetPublicOrganizationDetailsIntegrationTest extends BigTest {
   public void shouldReturnErrorResponseWhenNonOrganizationRecordIsRetrieved() throws Exception {
     mockMvc.perform(get("/organization/public")
             .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.statusCode", equalTo(400)))
-        .andExpect(jsonPath("$.message", equalTo("Missing record in organization table.")))
+        .andExpect(jsonPath("$.statusCode", equalTo(404)))
+        .andExpect(jsonPath("$.message", equalTo("Entity not found.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
-        .andExpect(jsonPath("$.moreInfo", hasItem("Entity not found.")))
-        .andExpect(status().isBadRequest());
+        .andExpect(jsonPath("$.moreInfo", hasItem("Missing record in organization table.")))
+        .andExpect(status().isNotFound());
   }
 
   @Test
