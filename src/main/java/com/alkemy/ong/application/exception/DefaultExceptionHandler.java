@@ -68,4 +68,5 @@ public class DefaultExceptionHandler {
   private ErrorResponse buildErrorResponse(HttpStatus httpStatus, String message, String moreInfo) {
     return buildErrorResponse(httpStatus, message, List.of(moreInfo));
   }
+
 }
