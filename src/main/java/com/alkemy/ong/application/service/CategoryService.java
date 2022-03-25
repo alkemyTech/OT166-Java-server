@@ -1,6 +1,6 @@
 package com.alkemy.ong.application.service;
 
-import com.alkemy.ong.application.exception.EntityNotFound;
+import com.alkemy.ong.application.exception.EntityNotFoundException;
 import com.alkemy.ong.application.service.abstraction.IDeleteCategoryService;
 import com.alkemy.ong.infrastructure.database.entity.CategoryEntity;
 import com.alkemy.ong.infrastructure.database.repository.ICategoryRepository;
@@ -18,7 +18,7 @@ public class CategoryService implements IDeleteCategoryService {
   public void delete(Long id) {
     Optional<CategoryEntity> result = repository.findById(id);
     if (result.isEmpty() || Boolean.TRUE.equals(result.get().getSoftDeleted())) {
-      throw new EntityNotFound("Category not found.");
+      throw new EntityNotFoundException("Category not found.");
     }
 
     CategoryEntity categoryEntity = result.get();
