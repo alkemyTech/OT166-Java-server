@@ -33,13 +33,13 @@ public class DefaultExceptionHandler {
     return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
   }
 
-  @ExceptionHandler(value = WrongCredentialsException.class)
-  protected ResponseEntity<ErrorResponse> handleWrongCredentialsException(
-      WrongCredentialsException e) {
+  @ExceptionHandler(value = InvalidCredentialsException.class)
+  protected ResponseEntity<ErrorResponse> handleInvalidCredentialsException(
+      InvalidCredentialsException e) {
     ErrorResponse errorResponse = buildErrorResponse(
         HttpStatus.UNAUTHORIZED,
         e.getMessage(),
-        "The server can’t return a response due to invalid credentials.");
+        "The server cannot return a response due to invalid credentials.");
     return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
 
   }

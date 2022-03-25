@@ -1,6 +1,6 @@
 package com.alkemy.ong.application.service;
 
-import com.alkemy.ong.application.exception.WrongCredentialsException;
+import com.alkemy.ong.application.exception.InvalidCredentialsException;
 import com.alkemy.ong.application.rest.request.AuthenticationRequest;
 import com.alkemy.ong.application.rest.response.AuthenticationResponse;
 import com.alkemy.ong.application.service.abstraction.IAuthenticationService;
@@ -23,18 +23,16 @@ public class AuthenticationService implements IAuthenticationService {
 
   @Override
   public AuthenticationResponse login(AuthenticationRequest authenticationRequest) {
-
-    UserDetails userDetails;
+    Authentication authentication;
     try {
-      Authentication auth = authManager.authenticate(
-          new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
-              authenticationRequest.getPassword()));
-      userDetails = (UserDetails) auth.getPrincipal();
+      authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(
+          authenticationRequest.getEmail(),
+          authenticationRequest.getPassword()));
     } catch (Exception e) {
-      throw new WrongCredentialsException("Wrong email or password.");
+      throw new InvalidCredentialsException("Invalid email or password.");
     }
-    final String jwt = jwtUtils.generateToken(userDetails);
-    return new AuthenticationResponse(jwt);
 
+    String jwt = jwtUtils.generateToken((UserDetails) authentication.getPrincipal());
+    return new AuthenticationResponse(jwt);
   }
 }
