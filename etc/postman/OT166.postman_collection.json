@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0812a62e-fbf6-4b2b-bd1d-df9ac508de91",
+		"_postman_id": "fa5634b5-4c94-40a9-979c-eba475847f23",
 		"name": "OT166",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -10,6 +10,17 @@
 			"item": [
 				{
 					"name": "Authentication Endpoint",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"postman.setEnvironmentVariable(\"token\", JSON.parse(responseBody).token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -23,12 +34,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/auth/login",
-							"protocol": "http",
+							"raw": "{{url}}/auth/login",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8080",
 							"path": [
 								"auth",
 								"login"
@@ -40,38 +49,31 @@
 			]
 		},
 		{
-			"name": "Member",
+			"name": "Slides",
 			"item": [
 				{
-					"name": "Save member",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
+					"name": "DELETE Slide",
 					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6IlJPTEVfVVNFUiIsInN1YiI6InNvbW9zLm1hc0BhbGtlbXkuY29tIiwiaWF0IjoxNjQ4MTUxOTI4LCJleHAiOjE2NDgxNTM3Mjh9.RvRhQK4APQPDdqO2WQntgPLixyNUAuYbStqiqGl5B6o",
-								"type": "default"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Nombre con espacios\",\r\n    \"image\": \"descripcion\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
 								}
-							}
+							]
 						},
+						"method": "DELETE",
+						"header": [],
 						"url": {
-							"raw": "{{URL}}/members",
+							"raw": "{{url}}/slides/1",
 							"host": [
-								"{{URL}}"
+								"{{url}}"
 							],
 							"path": [
-								"members"
+								"slides",
+								"1"
 							]
 						}
 					},
@@ -79,28 +81,68 @@
 				}
 			]
 		},
-		{
-			"name": "Organization",
-			"item": [
-				{
-					"name": "Get Public Organization",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{URL}}/organization/public",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"organization",
-								"public"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		}
+    {
+      "name": "Member",
+      "item": [
+        {
+          "name": "Save member",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6IlJPTEVfVVNFUiIsInN1YiI6InNvbW9zLm1hc0BhbGtlbXkuY29tIiwiaWF0IjoxNjQ4MTUxOTI4LCJleHAiOjE2NDgxNTM3Mjh9.RvRhQK4APQPDdqO2WQntgPLixyNUAuYbStqiqGl5B6o",
+                "type": "default"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Nombre con espacios\",\r\n    \"image\": \"descripcion\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/members",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "members"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Organization",
+      "item": [
+        {
+          "name": "Get Public Organization",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/organization/public",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "organization",
+                "public"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
 	]
 }
