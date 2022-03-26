@@ -147,6 +147,11 @@
       <artifactId>lombok-mapstruct-binding</artifactId>
       <version>0.2.0</version>
     </dependency>
+    <dependency>
+      <groupId>com.sendgrid</groupId>
+      <artifactId>sendgrid-java</artifactId>
+      <version>4.8.3</version>
+    </dependency>
   </dependencies>
 
   <description>ONG project with Spring Boot</description>

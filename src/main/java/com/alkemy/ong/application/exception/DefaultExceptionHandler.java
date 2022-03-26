@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class DefaultExceptionHandler {
 
-  @ExceptionHandler(value = EntityNotFound.class)
-  protected ResponseEntity<ErrorResponse> handleEntityNotFound(EntityNotFound e) {
+  @ExceptionHandler(value = EntityNotFoundException.class)
+  protected ResponseEntity<ErrorResponse> handleEntityNotFound(EntityNotFoundException e) {
     ErrorResponse errorResponse = buildErrorResponse(
-        HttpStatus.BAD_REQUEST,
-        e.getMessage(),
-        "Entity not found.");
-    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        HttpStatus.NOT_FOUND,
+        "Entity not found.",
+        e.getMessage());
+    return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
   }
 
   @ExceptionHandler(value = UsernameNotFoundException.class)
@@ -33,13 +33,13 @@ public class DefaultExceptionHandler {
     return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
   }
 
-  @ExceptionHandler(value = WrongCredentialsException.class)
-  protected ResponseEntity<ErrorResponse> handleWrongCredentialsException(
-      WrongCredentialsException e) {
+  @ExceptionHandler(value = InvalidCredentialsException.class)
+  protected ResponseEntity<ErrorResponse> handleInvalidCredentialsException(
+      InvalidCredentialsException e) {
     ErrorResponse errorResponse = buildErrorResponse(
         HttpStatus.UNAUTHORIZED,
         e.getMessage(),
-        "The server can’t return a response due to invalid credentials.");
+        "The server cannot return a response due to invalid credentials.");
     return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
 
   }
@@ -68,4 +68,5 @@ public class DefaultExceptionHandler {
   private ErrorResponse buildErrorResponse(HttpStatus httpStatus, String message, String moreInfo) {
     return buildErrorResponse(httpStatus, message, List.of(moreInfo));
   }
+
 }
