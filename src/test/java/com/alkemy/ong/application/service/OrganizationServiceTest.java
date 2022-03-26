@@ -40,7 +40,8 @@ class OrganizationServiceTest {
   void shouldThrowExceptionWhenNonOrganizationRecordIsRetrieved() {
     given(organizationRepository.findAll()).willReturn(List.of());
 
-    assertThrows(EntityNotFoundException.class, () -> organizationService.getPublicOrganizationDetails());
+    assertThrows(EntityNotFoundException.class,
+        () -> organizationService.getPublicOrganizationDetails());
   }
 
   @Test
