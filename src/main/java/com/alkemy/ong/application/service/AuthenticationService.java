@@ -45,9 +45,9 @@ public class AuthenticationService implements IAuthenticationService, IRegisterS
 
   @Override
   public RegisterResponse register(RegisterRequest registerRequest) {
-    if (userRepository.findByEmail(registerRequest.getEmail()) != null)
+    if (userRepository.findByEmail(registerRequest.getEmail()) != null) {
       throw new InvalidCredentialsException("Email is already in use.");
-
+    }
     RoleEntity userRole = roleRepository.findByName("ROLE_" + Role.USER.name());
 
     UserEntity newUser = userMapper.toUserEntity(registerRequest);

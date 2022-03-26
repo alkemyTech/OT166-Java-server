@@ -13,7 +13,8 @@ public class RegisterRequest {
   @Pattern(regexp = "[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]+", message = "Name can contain letters and spaces")
   private String firstName;
 
-  @Pattern(regexp = "[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]+", message = "Last name can contain letters and spaces")
+  @Pattern(regexp = "[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]+",
+      message = "Last name can contain letters and spaces")
   private String lastName;
 
   @Email(message = "The email has invalid format.")
