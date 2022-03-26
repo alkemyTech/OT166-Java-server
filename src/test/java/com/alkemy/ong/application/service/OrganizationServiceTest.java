@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import com.alkemy.ong.application.exception.EntityNotFound;
+import com.alkemy.ong.application.exception.EntityNotFoundException;
 import com.alkemy.ong.application.rest.response.OrganizationResponse;
 import com.alkemy.ong.infrastructure.database.entity.OrganizationEntity;
 import com.alkemy.ong.infrastructure.database.mapper.abstraction.IOrganizationMapper;
@@ -40,7 +40,8 @@ class OrganizationServiceTest {
   void shouldThrowExceptionWhenNonOrganizationRecordIsRetrieved() {
     given(organizationRepository.findAll()).willReturn(List.of());
 
-    assertThrows(EntityNotFound.class, () -> organizationService.getPublicOrganizationDetails());
+    assertThrows(EntityNotFoundException.class,
+        () -> organizationService.getPublicOrganizationDetails());
   }
 
   @Test
