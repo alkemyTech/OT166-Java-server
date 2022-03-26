@@ -1,6 +1,6 @@
 package com.alkemy.ong.application.service;
 
-import com.alkemy.ong.application.exception.EntityNotFound;
+import com.alkemy.ong.application.exception.EntityNotFoundException;
 import com.alkemy.ong.application.rest.request.CreateNewsRequest;
 import com.alkemy.ong.application.rest.response.NewsResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateNewsService;
@@ -30,7 +30,7 @@ public class NewsService implements ICreateNewsService {
     if (categoryNews.isPresent()) {
       category = categoryNews.get();
     } else {
-      throw new EntityNotFound("Missing record in category table.");
+      throw new EntityNotFoundException("Missing record in category table.");
     }
 
     NewsEntity newsEntity = newsMapper.toNewsEntity(newsRequest);
