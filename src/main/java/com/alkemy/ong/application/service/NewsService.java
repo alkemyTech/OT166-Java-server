@@ -1,8 +1,9 @@
 package com.alkemy.ong.application.service;
 
-import com.alkemy.ong.application.rest.request.NewsRequest;
+import com.alkemy.ong.application.exception.EntityNotFound;
+import com.alkemy.ong.application.rest.request.CreateNewsRequest;
 import com.alkemy.ong.application.rest.response.NewsResponse;
-import com.alkemy.ong.application.service.abstraction.INewsService;
+import com.alkemy.ong.application.service.abstraction.ICreateNewsService;
 import com.alkemy.ong.infrastructure.database.entity.CategoryEntity;
 import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
 import com.alkemy.ong.infrastructure.database.mapper.abstraction.INewsMapper;
@@ -13,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class NewsService implements INewsService {
+public class NewsService implements ICreateNewsService {
 
   @Autowired
   private INewsRepository newsRepository;
@@ -23,21 +24,20 @@ public class NewsService implements INewsService {
   private INewsMapper newsMapper;
 
   @Override
-  public NewsResponse createNews(NewsRequest newsRequest) {
+  public NewsResponse create(CreateNewsRequest newsRequest) {
     Optional<CategoryEntity> categoryNews = categoryRepository.findByName("news");
     CategoryEntity category = new CategoryEntity();
     if (categoryNews.isPresent()) {
       category = categoryNews.get();
     } else {
-      category.setName("news");
-      categoryRepository.save(category);
+      throw new EntityNotFound("Missing record in category table.");
     }
 
     NewsEntity newsEntity = newsMapper.toNewsEntity(newsRequest);
     newsEntity.setCategory(category);
-    NewsResponse newsResponse = newsMapper.toNewsResponse(newsRepository.save(newsEntity));
-
-    return newsResponse;
+    newsEntity.setSoftDeleted(false);
+    
+    return newsMapper.toNewsResponse(newsRepository.save(newsEntity));
   }
 
 }
