@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "fa5634b5-4c94-40a9-979c-eba475847f23",
+		"_postman_id": "17c2e0fd-86fe-4832-b207-0bbded7be088",
 		"name": "OT166",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -81,69 +81,69 @@
 				}
 			]
 		},
-    {
-      "name": "Member",
-      "item": [
-        {
-          "name": "Save member",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6IlJPTEVfVVNFUiIsInN1YiI6InNvbW9zLm1hc0BhbGtlbXkuY29tIiwiaWF0IjoxNjQ4MTUxOTI4LCJleHAiOjE2NDgxNTM3Mjh9.RvRhQK4APQPDdqO2WQntgPLixyNUAuYbStqiqGl5B6o",
-                "type": "default"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"name\": \"Nombre con espacios\",\r\n    \"image\": \"descripcion\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{URL}}/members",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "members"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Organization",
-      "item": [
-        {
-          "name": "Get Public Organization",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{URL}}/organization/public",
-              "host": [
-                "{{URL}}"
-              ],
-              "path": [
-                "organization",
-                "public"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
+		{
+			"name": "Member",
+			"item": [
+				{
+					"name": "Save member",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6IlJPTEVfVVNFUiIsInN1YiI6InNvbW9zLm1hc0BhbGtlbXkuY29tIiwiaWF0IjoxNjQ4MTUxOTI4LCJleHAiOjE2NDgxNTM3Mjh9.RvRhQK4APQPDdqO2WQntgPLixyNUAuYbStqiqGl5B6o",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Nombre con espacios\",\r\n    \"image\": \"descripcion\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/members",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"members"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Organization",
+			"item": [
+				{
+					"name": "Get Public Organization",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/organization/public",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"organization",
+								"public"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
 		{
 			"name": "Categories",
 			"item": [
@@ -178,36 +178,57 @@
 			]
 		},
 		{
-			"name": "Activities",
+			"name": "Testimonials",
 			"item": [
 				{
-					"name": "activities",
+					"name": "Delete Testimonial",
 					"request": {
-						"method": "POST",
+						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Nueva Actividad\",\r\n    \"content\": \"descripcion de la actividad\",\r\n    \"image\": \"imagen\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "{{url}}/activities",
-							"protocol": "http",
+							"raw": "{{URL}}/testimonials/",
 							"host": [
-								"{{url}}"
+								"{{URL}}"
 							],
 							"path": [
-								"activities"
+								"testimonials",
+								""
 							]
 						}
 					},
 					"response": []
 				}
 			]
-		}
+		},
+    {
+      "name": "Activities",
+      "item": [
+        {
+          "name": "activities",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Nueva Actividad\",\r\n    \"content\": \"descripcion de la actividad\",\r\n    \"image\": \"imagen\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/activities",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "activities"
+              ]
+            }
+          },
+          "response": []
+        }
 	]
 }
