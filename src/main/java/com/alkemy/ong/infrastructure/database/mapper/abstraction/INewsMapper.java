@@ -9,11 +9,11 @@ import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring")
 public interface INewsMapper {
-  
+
   @Mappings({@Mapping(target = "content", source = "newsRequest.text")})
   NewsEntity toNewsEntity(CreateNewsRequest newsRequest);
 
   @Mappings({@Mapping(target = "text", source = "newsEntity.content")})
   NewsResponse toNewsResponse(NewsEntity newsEntity);
-  
+
 }
