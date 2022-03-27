@@ -25,11 +25,11 @@ public class OrganizationService implements IGetOrganizationDetailsService {
 
   @Override
   public OrganizationResponse getPublicOrganizationDetails() {
-    List<OrganizationEntity> organizations = organizationRepository.findAll();
-    if (organizations.isEmpty()) {
+    List<OrganizationEntity> organizationEntities = organizationRepository.findAll();
+    if (organizationEntities.isEmpty()) {
       throw new EntityNotFoundException("Missing record in organization table.");
     }
-    return organizationMapper.toOrganizationResponse(organizations.get(0));
+    return organizationMapper.toOrganizationResponse(organizationEntities.get(0));
   }
 
 }
