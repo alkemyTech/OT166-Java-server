@@ -69,4 +69,16 @@ public class DefaultExceptionHandler {
     return buildErrorResponse(httpStatus, message, List.of(moreInfo));
   }
 
+  @ExceptionHandler(value = UserAlreadyExistException.class)
+  protected ResponseEntity<ErrorResponse> handleUserAlreadyExistException(
+      UserAlreadyExistException e) {
+    ErrorResponse errorResponse = buildErrorResponse(
+        HttpStatus.CONFLICT,
+        e.getMessage(),
+        "The server could not complete the user registration because "
+            + "the email address entered is already in use.");
+    return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+
+  }
+
 }

@@ -1,6 +1,7 @@
 package com.alkemy.ong.application.service;
 
 import com.alkemy.ong.application.exception.InvalidCredentialsException;
+import com.alkemy.ong.application.exception.UserAlreadyExistException;
 import com.alkemy.ong.application.rest.request.AuthenticationRequest;
 import com.alkemy.ong.application.rest.request.RegisterRequest;
 import com.alkemy.ong.application.rest.response.AuthenticationResponse;
@@ -46,9 +47,9 @@ public class AuthenticationService implements IAuthenticationService, IRegisterS
   @Override
   public RegisterResponse register(RegisterRequest registerRequest) {
     if (userRepository.findByEmail(registerRequest.getEmail()) != null) {
-      throw new InvalidCredentialsException("Email is already in use.");
+      throw new UserAlreadyExistException("Email is already in use.");
     }
-    RoleEntity userRole = roleRepository.findByName("ROLE_" + Role.USER.name());
+    RoleEntity userRole = roleRepository.findByName(Role.USER.getFullRoleName());
 
     UserEntity newUser = userMapper.toUserEntity(registerRequest);
     newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));

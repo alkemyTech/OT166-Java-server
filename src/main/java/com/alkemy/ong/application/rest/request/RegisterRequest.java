@@ -1,5 +1,6 @@
 package com.alkemy.ong.application.rest.request;
 
+import com.alkemy.ong.application.util.RegExpressionUtils;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 import lombok.Getter;
@@ -10,10 +11,11 @@ import org.hibernate.validator.constraints.Length;
 @Setter
 public class RegisterRequest {
 
-  @Pattern(regexp = "[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]+", message = "Name can contain letters and spaces")
+  @Pattern(regexp = RegExpressionUtils.ALPHABETIC_CHARACTERS_WITH_BLANK_SPACES,
+      message = "Name can contain letters and spaces")
   private String firstName;
 
-  @Pattern(regexp = "[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]+",
+  @Pattern(regexp = RegExpressionUtils.ALPHABETIC_CHARACTERS_WITH_BLANK_SPACES,
       message = "Last name can contain letters and spaces")
   private String lastName;
 
