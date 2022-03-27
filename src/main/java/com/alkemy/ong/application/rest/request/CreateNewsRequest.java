@@ -15,7 +15,7 @@ import lombok.Setter;
 @Setter
 public class CreateNewsRequest {
 
-  @Size(max = 50, message = "Maximum size is 50 characters.")
+  @Size(max = 50, message = "Maximum size for name is 50 characters.")
   @Pattern(regexp = RegExpressionUtils.ALPHABETIC_CHARACTERS_WITH_BLACK_SPACES, 
       message = "The name accepts only alphabetic characters and blank spaces.")
   @NotEmpty(message = "The name must not be empty.")

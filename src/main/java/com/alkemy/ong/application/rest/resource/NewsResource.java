@@ -23,9 +23,10 @@ public class NewsResource {
 
   @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,
       consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<NewsResponse> postNews(@Valid @RequestBody CreateNewsRequest newsRequest) {
+  public ResponseEntity<NewsResponse> postNews(
+      @Valid @RequestBody CreateNewsRequest createNewsRequest) {
 
-    NewsResponse newsResponse = createNewsService.create(newsRequest);
+    NewsResponse newsResponse = createNewsService.create(createNewsRequest);
     URI location = ServletUriComponentsBuilder
         .fromCurrentRequest()
         .path("/{id}")

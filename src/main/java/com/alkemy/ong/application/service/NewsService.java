@@ -26,17 +26,13 @@ public class NewsService implements ICreateNewsService {
   @Override
   public NewsResponse create(CreateNewsRequest newsRequest) {
     Optional<CategoryEntity> categoryNews = categoryRepository.findByName("news");
-    CategoryEntity category = new CategoryEntity();
-    if (categoryNews.isPresent()) {
-      category = categoryNews.get();
-    } else {
+    if (categoryNews.isEmpty()) {
       throw new EntityNotFoundException("Missing record in category table.");
     }
 
     NewsEntity newsEntity = newsMapper.toNewsEntity(newsRequest);
-    newsEntity.setCategory(category);
+    newsEntity.setCategory(categoryNews.get());
     newsEntity.setSoftDeleted(false);
-    
     return newsMapper.toNewsResponse(newsRepository.save(newsEntity));
   }
 
