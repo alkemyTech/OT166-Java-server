@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface IMemberMapper {
 
-  MemberEntity toMemberEntity(CreateMemberRequest request);
+  MemberEntity toMemberEntity(CreateMemberRequest createMemberRequest);
 
   MemberResponse toMemberResponse(MemberEntity entity);
 }
