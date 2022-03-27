@@ -31,7 +31,8 @@ public class AuthenticationResource {
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<RegisterResponse> register(
       @Valid @RequestBody RegisterRequest registerRequest) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(registerService.register(registerRequest));
+    return ResponseEntity.status(HttpStatus.CREATED)
+        .body(registerService.register(registerRequest));
   }
 
   @PostMapping(path = "/login",
