@@ -39,14 +39,8 @@ public class UserService implements UserDetailsService, IDeleteUserService {
   @Override
   public void delete(Long id) {
     Optional<UserEntity> userRepo = userRepository.findById(id);
-    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
-        .getAuthentication().getPrincipal();
-    String usernameDetails = userDetails.getUsername();
     if (userRepo.isEmpty() || Boolean.TRUE.equals(userRepo.get().getSoftDeleted())) {
       throw new EntityNotFoundException("User not found.");
-    }
-    if (!usernameDetails.equals(userRepo.get().getUsername())) {
-      throw new InvalidCredentialsException("Invalid user.");
     }
 
     UserEntity userEntity = userRepo.get();
