@@ -36,15 +36,18 @@ public class UserService implements UserDetailsService, IDeleteUserService {
 
   @Override
   public void delete(Long id) {
+    UserEntity userEntity = findBy(id);
+    userEntity.setSoftDeleted(true);
+    userRepository.save(userEntity);
+  }
+
+  private UserEntity findBy(Long id) {
     Optional<UserEntity> optionalUserEntity = userRepository.findById(id);
     if (optionalUserEntity.isEmpty()
         || Boolean.TRUE.equals(optionalUserEntity.get().getSoftDeleted())) {
       throw new EntityNotFoundException("User not found.");
     }
-
-    UserEntity userEntity = optionalUserEntity.get();
-    userEntity.setSoftDeleted(true);
-    userRepository.save(userEntity);
+    return optionalUserEntity.get();
   }
 
 }

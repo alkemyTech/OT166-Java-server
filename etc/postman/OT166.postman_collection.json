@@ -264,6 +264,42 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "SAVE Category",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Name with blank spaces\",\r\n    \"description\": \"\",\r\n    \"image\": \"\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{url}}/categories",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "categories"
+          ]
+        }
+      },
+      "response": []
     }
   ]
 }
