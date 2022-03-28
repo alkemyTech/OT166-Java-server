@@ -1,5 +1,5 @@
 {
-	  "info": {
+  "info": {
     "_postman_id": "17c2e0fd-86fe-4832-b207-0bbded7be088",
     "name": "OT166",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -265,5 +265,5 @@
         }
       ]
     }
-	  ]
+  ]
 }

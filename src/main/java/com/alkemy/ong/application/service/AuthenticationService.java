@@ -1,5 +1,6 @@
 package com.alkemy.ong.application.service;
 
+import com.alkemy.ong.application.exception.EntityNotFoundException;
 import com.alkemy.ong.application.exception.InvalidCredentialsException;
 import com.alkemy.ong.application.exception.UserAlreadyExistException;
 import com.alkemy.ong.application.rest.request.AuthenticationRequest;
@@ -49,14 +50,17 @@ public class AuthenticationService implements IAuthenticationService, IRegisterS
     if (userRepository.findByEmail(registerRequest.getEmail()) != null) {
       throw new UserAlreadyExistException("Email is already in use.");
     }
+
     RoleEntity userRole = roleRepository.findByName(Role.USER.getFullRoleName());
+    if (userRole == null) {
+      throw new EntityNotFoundException("Missing record in role table.");
+    }
 
     UserEntity newUser = userMapper.toUserEntity(registerRequest);
     newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
     newUser.setSoftDeleted(false);
     newUser.setRole(userRole);
     newUser = userRepository.save(newUser);
-
     return userMapper.toRegisterResponse(newUser);
   }
 

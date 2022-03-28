@@ -15,11 +15,11 @@ public class UserResource {
 
   @Autowired
   private IDeleteUserService deleteUserService;
-  
+
   @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Void> delete(@PathVariable Long id) {
     deleteUserService.delete(id);
     return ResponseEntity.noContent().build();
   }
-  
+
 }

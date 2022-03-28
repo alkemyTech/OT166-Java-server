@@ -2,7 +2,6 @@ package com.alkemy.ong.application.rest.resource;
 
 import com.alkemy.ong.application.rest.request.CreateActivityRequest;
 import com.alkemy.ong.application.rest.response.ActivityResponse;
-import com.alkemy.ong.application.rest.response.NewsResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateActivityService;
 import java.net.URI;
 import javax.validation.Valid;
