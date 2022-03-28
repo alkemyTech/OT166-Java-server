@@ -232,6 +232,38 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Activities",
+      "item": [
+        {
+          "name": "activities",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Nueva Actividad\",\r\n    \"content\": \"descripcion de la actividad\",\r\n    \"image\": \"imagen\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/activities",
+              "protocol": "http",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "activities"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
 	  ]
 }
