@@ -152,6 +152,13 @@
       <artifactId>sendgrid-java</artifactId>
       <version>4.8.3</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk -->
+    <dependency>
+      <groupId>com.amazonaws</groupId>
+      <artifactId>aws-java-sdk</artifactId>
+      <version>1.12.186</version>
+    </dependency>
+
   </dependencies>
 
   <description>ONG project with Spring Boot</description>
