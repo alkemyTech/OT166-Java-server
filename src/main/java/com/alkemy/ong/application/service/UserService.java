@@ -23,7 +23,7 @@ public class UserService implements UserDetailsService {
     return getUser(email);
   }
 
-  private UserEntity getUser(String username) {
+  public UserEntity getUser(String username) {
     UserEntity userEntity = userRepository.findByEmail(username);
     if (userEntity == null) {
       throw new UsernameNotFoundException("User not found.");
