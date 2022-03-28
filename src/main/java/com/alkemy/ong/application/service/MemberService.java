@@ -32,14 +32,18 @@ public class MemberService implements ICreateMemberService, IDeleteMemberService
 
   @Override
   public void delete(Long id) {
-    Optional<MemberEntity> result = memberRepository.findById(id);
-    if (result.isEmpty() || Boolean.TRUE.equals(result.get().getSoftDeleted())) {
-      throw new EntityNotFoundException("Member not found.");
-    }
-
-    MemberEntity memberEntity = result.get();
+    MemberEntity memberEntity = findBy(id);
     memberEntity.setSoftDeleted(true);
     memberRepository.save(memberEntity);
+  }
+
+  private MemberEntity findBy(Long id) {
+    Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(id);
+    if (optionalMemberEntity.isEmpty()
+        || Boolean.TRUE.equals(optionalMemberEntity.get().getSoftDeleted())) {
+      throw new EntityNotFoundException("Member not found.");
+    }
+    return optionalMemberEntity.get();
   }
 
 }

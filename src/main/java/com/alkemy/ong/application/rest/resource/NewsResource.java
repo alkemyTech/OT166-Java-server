@@ -25,7 +25,6 @@ public class NewsResource {
       consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<NewsResponse> postNews(
       @Valid @RequestBody CreateNewsRequest createNewsRequest) {
-
     NewsResponse newsResponse = createNewsService.create(createNewsRequest);
     URI location = ServletUriComponentsBuilder
         .fromCurrentRequest()

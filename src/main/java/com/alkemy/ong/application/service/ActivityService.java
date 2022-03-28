@@ -22,11 +22,9 @@ public class ActivityService implements ICreateActivityService {
 
   @Override
   public ActivityResponse save(CreateActivityRequest createActivityRequest) {
-
     ActivityEntity activityEntity = activityMapper.toActivityEntity(createActivityRequest);
     activityEntity.setSoftDeleted(false);
     return activityMapper.toActivityResponse(activityRepository.save(activityEntity));
-
   }
 
 }

@@ -16,14 +16,18 @@ public class CategoryService implements IDeleteCategoryService {
 
   @Override
   public void delete(Long id) {
+    CategoryEntity categoryEntity = findBy(id);
+    categoryEntity.setSoftDeleted(true);
+    repository.save(categoryEntity);
+  }
+
+  private CategoryEntity findBy(Long id) {
     Optional<CategoryEntity> result = repository.findById(id);
     if (result.isEmpty() || Boolean.TRUE.equals(result.get().getSoftDeleted())) {
       throw new EntityNotFoundException("Category not found.");
     }
 
-    CategoryEntity categoryEntity = result.get();
-    categoryEntity.setSoftDeleted(true);
-    repository.save(categoryEntity);
+    return result.get();
   }
 
 }

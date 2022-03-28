@@ -6,6 +6,7 @@ import com.alkemy.ong.application.service.abstraction.ICreateMemberService;
 import com.alkemy.ong.application.service.abstraction.IDeleteMemberService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,7 +30,8 @@ public class MemberResource {
       consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<MemberResponse> create(
       @Valid @RequestBody CreateMemberRequest createMemberRequest) {
-    return ResponseEntity.ok().body(createMemberService.save(createMemberRequest));
+    return ResponseEntity.status(HttpStatus.CREATED)
+        .body(createMemberService.save(createMemberRequest));
   }
 
   @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
