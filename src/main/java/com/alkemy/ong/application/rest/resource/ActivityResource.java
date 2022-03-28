@@ -1,8 +1,8 @@
 package com.alkemy.ong.application.rest.resource;
 
-import com.alkemy.ong.application.rest.request.CreateNewsRequest;
-import com.alkemy.ong.application.rest.response.NewsResponse;
-import com.alkemy.ong.application.service.abstraction.ICreateNewsService;
+import com.alkemy.ong.application.rest.request.CreateActivityRequest;
+import com.alkemy.ong.application.rest.response.ActivityResponse;
+import com.alkemy.ong.application.service.abstraction.ICreateActivityService;
 import java.net.URI;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,24 +15,26 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-@RequestMapping("news")
-public class NewsResource {
+@RequestMapping("activities")
+public class ActivityResource {
 
   @Autowired
-  private ICreateNewsService createNewsService;
+  private ICreateActivityService createActivityService;
 
   @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,
       consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<NewsResponse> postNews(
-      @Valid @RequestBody CreateNewsRequest createNewsRequest) {
-    NewsResponse newsResponse = createNewsService.create(createNewsRequest);
+  public ResponseEntity<ActivityResponse> create(
+      @Valid @RequestBody CreateActivityRequest createActivityRequest) {
+
+    ActivityResponse activityResponse = createActivityService.save(createActivityRequest);
     URI location = ServletUriComponentsBuilder
         .fromCurrentRequest()
         .path("/{id}")
-        .buildAndExpand(newsResponse.getId())
+        .buildAndExpand(activityResponse.getId())
         .toUri();
 
-    return ResponseEntity.created(location).body(newsResponse);
+    return ResponseEntity.created(location).body(activityResponse);
+
   }
 
 }

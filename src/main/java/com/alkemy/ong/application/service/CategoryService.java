@@ -31,13 +31,18 @@ public class CategoryService implements ICreateCategoryService, IDeleteCategoryS
 
   @Override
   public void delete(Long id) {
-    Optional<CategoryEntity> result = categoryRepository.findById(id);
-    if (result.isEmpty() || Boolean.TRUE.equals(result.get().getSoftDeleted())) {
-      throw new EntityNotFoundException("Category not found.");
-    }
-
-    CategoryEntity categoryEntity = result.get();
+    CategoryEntity categoryEntity = findBy(id);
     categoryEntity.setSoftDeleted(true);
     categoryRepository.save(categoryEntity);
   }
+
+  private CategoryEntity findBy(Long id) {
+    Optional<CategoryEntity> optionalCategoryEntity = categoryRepository.findById(id);
+    if (optionalCategoryEntity.isEmpty()
+        || Boolean.TRUE.equals(optionalCategoryEntity.get().getSoftDeleted())) {
+      throw new EntityNotFoundException("Category not found.");
+    }
+    return optionalCategoryEntity.get();
+  }
+
 }
