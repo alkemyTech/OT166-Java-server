@@ -1,4 +1,4 @@
-package com.alkemy.ong.infrastructure.config;
+package com.alkemy.ong.infrastructure.aws.config;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
