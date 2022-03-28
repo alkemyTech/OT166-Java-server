@@ -101,6 +101,8 @@ mvn checkstyle:checkstyle
     - [Mockito tutorial](https://www.baeldung.com/mockito-series)
     - [Unit tests with Mockito](https://www.vogella.com/tutorials/Mockito/article.html)
     - [jUnit5: user guide](https://junit.org/junit5/docs/current/user-guide/#overview)
+- API documentation:
+    - [OpenAPI 3 with Spring Boot](https://springdoc.org/)
 - Agile:
     - [How do you measure value?](https://www.thoughtworks.com/insights/blog/how-do-you-measure-value)
     - [Exploring value oriented incremental delivery](https://www.thoughtworks.com/insights/blog/exploring-value-oriented-incremental-delivery)
