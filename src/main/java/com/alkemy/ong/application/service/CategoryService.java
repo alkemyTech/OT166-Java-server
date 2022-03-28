@@ -1,7 +1,7 @@
 package com.alkemy.ong.application.service;
 
 import com.alkemy.ong.application.exception.EntityNotFoundException;
-import com.alkemy.ong.application.rest.request.CategoryRequest;
+import com.alkemy.ong.application.rest.request.CreateCategoryRequest;
 import com.alkemy.ong.application.rest.response.CategoryResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateCategoryService;
 import com.alkemy.ong.application.service.abstraction.IDeleteCategoryService;
@@ -22,8 +22,8 @@ public class CategoryService implements ICreateCategoryService, IDeleteCategoryS
   private ICategoryMapper categoryMapper;
 
   @Override
-  public CategoryResponse createCategory(CategoryRequest categoryRequest) {
-    CategoryEntity entity = categoryMapper.toCategoryEntity(categoryRequest);
+  public CategoryResponse create(CreateCategoryRequest createCategoryRequest) {
+    CategoryEntity entity = categoryMapper.toCategoryEntity(createCategoryRequest);
     entity.setSoftDeleted(false);
     categoryRepository.save(entity);
     return categoryMapper.toCategoryResponse(entity);
