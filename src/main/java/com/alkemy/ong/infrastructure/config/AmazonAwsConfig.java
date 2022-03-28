@@ -1,4 +1,4 @@
-package com.alkemy.ong.application.util;
+package com.alkemy.ong.infrastructure.config;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -22,7 +22,7 @@ public class AmazonAwsConfig {
   private String secretKey;
 
   @Bean
-  public AmazonS3 getAmazonS3() {
+  public AmazonS3 initialize() {
     BasicAWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
     return AmazonS3ClientBuilder.standard()
         .withRegion(Regions.fromName(region))
