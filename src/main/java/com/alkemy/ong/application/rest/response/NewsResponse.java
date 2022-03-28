@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class NewsResponse {
-  
+
   private Long id;
   private String name;
   private String text;

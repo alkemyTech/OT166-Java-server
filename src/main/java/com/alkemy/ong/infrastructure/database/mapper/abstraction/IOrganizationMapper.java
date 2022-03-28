@@ -7,6 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface IOrganizationMapper {
 
-  OrganizationResponse toOrganizationResponse(OrganizationEntity entity);
+  OrganizationResponse toOrganizationResponse(OrganizationEntity organizationEntity);
 
 }
