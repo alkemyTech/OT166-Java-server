@@ -1,0 +1,7 @@
+# AmazonAws
+aws:
+  bucket: cohorte-marzo-77238c6a
+  region: us-east-1
+  key:
+    access: foo
+    secret: foo
