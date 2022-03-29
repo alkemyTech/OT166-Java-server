@@ -36,6 +36,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc
 public abstract class BigTest {
 
+  private static final String ADMIN_EMAIL = "jason@voorhees.com";
+  private static final String USER_EMAIL = "freedy@krueger.com";
   private static final String PASSWORD = "abcd1234";
 
   @Autowired
@@ -72,7 +74,8 @@ public abstract class BigTest {
   }
 
   private void createUserData() {
-    if (userRepository.count() == 0) {
+    if (userRepository.findByEmail(ADMIN_EMAIL) == null ||
+        userRepository.findByEmail(USER_EMAIL) == null) {
       saveStandardUser();
       saveAdminUser();
     }
@@ -118,7 +121,7 @@ public abstract class BigTest {
     userRepository.save(buildUser(
         "Freddy",
         "Krueger",
-        "freedy@krueger.com",
+        USER_EMAIL,
         Role.USER));
   }
 
@@ -126,7 +129,7 @@ public abstract class BigTest {
     userRepository.save(buildUser(
         "Jason",
         "Voorhees",
-        "jason@voorhees.com",
+        ADMIN_EMAIL,
         Role.ADMIN));
   }
 
@@ -149,11 +152,11 @@ public abstract class BigTest {
   }
 
   protected String getAuthorizationTokenForAdminUser() throws Exception {
-    return getAuthorizationTokenForUser("jason@voorhees.com");
+    return getAuthorizationTokenForUser(ADMIN_EMAIL);
   }
 
   protected String getAuthorizationTokenForStandardUser() throws Exception {
-    return getAuthorizationTokenForUser("freedy@krueger.com");
+    return getAuthorizationTokenForUser(USER_EMAIL);
   }
 
   private String getAuthorizationTokenForUser(String email) throws Exception {
