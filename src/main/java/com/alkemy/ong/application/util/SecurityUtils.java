@@ -32,6 +32,7 @@ public class SecurityUtils {
   public boolean hasAdminRole() {
     Authentication auth = this.getAuthentication();
     return Role.ADMIN.getFullRoleName().equals(getGrantedAuthority().getAuthority());
+
   }
 
 }
