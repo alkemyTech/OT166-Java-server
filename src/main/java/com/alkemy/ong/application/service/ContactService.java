@@ -26,7 +26,6 @@ public class ContactService implements ICreateContactService {
   @Override
   public ContactResponse create(CreateContactRequest createContactRequest) {
     ContactEntity contactEntity = contactMapper.toContactEntity(createContactRequest);
-    contactEntity.setDeletedAt(Date.from(Instant.now()));
     return contactMapper.toContactResponse(contactRepository.save(contactEntity));
   }
 }
