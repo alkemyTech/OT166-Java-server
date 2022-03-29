@@ -24,13 +24,10 @@ public class SecurityUtils {
     return userDetailsService.loadUserByUsername(this.getAuthentication().getName());
   }
 
-  public GrantedAuthority getGrantedAuthority() {
-    List<GrantedAuthority> auth = (List<GrantedAuthority>) getAuthentication().getAuthorities();
-    return auth.get(0);
-  }
-
   public boolean hasAdminRole() {
-    return Role.ADMIN.getFullRoleName().equals(getGrantedAuthority().getAuthority());
+    return getAuthentication().getAuthorities().stream()
+        .anyMatch(grantedAuthority -> Role.ADMIN.getFullRoleName()
+            .equals(grantedAuthority.getAuthority()));
   }
 
 }

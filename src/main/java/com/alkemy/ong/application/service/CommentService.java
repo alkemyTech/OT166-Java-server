@@ -25,10 +25,8 @@ public class CommentService implements IDeleteCommentService {
 
     CommentEntity commentEntity = this.findBy(id);
 
-    UserDetails userAuthenticated = securityUtils.getUserAuthenticated();
-
     if (!securityUtils.hasAdminRole()
-        && !commentEntity.getUser().getEmail().equals(userAuthenticated.getUsername())) {
+        && !commentEntity.getUser().equals(securityUtils.getUserAuthenticated())) {
       throw new OperationNotPermittedException("No permission to delete this comment.");
     }
     commentRepository.delete(commentEntity);

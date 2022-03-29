@@ -93,4 +93,16 @@ public class UserEntity implements UserDetails {
     return !this.softDeleted;
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    }
+    if (!(obj instanceof UserEntity)) {
+      return false;
+    } else {
+      UserEntity userAux = (UserEntity) obj;
+      return this.getId().equals(userAux.getId());
+    }
+  }
 }
