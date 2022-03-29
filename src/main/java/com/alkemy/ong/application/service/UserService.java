@@ -26,7 +26,7 @@ public class UserService implements UserDetailsService, IDeleteUserService {
     return getUser(email);
   }
 
-  public UserEntity getUser(String username) {
+  private UserEntity getUser(String username) {
     UserEntity userEntity = userRepository.findByEmail(username);
     if (userEntity == null) {
       throw new UsernameNotFoundException("User not found.");
@@ -36,15 +36,18 @@ public class UserService implements UserDetailsService, IDeleteUserService {
 
   @Override
   public void delete(Long id) {
+    UserEntity userEntity = findBy(id);
+    userEntity.setSoftDeleted(true);
+    userRepository.save(userEntity);
+  }
+
+  private UserEntity findBy(Long id) {
     Optional<UserEntity> optionalUserEntity = userRepository.findById(id);
     if (optionalUserEntity.isEmpty()
         || Boolean.TRUE.equals(optionalUserEntity.get().getSoftDeleted())) {
       throw new EntityNotFoundException("User not found.");
     }
-
-    UserEntity userEntity = optionalUserEntity.get();
-    userEntity.setSoftDeleted(true);
-    userRepository.save(userEntity);
+    return optionalUserEntity.get();
   }
 
 }

@@ -16,13 +16,16 @@ public class TestimonialService implements IDeleteTestimonialService {
 
   @Override
   public void delete(Long id) {
+    TestimonialEntity testimonialEntity = findBy(id);
+    testimonialEntity.setSoftDelete(true);
+    testimonialRepository.save(testimonialEntity);
+  }
+
+  private TestimonialEntity findBy(Long id) {
     Optional<TestimonialEntity> result = testimonialRepository.findById(id);
     if (result.isEmpty() || Boolean.TRUE.equals(result.get().getSoftDelete())) {
       throw new EntityNotFoundException("Testimonial not found.");
     }
-
-    TestimonialEntity testimonialEntity = result.get();
-    testimonialEntity.setSoftDelete(true);
-    testimonialRepository.save(testimonialEntity);
+    return result.get();
   }
 }

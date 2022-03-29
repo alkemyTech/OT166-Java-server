@@ -56,9 +56,9 @@ public class DefaultExceptionHandler {
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
-  @ExceptionHandler(value = OperationNotPermitedException.class)
+  @ExceptionHandler(value = OperationNotPermittedException.class)
   public ResponseEntity<ErrorResponse> handleOperationNotPermittedException(
-      OperationNotPermitedException e) {
+      OperationNotPermittedException e) {
     ErrorResponse errorResponse = buildErrorResponse(
         HttpStatus.FORBIDDEN,
         "Operation not permitted.",
