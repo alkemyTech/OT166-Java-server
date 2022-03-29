@@ -1,9 +1,13 @@
 package com.alkemy.ong.application.service;
 
 import com.alkemy.ong.application.exception.EntityNotFoundException;
+import com.alkemy.ong.application.rest.response.UserResponse;
 import com.alkemy.ong.application.service.abstraction.IDeleteUserService;
+import com.alkemy.ong.application.service.abstraction.IGetListUserService;
 import com.alkemy.ong.infrastructure.database.entity.UserEntity;
+import com.alkemy.ong.infrastructure.database.mapper.abstraction.IUserMapper;
 import com.alkemy.ong.infrastructure.database.repository.IUserRepository;
+import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +19,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class UserService implements UserDetailsService, IDeleteUserService {
+public class UserService implements UserDetailsService, IDeleteUserService, IGetListUserService {
 
   @Autowired
   private IUserRepository userRepository;
+
+  @Autowired
+  private IUserMapper userMapper;
 
 
   @Override
@@ -50,4 +57,8 @@ public class UserService implements UserDetailsService, IDeleteUserService {
     return optionalUserEntity.get();
   }
 
+  @Override
+  public List<UserResponse> getList() {
+    return userMapper.toListUserResponse(userRepository.findAll());
+  }
 }
