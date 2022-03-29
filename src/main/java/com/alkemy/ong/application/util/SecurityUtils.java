@@ -13,14 +13,13 @@ public class SecurityUtils {
   }
 
   public String getUserAuthenticated() {
-    return this.getAuthentication().getName();
+    return getAuthentication().getName();
   }
 
   public boolean hasAdminRole() {
-    Authentication auth = this.getAuthentication();
-    return auth.getAuthorities().stream()
-        .anyMatch(grantedAuthority -> grantedAuthority.getAuthority()
-            .equals(Role.ADMIN.getFullRoleName()));
+    return getAuthentication().getAuthorities().stream()
+        .anyMatch(grantedAuthority -> Role.ADMIN.getFullRoleName()
+            .equals(grantedAuthority.getAuthority()));
   }
 
 }
