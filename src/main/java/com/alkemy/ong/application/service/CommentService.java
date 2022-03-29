@@ -8,6 +8,7 @@ import com.alkemy.ong.infrastructure.database.entity.CommentEntity;
 import com.alkemy.ong.infrastructure.database.repository.ICommentRepository;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,10 +25,10 @@ public class CommentService implements IDeleteCommentService {
 
     CommentEntity commentEntity = this.findBy(id);
 
-    String userAuthenticated = securityUtils.getUserAuthenticated();
+    UserDetails userAuthenticated = securityUtils.getUserAuthenticated();
 
     if (!securityUtils.hasAdminRole()
-        && !commentEntity.getUser().getEmail().equals(userAuthenticated)) {
+        && !commentEntity.getUser().getEmail().equals(userAuthenticated.getUsername())) {
       throw new OperationNotPermittedException("No permission to delete this comment.");
     }
     commentRepository.delete(commentEntity);
