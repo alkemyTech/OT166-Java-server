@@ -5,10 +5,10 @@ import com.alkemy.ong.application.exception.OperationNotPermittedException;
 import com.alkemy.ong.application.service.abstraction.IDeleteCommentService;
 import com.alkemy.ong.application.util.SecurityUtils;
 import com.alkemy.ong.infrastructure.database.entity.CommentEntity;
+import com.alkemy.ong.infrastructure.database.entity.UserEntity;
 import com.alkemy.ong.infrastructure.database.repository.ICommentRepository;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,16 +22,17 @@ public class CommentService implements IDeleteCommentService {
 
   @Override
   public void delete(Long id) {
-
-    CommentEntity commentEntity = this.findBy(id);
-
-    if (!securityUtils.hasAdminRole()
-        && !commentEntity.getUser().equals(securityUtils.getUserAuthenticated())) {
-      throw new OperationNotPermittedException("No permission to delete this comment.");
-    }
+    CommentEntity commentEntity = findBy(id);
+    validateIfOperationIsAllowed(commentEntity.getUser());
     commentRepository.delete(commentEntity);
   }
 
+  private void validateIfOperationIsAllowed(UserEntity userEntity) {
+    if (!securityUtils.hasAdminRole()
+        && !userEntity.equals(securityUtils.getUserAuthenticated())) {
+      throw new OperationNotPermittedException("No permission to delete this comment.");
+    }
+  }
 
   private CommentEntity findBy(Long id) {
     Optional<CommentEntity> optionalCommentEntity = commentRepository.findById(id);
@@ -40,4 +41,5 @@ public class CommentService implements IDeleteCommentService {
     }
     return optionalCommentEntity.get();
   }
+
 }
