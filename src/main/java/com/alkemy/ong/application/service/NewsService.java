@@ -46,7 +46,7 @@ public class NewsService implements ICreateNewsService, IDeleteNewsService {
 
   private NewsEntity findBy(Long id) {
     Optional<NewsEntity> optionalNewsEntity = newsRepository.findById(id);
-    if(optionalNewsEntity.isEmpty()
+    if (optionalNewsEntity.isEmpty()
         || Boolean.TRUE.equals(optionalNewsEntity.get().getSoftDeleted())) {
       throw new EntityNotFoundException("News not found.");
     }
