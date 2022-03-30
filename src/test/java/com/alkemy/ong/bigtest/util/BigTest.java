@@ -74,10 +74,11 @@ public abstract class BigTest {
   }
 
   private void createUserData() {
-    if (userRepository.findByEmail(ADMIN_EMAIL) == null ||
-        userRepository.findByEmail(USER_EMAIL) == null) {
-      saveStandardUser();
+    if (userRepository.findByEmail(ADMIN_EMAIL) == null) {
       saveAdminUser();
+    }
+    if (userRepository.findByEmail(USER_EMAIL) == null) {
+      saveStandardUser();
     }
   }
 

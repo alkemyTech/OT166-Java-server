@@ -12,7 +12,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -36,8 +35,6 @@ public class UserSeeder {
 
   private static final String PASSWORD = "pass123";
 
-  @Autowired
-  private JdbcTemplate jdbcTemplate;
   @Autowired
   private IUserRepository userRepository;
   @Autowired
@@ -67,7 +64,6 @@ public class UserSeeder {
     return RoleEntity.builder()
         .name(role.getFullRoleName())
         .description(role.name())
-        .createTimestamp(Timestamp.from(Instant.now()))
         .build();
   }
 
@@ -80,15 +76,15 @@ public class UserSeeder {
 
   private void saveUsers(List<String> firstNames, List<String> lastNames, List<String> emails,
       Role role) {
-    List<UserEntity> admins = new ArrayList<>();
-    for (int i = 0; i < 5; i++) {
-      admins.add(buildUser(
-          firstNames.get(i),
-          lastNames.get(i),
-          emails.get(i),
+    List<UserEntity> users = new ArrayList<>(5);
+    for (int index = 0; index < 5; index++) {
+      users.add(buildUser(
+          firstNames.get(index),
+          lastNames.get(index),
+          emails.get(index),
           role));
     }
-    userRepository.saveAll(admins);
+    userRepository.saveAll(users);
   }
 
   private UserEntity buildUser(String firstName, String lastName, String email, Role role) {
