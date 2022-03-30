@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ListUserResponse {
+public class ListUsersResponse {
   private List<UserResponse> users;
 
 }

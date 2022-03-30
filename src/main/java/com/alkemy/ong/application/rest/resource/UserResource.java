@@ -1,10 +1,8 @@
 package com.alkemy.ong.application.rest.resource;
 
-import com.alkemy.ong.application.rest.response.ListUserResponse;
-import com.alkemy.ong.application.rest.response.UserResponse;
+import com.alkemy.ong.application.rest.response.ListUsersResponse;
 import com.alkemy.ong.application.service.abstraction.IDeleteUserService;
-import com.alkemy.ong.application.service.abstraction.IGetListUserService;
-import java.util.List;
+import com.alkemy.ong.application.service.abstraction.IGetUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +19,7 @@ public class UserResource {
   @Autowired
   private IDeleteUserService deleteUserService;
   @Autowired
-  private IGetListUserService getListUserService;
+  private IGetUserService getUserService;
 
   @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Void> delete(@PathVariable Long id) {
@@ -30,8 +28,8 @@ public class UserResource {
   }
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<ListUserResponse> listUserDetails() {
-    return ResponseEntity.ok().body(getListUserService.getList());
+  public ResponseEntity<ListUsersResponse> listActiveUsers() {
+    return ResponseEntity.ok().body(getUserService.listActiveUsers());
   }
 
 }

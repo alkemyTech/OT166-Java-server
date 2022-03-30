@@ -14,7 +14,7 @@ public interface IUserRepository extends JpaRepository<UserEntity, Long> {
 
 
   @Query(value = "SELECT U FROM UserEntity U WHERE U.softDeleted=0")
-  List<UserEntity> findAllNotDeleted();
+  List<UserEntity> findAllActiveUsers();
 
 
 }

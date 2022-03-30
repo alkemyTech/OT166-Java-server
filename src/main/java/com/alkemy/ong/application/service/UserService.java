@@ -1,10 +1,9 @@
 package com.alkemy.ong.application.service;
 
 import com.alkemy.ong.application.exception.EntityNotFoundException;
-import com.alkemy.ong.application.rest.response.ListUserResponse;
-import com.alkemy.ong.application.rest.response.UserResponse;
+import com.alkemy.ong.application.rest.response.ListUsersResponse;
 import com.alkemy.ong.application.service.abstraction.IDeleteUserService;
-import com.alkemy.ong.application.service.abstraction.IGetListUserService;
+import com.alkemy.ong.application.service.abstraction.IGetUserService;
 import com.alkemy.ong.infrastructure.database.entity.UserEntity;
 import com.alkemy.ong.infrastructure.database.mapper.abstraction.IUserMapper;
 import com.alkemy.ong.infrastructure.database.repository.IUserRepository;
@@ -20,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class UserService implements UserDetailsService, IDeleteUserService, IGetListUserService {
+public class UserService implements UserDetailsService, IDeleteUserService, IGetUserService {
 
   @Autowired
   private IUserRepository userRepository;
@@ -59,10 +58,10 @@ public class UserService implements UserDetailsService, IDeleteUserService, IGet
   }
 
   @Override
-  public ListUserResponse getList() {
-    List<UserEntity> listUserEntities = userRepository.findAllNotDeleted();
-    ListUserResponse listUserResponse = new ListUserResponse();
-    listUserResponse.setUsers(userMapper.toListUserResponse(listUserEntities));
-    return listUserResponse;
+  public ListUsersResponse listActiveUsers() {
+    List<UserEntity> listUserEntities = userRepository.findAllActiveUsers();
+    ListUsersResponse listUsersResponse = new ListUsersResponse();
+    listUsersResponse.setUsers(userMapper.toListUserResponse(listUserEntities));
+    return listUsersResponse;
   }
 }
