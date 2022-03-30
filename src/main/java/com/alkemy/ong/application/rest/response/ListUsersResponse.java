@@ -11,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ListUsersResponse {
+
   private List<UserResponse> users;
 
 }
