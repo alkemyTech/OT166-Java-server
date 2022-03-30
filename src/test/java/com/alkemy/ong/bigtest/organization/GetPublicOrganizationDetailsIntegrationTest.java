@@ -34,6 +34,9 @@ public class GetPublicOrganizationDetailsIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.image", equalTo("https://s3.com/logo.jpg/")))
         .andExpect(jsonPath("$.phone", equalTo("+5411345678")))
         .andExpect(jsonPath("$.address", equalTo("Elm Street 3")))
+        .andExpect(jsonPath("$.facebookUrl", equalTo("Somos_Mas")))
+        .andExpect(jsonPath("$.linkedInUrl", equalTo("Somos Mas")))
+        .andExpect(jsonPath("$.instagramUrl", equalTo("SomosMas")))
         .andExpect(status().isOk());
   }
 
