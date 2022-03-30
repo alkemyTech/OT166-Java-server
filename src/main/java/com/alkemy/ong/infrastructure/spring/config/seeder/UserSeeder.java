@@ -5,8 +5,6 @@ import com.alkemy.ong.infrastructure.database.entity.UserEntity;
 import com.alkemy.ong.infrastructure.database.repository.IRoleRepository;
 import com.alkemy.ong.infrastructure.database.repository.IUserRepository;
 import com.alkemy.ong.infrastructure.spring.config.security.Role;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
