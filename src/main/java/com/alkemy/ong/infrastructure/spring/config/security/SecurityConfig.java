@@ -71,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .authorizeRequests()
         .antMatchers(HttpMethod.GET, "/organization/public")
-        .permitAll()
+        .hasRole(Role.USER.name())
         .antMatchers(HttpMethod.POST, "/auth/login")
         .permitAll()
         .antMatchers(HttpMethod.POST, "/auth/register")
