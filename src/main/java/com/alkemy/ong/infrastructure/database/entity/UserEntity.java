@@ -3,6 +3,7 @@ package com.alkemy.ong.infrastructure.database.entity;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -93,4 +94,21 @@ public class UserEntity implements UserDetails {
     return !this.softDeleted;
   }
 
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    UserEntity user = (UserEntity) obj;
+    return id.equals(user.id) && email.equals(user.email);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, email);
+  }
 }
