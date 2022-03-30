@@ -1,6 +1,7 @@
 package com.alkemy.ong.application.service;
 
 import com.alkemy.ong.application.exception.EntityNotFoundException;
+import com.alkemy.ong.application.rest.response.ListUserResponse;
 import com.alkemy.ong.application.rest.response.UserResponse;
 import com.alkemy.ong.application.service.abstraction.IDeleteUserService;
 import com.alkemy.ong.application.service.abstraction.IGetListUserService;
@@ -58,7 +59,10 @@ public class UserService implements UserDetailsService, IDeleteUserService, IGet
   }
 
   @Override
-  public List<UserResponse> getList() {
-    return userMapper.toListUserResponse(userRepository.findAll());
+  public ListUserResponse getList() {
+    List<UserEntity> listUserEntities = userRepository.findAllNotDeleted();
+    ListUserResponse listUserResponse = new ListUserResponse();
+    listUserResponse.setUsers(userMapper.toListUserResponse(listUserEntities));
+    return listUserResponse;
   }
 }

@@ -1,5 +1,6 @@
 package com.alkemy.ong.application.rest.resource;
 
+import com.alkemy.ong.application.rest.response.ListUserResponse;
 import com.alkemy.ong.application.rest.response.UserResponse;
 import com.alkemy.ong.application.service.abstraction.IDeleteUserService;
 import com.alkemy.ong.application.service.abstraction.IGetListUserService;
@@ -29,7 +30,7 @@ public class UserResource {
   }
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<UserResponse>> listUserDetails() {
+  public ResponseEntity<ListUserResponse> listUserDetails() {
     return ResponseEntity.ok().body(getListUserService.getList());
   }
 
