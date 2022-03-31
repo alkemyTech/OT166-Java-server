@@ -40,9 +40,10 @@ public class ActivityService implements ICreateActivityService, IUpdateActivityS
   }
 
   private ActivityEntity findBy(long id) {
-    if (!activityRepository.existsById(id)) {
+    ActivityEntity entity = activityRepository.findByIdAndSoftDelete(id);
+    if (entity == null) {
       throw new EntityNotFoundException("Activity not found.");
     }
-    return activityRepository.getById(id);
+    return entity;
   }
 }
