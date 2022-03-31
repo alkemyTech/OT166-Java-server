@@ -28,7 +28,7 @@ public class OrganizationService implements IGetOrganizationDetailsService {
     return organizationMapper.toOrganizationResponse(findOrganization());
   }
 
-  public OrganizationEntity findOrganization() {
+  private OrganizationEntity findOrganization() {
     List<OrganizationEntity> organizationEntities = organizationRepository.findAll();
     if (organizationEntities.isEmpty()) {
       throw new EntityNotFoundException("Missing record in organization table.");

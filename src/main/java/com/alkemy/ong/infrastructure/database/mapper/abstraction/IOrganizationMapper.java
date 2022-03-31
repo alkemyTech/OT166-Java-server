@@ -16,4 +16,6 @@ public interface IOrganizationMapper {
   })
   OrganizationResponse toOrganizationResponse(OrganizationEntity organizationEntity);
 
+  OrganizationEntity toOrganizationEntity(OrganizationResponse organizationResponse);
+
 }

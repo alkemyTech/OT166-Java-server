@@ -15,6 +15,7 @@ import com.alkemy.ong.application.util.mail.template.WelcomeTemplate;
 import com.alkemy.ong.infrastructure.database.entity.OrganizationEntity;
 import com.alkemy.ong.infrastructure.database.entity.RoleEntity;
 import com.alkemy.ong.infrastructure.database.entity.UserEntity;
+import com.alkemy.ong.infrastructure.database.mapper.abstraction.IOrganizationMapper;
 import com.alkemy.ong.infrastructure.database.mapper.abstraction.IUserMapper;
 import com.alkemy.ong.infrastructure.database.repository.IRoleRepository;
 import com.alkemy.ong.infrastructure.database.repository.IUserRepository;
@@ -57,6 +58,9 @@ public class AuthenticationService implements IAuthenticationService, IRegisterS
   @Autowired
   private IGetOrganizationDetailsService organizationService;
 
+  @Autowired
+  private IOrganizationMapper organizationMapper;
+
   @Override
   public RegisterResponse register(RegisterRequest registerRequest) {
     if (userRepository.findByEmail(registerRequest.getEmail()) != null) {
@@ -75,7 +79,8 @@ public class AuthenticationService implements IAuthenticationService, IRegisterS
     newUser = userRepository.save(newUser);
 
     try {
-      WelcomeTemplate email = new WelcomeTemplate(organizationService.findOrganization(),
+      WelcomeTemplate email = new WelcomeTemplate(organizationMapper
+          .toOrganizationEntity(organizationService.getPublicOrganizationDetails()),
           registerRequest.getEmail());
       emailDelegate.send(email);
     } catch (Exception e) {
