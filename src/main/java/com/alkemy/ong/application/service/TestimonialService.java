@@ -1,18 +1,25 @@
 package com.alkemy.ong.application.service;
 
 import com.alkemy.ong.application.exception.EntityNotFoundException;
+import com.alkemy.ong.application.rest.request.CreateTestimonialRequest;
+import com.alkemy.ong.application.rest.response.CreateTestimonialResponse;
+import com.alkemy.ong.application.service.abstraction.ICreateTestimonialService;
 import com.alkemy.ong.application.service.abstraction.IDeleteTestimonialService;
 import com.alkemy.ong.infrastructure.database.entity.TestimonialEntity;
+import com.alkemy.ong.infrastructure.database.mapper.abstraction.ITestimonialMapper;
 import com.alkemy.ong.infrastructure.database.repository.ITestimonialRepository;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TestimonialService implements IDeleteTestimonialService {
+public class TestimonialService implements IDeleteTestimonialService, ICreateTestimonialService {
 
   @Autowired
   private ITestimonialRepository testimonialRepository;
+
+  @Autowired
+  private ITestimonialMapper testimonialMapper;
 
   @Override
   public void delete(Long id) {
@@ -27,5 +34,13 @@ public class TestimonialService implements IDeleteTestimonialService {
       throw new EntityNotFoundException("Testimonial not found.");
     }
     return result.get();
+  }
+
+  @Override
+  public CreateTestimonialResponse create(CreateTestimonialRequest createTestimonialRequest) {
+    TestimonialEntity testimonialEntity = testimonialMapper.toTestimonialEntity(
+        createTestimonialRequest);
+    testimonialEntity = testimonialRepository.save(testimonialEntity);
+    return testimonialMapper.toCreateTestimonialResponse(testimonialEntity);
   }
 }
