@@ -91,12 +91,12 @@ public class DefaultExceptionHandler {
   }
 
   @ExceptionHandler(value = UploadImageException.class)
-  public ResponseEntity<ErrorResponse> handleExternalServiceException(
+  public ResponseEntity<ErrorResponse> handleUploadImageException(
       UploadImageException e) {
     ErrorResponse errorResponse = buildErrorResponse(
         HttpStatus.INTERNAL_SERVER_ERROR,
-        e.getMessage(),
-        "The server could not complete the file upload");
+        "The server could not complete the file upload.",
+        e.getMessage());
     return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
