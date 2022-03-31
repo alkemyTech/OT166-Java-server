@@ -5,17 +5,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class OrganizationResponse {
+public class UserResponse {
 
-  private String name;
-  private String image;
-  private String address;
-  private String phone;
-  private SocialMedia socialMedia;
-
+  private Long id;
+  private String firstName;
+  private String lastName;
+  private String email;
+  private String photo;
+  private String role;
 }

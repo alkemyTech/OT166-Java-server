@@ -71,6 +71,14 @@ On the root folder run:
 mvn spring-boot:run
 ```
 
+### SWAGGER DOCUMENTATION
+
+To display the API documentation, open below link after run the project locally:
+
+```
+http://localhost:8080/api/docs/swagger-ui/index.html
+```
+
 ### CHECKSTYLE
 
 You can generate the Checkstyle report by explicitly executing below command from the command line:
@@ -106,3 +114,18 @@ mvn checkstyle:checkstyle
 - Agile:
     - [How do you measure value?](https://www.thoughtworks.com/insights/blog/how-do-you-measure-value)
     - [Exploring value oriented incremental delivery](https://www.thoughtworks.com/insights/blog/exploring-value-oriented-incremental-delivery)
+
+### USERS:
+
+| First name | Last name  | Email                       | Password | Role  |
+|------------|------------|-----------------------------|----------|-------|
+| Magali     | Kain       | maga@gmail.com              | pass123  | ADMIN |
+| Nicole     | Rappoport  | nicole.rap@gmail.com        | pass123  | ADMIN |
+| Florencia  | Rosental   | flor.rosental@gmail.com     | pass123  | ADMIN |
+| Santiago   | Russo      | santi.russo@gmail.com       | pass123  | ADMIN |
+| Romina     | Fausti     | romina.fausti@gmail.com     | pass123  | ADMIN |
+| Matias     | Espinola   | matias.espinola@outlook.com | pass123  | USER  |
+| Matias     | Fiorentini | matias.fiorentini@gmail.com | pass123  | USER  |
+| Jair       | Garcia     | jair.garica@gmail.com       | pass123  | USER  |
+| Adrian     | Luna       | adrian.luna@gmail.com       | pass123  | USER  |
+| Facundo    | Villegas   | facundo.villegas@gmail.com  | pass123  | USER  |

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "cd3f5991-6f2b-4e8d-8546-8f4d0ef3f3cd",
+		"_postman_id": "454d081e-0784-4e10-ac1a-fd9bf24fbb65",
 		"name": "OT166",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -73,6 +73,33 @@
 							"path": [
 								"auth",
 								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all user details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/users",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"users"
 							]
 						}
 					},
