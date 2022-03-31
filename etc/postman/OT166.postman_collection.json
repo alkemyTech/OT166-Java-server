@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "454d081e-0784-4e10-ac1a-fd9bf24fbb65",
+		"_postman_id": "a3e16874-d108-437a-8312-b1a61934df7f",
 		"name": "OT166",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -41,6 +41,33 @@
 							"path": [
 								"auth",
 								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Prueba Email\",\r\n    \"lastName\": \"Apellido\",\r\n    \"email\": \"adrianelunau@gmail.com\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/auth/register",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"register"
 							]
 						}
 					},
