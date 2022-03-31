@@ -1,7 +1,7 @@
 package com.alkemy.ong.application.rest.resource;
 
-import com.alkemy.ong.application.rest.response.ListUsersResponse;
 import com.alkemy.ong.application.rest.request.UpdateUserRequest;
+import com.alkemy.ong.application.rest.response.ListUsersResponse;
 import com.alkemy.ong.application.rest.response.UpdatedUserResponse;
 import com.alkemy.ong.application.service.abstraction.IDeleteUserService;
 import com.alkemy.ong.application.service.abstraction.IGetUserService;
