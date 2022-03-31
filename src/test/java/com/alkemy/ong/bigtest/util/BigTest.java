@@ -108,6 +108,9 @@ public abstract class BigTest {
         .email("somos.mas@ong.com")
         .phone("+5411345678")
         .address("Elm Street 3")
+        .facebookUrl("https://www.facebook.com/Somos_Mas/")
+        .linkedInUrl("https://www.linkedin.com/in/Somos-Mas/")
+        .instagramUrl("https://www.instagram.com/SomosMas/")
         .build());
   }
 

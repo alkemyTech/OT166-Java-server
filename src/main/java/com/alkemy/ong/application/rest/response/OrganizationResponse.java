@@ -18,5 +18,6 @@ public class OrganizationResponse {
   private String address;
   private String phone;
   private List<SlideResponse> slides;
+  private SocialMedia socialMedia;
 
 }
