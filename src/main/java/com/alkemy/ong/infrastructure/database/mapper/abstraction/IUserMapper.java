@@ -2,6 +2,7 @@ package com.alkemy.ong.infrastructure.database.mapper.abstraction;
 
 import com.alkemy.ong.application.rest.request.RegisterRequest;
 import com.alkemy.ong.application.rest.response.RegisterResponse;
+import com.alkemy.ong.application.rest.response.UpdatedUserResponse;
 import com.alkemy.ong.infrastructure.database.entity.UserEntity;
 import org.mapstruct.Mapper;
 
@@ -11,5 +12,7 @@ public interface IUserMapper {
   UserEntity toUserEntity(RegisterRequest registerRequest);
 
   RegisterResponse toRegisterResponse(UserEntity userEntity);
+
+  UpdatedUserResponse toUpdatedUserResponse(UserEntity userEntity);
 
 }
