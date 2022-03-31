@@ -342,6 +342,34 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "GET CategoryId ADMIN/USER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/categories/2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"categories",
+								"2"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
