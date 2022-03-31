@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "454d081e-0784-4e10-ac1a-fd9bf24fbb65",
+		"_postman_id": "e3ae103a-3d0d-4299-9221-3fba3330109a",
 		"name": "OT166",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -128,6 +128,43 @@
 							"path": [
 								"users",
 								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH User Admin/User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"lastName\": \"Developer\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"1"
 							]
 						}
 					},
