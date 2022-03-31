@@ -8,7 +8,11 @@ import com.alkemy.ong.application.rest.request.RegisterRequest;
 import com.alkemy.ong.application.rest.response.AuthenticationResponse;
 import com.alkemy.ong.application.rest.response.RegisterResponse;
 import com.alkemy.ong.application.service.abstraction.IAuthenticationService;
+import com.alkemy.ong.application.service.abstraction.IGetOrganizationDetailsService;
 import com.alkemy.ong.application.service.abstraction.IRegisterService;
+import com.alkemy.ong.application.util.mail.EmailDelegate;
+import com.alkemy.ong.application.util.mail.template.WelcomeTemplate;
+import com.alkemy.ong.infrastructure.database.entity.OrganizationEntity;
 import com.alkemy.ong.infrastructure.database.entity.RoleEntity;
 import com.alkemy.ong.infrastructure.database.entity.UserEntity;
 import com.alkemy.ong.infrastructure.database.mapper.abstraction.IUserMapper;
@@ -16,6 +20,7 @@ import com.alkemy.ong.infrastructure.database.repository.IRoleRepository;
 import com.alkemy.ong.infrastructure.database.repository.IUserRepository;
 import com.alkemy.ong.infrastructure.spring.config.security.Role;
 import com.alkemy.ong.infrastructure.util.JwtUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +30,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class AuthenticationService implements IAuthenticationService, IRegisterService {
 
   @Autowired
@@ -45,6 +51,12 @@ public class AuthenticationService implements IAuthenticationService, IRegisterS
   @Autowired
   private IRoleRepository roleRepository;
 
+  @Autowired
+  private EmailDelegate emailDelegate;
+
+  @Autowired
+  private IGetOrganizationDetailsService organizationService;
+
   @Override
   public RegisterResponse register(RegisterRequest registerRequest) {
     if (userRepository.findByEmail(registerRequest.getEmail()) != null) {
@@ -61,6 +73,15 @@ public class AuthenticationService implements IAuthenticationService, IRegisterS
     newUser.setSoftDeleted(false);
     newUser.setRole(userRole);
     newUser = userRepository.save(newUser);
+
+    try {
+      WelcomeTemplate email = new WelcomeTemplate(organizationService.findOrganization(),
+          registerRequest.getEmail());
+      emailDelegate.send(email);
+    } catch (Exception e) {
+      log.info("Something went wrong sending the email. Reason: " + e.getMessage());
+    }
+
     return userMapper.toRegisterResponse(newUser);
   }
 
