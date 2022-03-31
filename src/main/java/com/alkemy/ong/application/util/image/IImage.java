@@ -1,8 +1,8 @@
-package com.alkemy.ong.infrastructure.aws.util;
+package com.alkemy.ong.application.util.image;
 
 import java.io.InputStream;
 
-public interface IUpload {
+public interface IImage {
 
   String getFileName();
 

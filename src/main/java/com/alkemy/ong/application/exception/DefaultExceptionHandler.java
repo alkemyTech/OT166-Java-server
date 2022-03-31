@@ -88,7 +88,16 @@ public class DefaultExceptionHandler {
         "The server could not complete the user registration because "
             + "the email address entered is already in use.");
     return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+  }
 
+  @ExceptionHandler(value = UploadImageException.class)
+  public ResponseEntity<ErrorResponse> handleExternalServiceException(
+      UploadImageException e) {
+    ErrorResponse errorResponse = buildErrorResponse(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        e.getMessage(),
+        "The server could not complete the file upload");
+    return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
 }
