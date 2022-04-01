@@ -27,7 +27,7 @@ public class GetPublicOrganizationDetailsIntegrationTest extends BigTest {
   @Test
   public void shouldReturnOrganizationDetailsWhenOrganizationRecordIsRetrieved() throws Exception {
     saveOrganizationDetails();
-
+    saveSlide();
     mockMvc.perform(get("/organization/public")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.name", equalTo("Somos Mas")))
