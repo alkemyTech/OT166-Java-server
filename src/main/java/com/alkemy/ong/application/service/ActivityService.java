@@ -32,18 +32,18 @@ public class ActivityService implements ICreateActivityService, IUpdateActivityS
 
   @Override
   public ActivityResponse update(long id, UpdateActivityRequest updateActivityRequest) {
-    ActivityEntity activity = findBy(id);
-    activity.setName(updateActivityRequest.getName());
-    activity.setContent(updateActivityRequest.getContent());
-    activity.setImage(updateActivityRequest.getImage());
-    return activityMapper.toActivityResponse(activity);
+    ActivityEntity activityEntity = findBy(id);
+    activityEntity.setName(updateActivityRequest.getName());
+    activityEntity.setContent(updateActivityRequest.getContent());
+    activityEntity.setImage(updateActivityRequest.getImage());
+    return activityMapper.toActivityResponse(activityEntity);
   }
 
   private ActivityEntity findBy(long id) {
-    ActivityEntity entity = activityRepository.findByIdAndSoftDeletedFalse(id);
-    if (entity == null) {
+    ActivityEntity activityEntity = activityRepository.findByIdAndSoftDeletedFalse(id);
+    if (activityEntity == null) {
       throw new EntityNotFoundException("Activity not found.");
     }
-    return entity;
+    return activityEntity;
   }
 }

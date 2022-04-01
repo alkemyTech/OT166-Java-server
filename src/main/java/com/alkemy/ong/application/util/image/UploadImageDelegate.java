@@ -1,14 +1,11 @@
 package com.alkemy.ong.application.util.image;
 
-import com.alkemy.ong.application.exception.SendEmailException;
 import com.alkemy.ong.application.exception.UploadImageException;
-import com.alkemy.ong.application.util.image.IImage;
 import com.alkemy.ong.infrastructure.aws.config.AmazonAwsConfig;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +16,7 @@ public class UploadImageDelegate {
   private AmazonAwsConfig amazonAwsConfig;
 
   public String upload(IImage image) {
-
     try {
-
       AmazonS3 s3Client = amazonAwsConfig.initialize();
       String bucket = amazonAwsConfig.getBucket();
       ObjectMetadata metadata = new ObjectMetadata();
@@ -38,7 +33,6 @@ public class UploadImageDelegate {
     } catch (RuntimeException e) {
       throw new UploadImageException(e.getMessage());
     }
-
   }
 
 }
