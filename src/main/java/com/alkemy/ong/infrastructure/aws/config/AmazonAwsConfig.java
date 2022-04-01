@@ -30,4 +30,8 @@ public class AmazonAwsConfig {
         .build();
   }
 
+  public String getBucket() {
+    return this.bucket;
+  }
+
 }

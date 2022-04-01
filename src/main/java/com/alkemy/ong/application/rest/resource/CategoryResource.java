@@ -4,12 +4,14 @@ import com.alkemy.ong.application.rest.request.CreateCategoryRequest;
 import com.alkemy.ong.application.rest.response.CategoryResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateCategoryService;
 import com.alkemy.ong.application.service.abstraction.IDeleteCategoryService;
+import com.alkemy.ong.application.service.abstraction.IGetCategoryService;
 import java.net.URI;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +28,9 @@ public class CategoryResource {
 
   @Autowired
   private IDeleteCategoryService deleteCategoryService;
+
+  @Autowired
+  private IGetCategoryService getCategoryService;
 
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
@@ -45,6 +50,11 @@ public class CategoryResource {
   public ResponseEntity<Void> delete(@PathVariable Long id) {
     deleteCategoryService.delete(id);
     return ResponseEntity.noContent().build();
+  }
+
+  @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<CategoryResponse> getBy(@PathVariable Long id) {
+    return ResponseEntity.ok().body(getCategoryService.getBy(id));
   }
 
 }

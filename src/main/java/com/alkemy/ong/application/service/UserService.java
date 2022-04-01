@@ -33,19 +33,27 @@ public class UserService implements UserDetailsService, IDeleteUserService, IGet
     return getUser(email);
   }
 
+  @Override
+  public void delete(Long id) {
+    UserEntity userEntity = findBy(id);
+    userEntity.setSoftDeleted(true);
+    userRepository.save(userEntity);
+  }
+
+  @Override
+  public ListUsersResponse listActiveUsers() {
+    List<UserEntity> listUserEntities = userRepository.findAllActiveUsers();
+    ListUsersResponse listUsersResponse = new ListUsersResponse();
+    listUsersResponse.setUsers(userMapper.toListUserResponse(listUserEntities));
+    return listUsersResponse;
+  }
+
   private UserEntity getUser(String username) {
     UserEntity userEntity = userRepository.findByEmail(username);
     if (userEntity == null) {
       throw new UsernameNotFoundException("User not found.");
     }
     return userEntity;
-  }
-
-  @Override
-  public void delete(Long id) {
-    UserEntity userEntity = findBy(id);
-    userEntity.setSoftDeleted(true);
-    userRepository.save(userEntity);
   }
 
   private UserEntity findBy(Long id) {
@@ -55,13 +63,5 @@ public class UserService implements UserDetailsService, IDeleteUserService, IGet
       throw new EntityNotFoundException("User not found.");
     }
     return optionalUserEntity.get();
-  }
-
-  @Override
-  public ListUsersResponse listActiveUsers() {
-    List<UserEntity> listUserEntities = userRepository.findAllActiveUsers();
-    ListUsersResponse listUsersResponse = new ListUsersResponse();
-    listUsersResponse.setUsers(userMapper.toListUserResponse(listUserEntities));
-    return listUsersResponse;
   }
 }
