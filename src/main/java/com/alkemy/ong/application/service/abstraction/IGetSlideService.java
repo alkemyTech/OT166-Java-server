@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface IGetSlideService {
   
-  List<SlideResponse> listSlides();
+  List<SlideResponse> listSlidesResponse();
 
 }

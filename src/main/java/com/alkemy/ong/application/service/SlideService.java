@@ -29,11 +29,8 @@ public class SlideService implements IDeleteSlideService, IGetSlideService {
   }
 
   @Override
-  public List<SlideResponse> listSlides() {
+  public List<SlideResponse> listSlidesResponse() {
     List<SlideEntity> slideEntities = slideRepository.findAllByOrderByOrder();
-    if (slideEntities.isEmpty()) {
-      throw new EntityNotFoundException("Missing record in slide table.");
-    }
     
     return slideMapper.toListSlideResponse(slideEntities);
   }

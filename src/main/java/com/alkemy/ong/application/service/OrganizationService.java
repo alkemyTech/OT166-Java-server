@@ -33,7 +33,7 @@ public class OrganizationService implements IGetOrganizationDetailsService {
     
     OrganizationResponse organizationResponse = new OrganizationResponse();
     organizationResponse = organizationMapper.toOrganizationResponse(findOrganization());
-    organizationResponse.setSlides(getSlideService.listSlides());
+    organizationResponse.setSlides(getSlideService.listSlidesResponse());
     
     return organizationResponse;
   }
