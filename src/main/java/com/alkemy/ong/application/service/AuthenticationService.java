@@ -61,7 +61,20 @@ public class AuthenticationService implements IAuthenticationService, IRegisterS
     newUser.setSoftDeleted(false);
     newUser.setRole(userRole);
     newUser = userRepository.save(newUser);
-    return userMapper.toRegisterResponse(newUser);
+
+    Authentication authentication;
+    try {
+      authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(
+          registerRequest.getEmail(),
+          registerRequest.getPassword()));
+    } catch (Exception e) {
+      throw new InvalidCredentialsException("Invalid email or password.");
+    }
+
+    String jwt = jwtUtils.generateToken((UserDetails) authentication.getPrincipal());
+    RegisterResponse registerResponse = userMapper.toRegisterResponse(newUser);
+    registerResponse.setToken(jwt);
+    return registerResponse;
   }
 
   @Override
