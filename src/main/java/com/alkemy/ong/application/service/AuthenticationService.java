@@ -12,7 +12,6 @@ import com.alkemy.ong.application.service.abstraction.IGetOrganizationDetailsSer
 import com.alkemy.ong.application.service.abstraction.IRegisterService;
 import com.alkemy.ong.application.util.mail.EmailDelegate;
 import com.alkemy.ong.application.util.mail.template.WelcomeTemplate;
-import com.alkemy.ong.infrastructure.database.entity.OrganizationEntity;
 import com.alkemy.ong.infrastructure.database.entity.RoleEntity;
 import com.alkemy.ong.infrastructure.database.entity.UserEntity;
 import com.alkemy.ong.infrastructure.database.mapper.abstraction.IOrganizationMapper;
@@ -56,7 +55,7 @@ public class AuthenticationService implements IAuthenticationService, IRegisterS
   private EmailDelegate emailDelegate;
 
   @Autowired
-  private IGetOrganizationDetailsService organizationService;
+  private IGetOrganizationDetailsService getOrganizationService;
 
   @Autowired
   private IOrganizationMapper organizationMapper;
@@ -80,7 +79,7 @@ public class AuthenticationService implements IAuthenticationService, IRegisterS
 
     try {
       WelcomeTemplate email = new WelcomeTemplate(organizationMapper
-          .toOrganizationEntity(organizationService.getPublicOrganizationDetails()),
+          .toOrganizationEntity(getOrganizationService.getPublicOrganizationDetails()),
           registerRequest.getEmail());
       emailDelegate.send(email);
     } catch (Exception e) {
