@@ -37,7 +37,7 @@ public class CommentService implements IDeleteCommentService {
   private CommentEntity findBy(Long id) {
     Optional<CommentEntity> optionalCommentEntity = commentRepository.findById(id);
     if (optionalCommentEntity.isEmpty()) {
-      throw new EntityNotFoundException("Comment not found");
+      throw new EntityNotFoundException("Comment not found.");
     }
     return optionalCommentEntity.get();
   }
