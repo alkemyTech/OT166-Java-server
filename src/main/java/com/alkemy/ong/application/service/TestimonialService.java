@@ -2,7 +2,7 @@ package com.alkemy.ong.application.service;
 
 import com.alkemy.ong.application.exception.EntityNotFoundException;
 import com.alkemy.ong.application.rest.request.CreateTestimonialRequest;
-import com.alkemy.ong.application.rest.response.CreateTestimonialResponse;
+import com.alkemy.ong.application.rest.response.TestimonialResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateTestimonialService;
 import com.alkemy.ong.application.service.abstraction.IDeleteTestimonialService;
 import com.alkemy.ong.infrastructure.database.entity.TestimonialEntity;
@@ -37,10 +37,10 @@ public class TestimonialService implements IDeleteTestimonialService, ICreateTes
   }
 
   @Override
-  public CreateTestimonialResponse create(CreateTestimonialRequest createTestimonialRequest) {
+  public TestimonialResponse create(CreateTestimonialRequest createTestimonialRequest) {
     TestimonialEntity testimonialEntity = testimonialMapper.toTestimonialEntity(
         createTestimonialRequest);
     testimonialEntity = testimonialRepository.save(testimonialEntity);
-    return testimonialMapper.toCreateTestimonialResponse(testimonialEntity);
+    return testimonialMapper.toTestimonialResponse(testimonialEntity);
   }
 }

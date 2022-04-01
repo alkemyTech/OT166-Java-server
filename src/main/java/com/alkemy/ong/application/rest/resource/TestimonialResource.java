@@ -1,7 +1,7 @@
 package com.alkemy.ong.application.rest.resource;
 
 import com.alkemy.ong.application.rest.request.CreateTestimonialRequest;
-import com.alkemy.ong.application.rest.response.CreateTestimonialResponse;
+import com.alkemy.ong.application.rest.response.TestimonialResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateTestimonialService;
 import com.alkemy.ong.application.service.abstraction.IDeleteTestimonialService;
 import java.net.URI;
@@ -35,10 +35,10 @@ public class TestimonialResource {
 
   @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,
       consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<CreateTestimonialResponse> create(
+  public ResponseEntity<TestimonialResponse> create(
       @Valid @RequestBody CreateTestimonialRequest createTestimonialRequest) {
 
-    CreateTestimonialResponse testimonialResponse = createTestimonialService.create(
+    TestimonialResponse testimonialResponse = createTestimonialService.create(
         createTestimonialRequest);
 
     URI location = ServletUriComponentsBuilder

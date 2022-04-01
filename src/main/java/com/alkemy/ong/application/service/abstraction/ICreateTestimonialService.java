@@ -1,10 +1,10 @@
 package com.alkemy.ong.application.service.abstraction;
 
 import com.alkemy.ong.application.rest.request.CreateTestimonialRequest;
-import com.alkemy.ong.application.rest.response.CreateTestimonialResponse;
+import com.alkemy.ong.application.rest.response.TestimonialResponse;
 
 public interface ICreateTestimonialService {
 
-  CreateTestimonialResponse create(CreateTestimonialRequest createTestimonialRequest);
+  TestimonialResponse create(CreateTestimonialRequest createTestimonialRequest);
 
 }
