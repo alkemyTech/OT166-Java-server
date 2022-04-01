@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "454d081e-0784-4e10-ac1a-fd9bf24fbb65",
-		"name": "OT166",
+		"_postman_id": "23f0e2ad-9d04-4fa2-bea4-335f6f09cd41",
+		"name": "OT166 Copy 2",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -194,6 +194,42 @@
 							"path": [
 								"testimonials",
 								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Testimonial ADMIN/USER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Lorem ipsum dolor\",\r\n    \"content\": \"Lorem ipsum dolor sit amet consectetur adipisicing elit\",\r\n    \"image\": \"Lorem.png\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/testimonials",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"testimonials"
 							]
 						}
 					},
