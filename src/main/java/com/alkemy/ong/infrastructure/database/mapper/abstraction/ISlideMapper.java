@@ -9,5 +9,5 @@ import org.mapstruct.Mapper;
 public interface ISlideMapper {
 
   List<SlideResponse> toListSlideResponse(List<SlideEntity> listSlideEntities);
-  
+
 }

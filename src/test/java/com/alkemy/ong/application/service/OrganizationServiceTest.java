@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @ExtendWith(MockitoExtension.class)
 class OrganizationServiceTest {
@@ -26,19 +25,22 @@ class OrganizationServiceTest {
   private static final String ORGANIZATION_NAME = "Somos Mas";
 
   private OrganizationService organizationService;
-  
+
   @Mock
   private IOrganizationRepository organizationRepository;
 
   @Mock
   private IOrganizationMapper organizationMapper;
-  
+
   @Mock
   private IGetSlideService getSlideService;
 
   @BeforeEach
   void setup() {
-    organizationService = new OrganizationService(organizationRepository, organizationMapper, getSlideService);
+    organizationService = new OrganizationService(
+        organizationRepository,
+        organizationMapper,
+        getSlideService);
   }
 
   @Test

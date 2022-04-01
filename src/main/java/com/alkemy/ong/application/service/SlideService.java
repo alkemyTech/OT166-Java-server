@@ -16,7 +16,7 @@ public class SlideService implements IDeleteSlideService, IGetSlideService {
 
   @Autowired
   private ISlideRepository slideRepository;
-  
+
   @Autowired
   private ISlideMapper slideMapper;
 
@@ -29,9 +29,8 @@ public class SlideService implements IDeleteSlideService, IGetSlideService {
   }
 
   @Override
-  public List<SlideResponse> listSlidesResponse() {
+  public List<SlideResponse> list() {
     List<SlideEntity> slideEntities = slideRepository.findAllByOrderByOrder();
-    
     return slideMapper.toListSlideResponse(slideEntities);
   }
 }
