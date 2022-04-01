@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IActivityRepository extends JpaRepository<ActivityEntity, Long> {
 
-  @Query("SELECT c FROM ActivityEntity c WHERE c.id=:id AND c.softDeleted=false")
-  ActivityEntity findByIdAndSoftDelete(@Param("id") Long id);
+  ActivityEntity findByActivityIdAndSoftDeleteFalse(long id);
 
 }
