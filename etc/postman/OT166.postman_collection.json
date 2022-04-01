@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "23f0e2ad-9d04-4fa2-bea4-335f6f09cd41",
+		"_postman_id": "82afcb5c-b552-4908-8b32-a13a3ba5275a",
 		"name": "OT166 Copy 2",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -41,6 +41,33 @@
 							"path": [
 								"auth",
 								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Prueba Email\",\r\n    \"lastName\": \"Apellido\",\r\n    \"email\": \"adrianelunau@gmail.com\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/auth/register",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"register"
 							]
 						}
 					},
