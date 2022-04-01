@@ -411,6 +411,34 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "PUT activities ADMIN",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/activities/13",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"activities",
+								"13"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
