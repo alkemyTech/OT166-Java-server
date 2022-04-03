@@ -37,14 +37,6 @@ public class UserService implements UserDetailsService, IDeleteUserService, IGet
     return getUser(email);
   }
 
-  private UserEntity getUser(String username) {
-    UserEntity userEntity = userRepository.findByEmail(username);
-    if (userEntity == null) {
-      throw new UsernameNotFoundException("User not found.");
-    }
-    return userEntity;
-  }
-
   @Override
   public void delete(Long id) {
     UserEntity userEntity = findBy(id);
@@ -96,5 +88,13 @@ public class UserService implements UserDetailsService, IDeleteUserService, IGet
     ListUsersResponse listUsersResponse = new ListUsersResponse();
     listUsersResponse.setUsers(userMapper.toListUserResponse(listUserEntities));
     return listUsersResponse;
+  }
+
+  private UserEntity getUser(String username) {
+    UserEntity userEntity = userRepository.findByEmail(username);
+    if (userEntity == null) {
+      throw new UsernameNotFoundException("User not found.");
+    }
+    return userEntity;
   }
 }
