@@ -3,7 +3,6 @@ package com.alkemy.ong.application.service;
 import com.alkemy.ong.application.exception.EntityNotFoundException;
 import com.alkemy.ong.application.rest.request.UpdateUserRequest;
 import com.alkemy.ong.application.rest.response.ListUsersResponse;
-import com.alkemy.ong.application.rest.response.UpdatedUserResponse;
 import com.alkemy.ong.application.service.abstraction.IDeleteUserService;
 import com.alkemy.ong.application.service.abstraction.IGetUserService;
 import com.alkemy.ong.application.service.abstraction.IUpdateUserService;
@@ -54,23 +53,10 @@ public class UserService implements UserDetailsService, IDeleteUserService, IGet
   }
 
   @Override
-  public UpdatedUserResponse update(Long id, UpdateUserRequest updateUserRequest) {
+  public void update(Long id, UpdateUserRequest updateUserRequest) {
     UserEntity userEntity = findBy(id);
-    String firstName = updateUserRequest.getFirstName();
-    String lastName = updateUserRequest.getLastName();
-    String password = updateUserRequest.getPassword();
-
-    if (firstName != null) {
-      userEntity.setFirstName(updateUserRequest.getFirstName());
-    }
-    if (lastName != null) {
-      userEntity.setLastName(updateUserRequest.getLastName());
-    }
-    if (password != null) {
-      userEntity.setPassword(new BCryptPasswordEncoder().encode(updateUserRequest.getPassword()));
-    }
-
-    return userMapper.toUpdatedUserResponse(userRepository.save(userEntity));
+    UserEntity userUpdated = updateValues(updateUserRequest, userEntity);
+    userRepository.save(userUpdated);
   }
 
   private UserEntity findBy(Long id) {
@@ -80,6 +66,28 @@ public class UserService implements UserDetailsService, IDeleteUserService, IGet
       throw new EntityNotFoundException("User not found.");
     }
     return optionalUserEntity.get();
+  }
+
+  private UserEntity updateValues(UpdateUserRequest updateUserRequest, UserEntity userEntity) {
+    final String firstName = updateUserRequest.getFirstName();
+    final String lastName = updateUserRequest.getLastName();
+    final String password = updateUserRequest.getPassword();
+    final String photo = updateUserRequest.getPhoto();
+
+    if (firstName != null) {
+      userEntity.setFirstName(firstName);
+    }
+    if (lastName != null) {
+      userEntity.setLastName(lastName);
+    }
+    if (password != null) {
+      userEntity.setPassword(new BCryptPasswordEncoder().encode(password));
+    }
+    if (photo != null) {
+      userEntity.setPhoto(photo);
+    }
+
+    return userEntity;
   }
 
   @Override

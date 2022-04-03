@@ -24,4 +24,8 @@ public class UpdateUserRequest {
   @Nullable
   @Length(min = 6, max = 8, message = "The password must be between 6 and 8 characters.")
   private String password;
+
+  @Nullable
+  private String photo;
+
 }

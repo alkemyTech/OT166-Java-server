@@ -2,7 +2,6 @@ package com.alkemy.ong.application.rest.resource;
 
 import com.alkemy.ong.application.rest.request.UpdateUserRequest;
 import com.alkemy.ong.application.rest.response.ListUsersResponse;
-import com.alkemy.ong.application.rest.response.UpdatedUserResponse;
 import com.alkemy.ong.application.service.abstraction.IDeleteUserService;
 import com.alkemy.ong.application.service.abstraction.IGetUserService;
 import com.alkemy.ong.application.service.abstraction.IUpdateUserService;
@@ -43,10 +42,10 @@ public class UserResource {
 
   @PatchMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE,
       consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<UpdatedUserResponse> update(@PathVariable Long id,
+  public ResponseEntity<Void> update(@PathVariable Long id,
       @Valid @RequestBody UpdateUserRequest updateUserRequest) {
-    UpdatedUserResponse updatedUserResponse = updateUserService.update(id, updateUserRequest);
-    return ResponseEntity.ok(updatedUserResponse);
+    updateUserService.update(id, updateUserRequest);
+    return ResponseEntity.noContent().build();
   }
 
 }
