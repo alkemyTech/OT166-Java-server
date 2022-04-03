@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "454d081e-0784-4e10-ac1a-fd9bf24fbb65",
-		"name": "OT166",
+		"_postman_id": "82afcb5c-b552-4908-8b32-a13a3ba5275a",
+		"name": "OT166 Copy 2",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -41,6 +41,33 @@
 							"path": [
 								"auth",
 								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Prueba Email\",\r\n    \"lastName\": \"Apellido\",\r\n    \"email\": \"adrianelunau@gmail.com\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/auth/register",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"register"
 							]
 						}
 					},
@@ -198,6 +225,42 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Create Testimonial ADMIN/USER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Lorem ipsum dolor\",\r\n    \"content\": \"Lorem ipsum dolor sit amet consectetur adipisicing elit\",\r\n    \"image\": \"Lorem.png\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/testimonials",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"testimonials"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -338,6 +401,34 @@
 							"path": [
 								"categories",
 								"13"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET CategoryId ADMIN/USER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/categories/2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"categories",
+								"2"
 							]
 						}
 					},

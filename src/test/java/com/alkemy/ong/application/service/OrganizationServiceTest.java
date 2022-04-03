@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 
 import com.alkemy.ong.application.exception.EntityNotFoundException;
 import com.alkemy.ong.application.rest.response.OrganizationResponse;
+import com.alkemy.ong.application.service.abstraction.IGetSlideService;
 import com.alkemy.ong.infrastructure.database.entity.OrganizationEntity;
 import com.alkemy.ong.infrastructure.database.mapper.abstraction.IOrganizationMapper;
 import com.alkemy.ong.infrastructure.database.repository.IOrganizationRepository;
@@ -31,9 +32,15 @@ class OrganizationServiceTest {
   @Mock
   private IOrganizationMapper organizationMapper;
 
+  @Mock
+  private IGetSlideService getSlideService;
+
   @BeforeEach
   void setup() {
-    organizationService = new OrganizationService(organizationRepository, organizationMapper);
+    organizationService = new OrganizationService(
+        organizationRepository,
+        organizationMapper,
+        getSlideService);
   }
 
   @Test
