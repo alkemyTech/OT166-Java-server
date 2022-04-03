@@ -6,12 +6,12 @@ import java.text.MessageFormat;
 
 public class ContactEmailTemplate implements IContent, IEmail {
 
-  private static final String THANK_TEXT = "Thank you for contacting us";
+  private static final String THANK_TEXT = "{0}, Thank you for contacting us.";
 
   private final String sendTo;
   private final String contactName;
 
-  public ContactEmailTemplate(String email,String name) {
+  public ContactEmailTemplate(String email, String name) {
     this.sendTo = email;
     this.contactName = name;
   }
