@@ -86,7 +86,10 @@ public class AuthenticationService implements IAuthenticationService, IRegisterS
       log.info("Something went wrong sending the email. Reason: " + e.getMessage());
     }
 
-    return userMapper.toRegisterResponse(newUser);
+    String jwt = jwtUtils.generateToken(newUser);
+    RegisterResponse registerResponse = userMapper.toRegisterResponse(newUser);
+    registerResponse.setToken(jwt);
+    return registerResponse;
   }
 
   @Override
