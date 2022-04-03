@@ -6,15 +6,13 @@ import java.text.MessageFormat;
 
 public class ContactEmailTemplate implements IContent, IEmail {
 
-  private static final String TYPE = "text/plain";
-  private static final String SUBJECT = "Contact successfully registered";
-  private static final String THANK_TEXT = "Thanks {0} for register in our contact list";
+  private static final String THANK_TEXT = "Thank you for contacting us";
 
-  private final String emailTo;
+  private final String sendTo;
   private final String contactName;
 
   public ContactEmailTemplate(String email,String name) {
-    this.emailTo = email;
+    this.sendTo = email;
     this.contactName = name;
   }
 
@@ -25,17 +23,17 @@ public class ContactEmailTemplate implements IContent, IEmail {
 
   @Override
   public String getContentType() {
-    return TYPE;
+    return "text/html";
   }
 
   @Override
   public String getSubject() {
-    return SUBJECT;
+    return "Contact successfully registered";
   }
 
   @Override
   public String getTo() {
-    return emailTo;
+    return this.sendTo;
   }
 
   @Override
