@@ -2,6 +2,8 @@ package com.alkemy.ong.application.rest.request;
 
 import com.alkemy.ong.application.util.RegExpressionUtils;
 import javax.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
@@ -9,6 +11,8 @@ import org.springframework.lang.Nullable;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@Builder
 public class UpdateUserRequest {
 
   @Nullable

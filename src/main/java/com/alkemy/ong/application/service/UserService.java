@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,9 +31,6 @@ public class UserService implements UserDetailsService, IDeleteUserService, IGet
 
   @Autowired
   private IUserMapper userMapper;
-
-  @Autowired
-  private PasswordEncoder passwordEncoder;
 
 
   @Override
@@ -80,20 +78,22 @@ public class UserService implements UserDetailsService, IDeleteUserService, IGet
   }
 
   private UserEntity updateValues(UpdateUserRequest updateUserRequest, UserEntity userEntity) {
-    final String firstName = updateUserRequest.getFirstName();
-    final String lastName = updateUserRequest.getLastName();
-    final String password = updateUserRequest.getPassword();
-    final String photo = updateUserRequest.getPhoto();
-
+    String firstName = updateUserRequest.getFirstName();
     if (firstName != null) {
       userEntity.setFirstName(firstName);
     }
+
+    String lastName = updateUserRequest.getLastName();
     if (lastName != null) {
       userEntity.setLastName(lastName);
     }
+
+    String password = updateUserRequest.getPassword();
     if (password != null) {
-      userEntity.setPassword(passwordEncoder.encode(password));
+      userEntity.setPassword(new BCryptPasswordEncoder().encode(password));
     }
+
+    String photo = updateUserRequest.getPhoto();
     if (photo != null) {
       userEntity.setPhoto(photo);
     }
