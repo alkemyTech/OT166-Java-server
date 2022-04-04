@@ -3,12 +3,14 @@ package com.alkemy.ong.application.rest.request;
 import com.alkemy.ong.application.util.RegExpressionUtils;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 @Getter
 @Setter
+@Builder
 public class RegisterRequest {
 
   @Pattern(regexp = RegExpressionUtils.ALPHABETIC_CHARACTERS_WITH_BLANK_SPACES,

@@ -3,11 +3,13 @@ package com.alkemy.ong.application.rest.request;
 import com.alkemy.ong.application.util.RegExpressionUtils;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
+@Builder
 public class UpdateActivityRequest {
 
   @Size(max = 50,
