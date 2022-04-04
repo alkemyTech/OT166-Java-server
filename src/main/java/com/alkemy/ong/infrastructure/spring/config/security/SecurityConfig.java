@@ -16,7 +16,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -33,10 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   private UserDetailsService userDetailsService;
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
   @Bean
   public AccessDeniedHandler accessDeniedHandler() {
@@ -57,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   public void configure(AuthenticationManagerBuilder managerBuilder) throws Exception {
     managerBuilder.userDetailsService(userDetailsService)
-        .passwordEncoder(passwordEncoder());
+        .passwordEncoder(passwordEncoder);
   }
 
   @Override
@@ -100,7 +97,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .hasAnyRole(Role.ADMIN.name(), Role.USER.name())
         .antMatchers(HttpMethod.DELETE, "/testimonials/{id:^\\d+$}")
         .hasAnyRole(Role.USER.name(), Role.ADMIN.name())
-        .antMatchers(HttpMethod.POST,"/testimonials")
+        .antMatchers(HttpMethod.POST, "/testimonials")
         .hasAnyRole(Role.USER.name(), Role.ADMIN.name())
         .antMatchers(HttpMethod.DELETE, "/users/{id:^\\d+$}")
         .hasAnyRole(Role.USER.name(), Role.ADMIN.name())
@@ -108,6 +105,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .hasRole(Role.ADMIN.name())
         .antMatchers(HttpMethod.GET, "/users")
         .hasRole(Role.ADMIN.name())
+        .antMatchers(HttpMethod.PATCH, "/users/{id:^\\d+$}")
+        .hasAnyRole(Role.USER.name(), Role.ADMIN.name())
         .antMatchers(HttpMethod.PUT, "/activities/{id:^\\d+$}")
         .hasRole(Role.ADMIN.name())
         .antMatchers(HttpMethod.GET, "/categories/{id:^\\d+$}")

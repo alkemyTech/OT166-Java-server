@@ -16,7 +16,7 @@ public class DeleteSlideIntegrationTest extends BigTest {
 
   @Test
   public void shouldDeleteSlideWhenUserHasAdminRole() throws Exception {
-    Long id = saveSlide();
+    Long id = saveSlide().getId();
 
     mockMvc.perform(delete("/slides/{id}", String.valueOf(id))
             .contentType(MediaType.APPLICATION_JSON)

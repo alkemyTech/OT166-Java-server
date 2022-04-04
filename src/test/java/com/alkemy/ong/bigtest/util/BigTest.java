@@ -4,10 +4,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import com.alkemy.ong.OngApplication;
 import com.alkemy.ong.application.rest.request.AuthenticationRequest;
+import com.alkemy.ong.infrastructure.database.entity.CategoryEntity;
+import com.alkemy.ong.infrastructure.database.entity.CommentEntity;
+import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
 import com.alkemy.ong.infrastructure.database.entity.OrganizationEntity;
 import com.alkemy.ong.infrastructure.database.entity.RoleEntity;
 import com.alkemy.ong.infrastructure.database.entity.SlideEntity;
 import com.alkemy.ong.infrastructure.database.entity.UserEntity;
+import com.alkemy.ong.infrastructure.database.repository.ICategoryRepository;
+import com.alkemy.ong.infrastructure.database.repository.ICommentRepository;
+import com.alkemy.ong.infrastructure.database.repository.INewsRepository;
 import com.alkemy.ong.infrastructure.database.repository.IOrganizationRepository;
 import com.alkemy.ong.infrastructure.database.repository.IRoleRepository;
 import com.alkemy.ong.infrastructure.database.repository.ISlideRepository;
@@ -16,6 +22,7 @@ import com.alkemy.ong.infrastructure.spring.config.security.Role;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
@@ -59,10 +66,20 @@ public abstract class BigTest {
   protected IUserRepository userRepository;
 
   @Autowired
+  protected ICommentRepository commentRepository;
+
+  @Autowired
+  protected INewsRepository newsRepository;
+
+  @Autowired
+  protected ICategoryRepository categoryRepository;
+
+  @Autowired
   protected IRoleRepository roleRepository;
 
   @Before
   public void setup() {
+    createCategoryNews();
     createRoles();
     createUserData();
     deleteAllEntities();
@@ -90,14 +107,25 @@ public abstract class BigTest {
     }
   }
 
+  private void createCategoryNews() {
+    saveCategory("news");
+  }
+
   protected void cleanUsersData() {
     roleRepository.deleteAll();
     userRepository.deleteAll();
   }
 
+  protected void cleanUsersData(UserEntity... users) {
+    userRepository.deleteAllInBatch(Arrays.asList(users));
+  }
+
   private void deleteAllEntities() {
     organizationRepository.deleteAll();
     slideRepository.deleteAll();
+    commentRepository.deleteAll();
+    newsRepository.deleteAll();
+    categoryRepository.deleteAll();
   }
 
   protected void saveOrganizationDetails() {
@@ -112,13 +140,35 @@ public abstract class BigTest {
         .linkedInUrl("https://www.linkedin.com/in/Somos-Mas/")
         .instagramUrl("https://www.instagram.com/SomosMas/")
         .build());
+
+    saveSlide();
   }
 
-  protected Long saveSlide() {
+  protected SlideEntity saveSlide() {
     return slideRepository.save(SlideEntity.builder()
         .order(1)
         .imageUrl("https://s3.com/slide.jpg")
-        .build()).getId();
+        .build());
+  }
+
+  protected CommentEntity saveComment() {
+    return commentRepository.save(CommentEntity.builder()
+        .user(userRepository.findByEmail(USER_EMAIL))
+        .body("My comment.")
+        .news(saveNews())
+        .build());
+  }
+
+  protected NewsEntity saveNews() {
+    return newsRepository.save(NewsEntity.builder()
+        .image("https://s3.com/news.jpg")
+        .content("News content.")
+        .name("My first News!!")
+        .build());
+  }
+
+  protected CategoryEntity saveCategory(String name) {
+    return categoryRepository.save(CategoryEntity.builder().name(name).build());
   }
 
   private void saveStandardUser() {
@@ -161,6 +211,10 @@ public abstract class BigTest {
 
   protected String getAuthorizationTokenForStandardUser() throws Exception {
     return getAuthorizationTokenForUser(USER_EMAIL);
+  }
+
+  protected UserEntity getRandomUser() {
+    return userRepository.save(buildUser("Bruce", "Wayne", "bruce@wayne.com", Role.USER));
   }
 
   private String getAuthorizationTokenForUser(String email) throws Exception {

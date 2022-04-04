@@ -6,6 +6,7 @@ import static com.alkemy.ong.application.util.RegExpressionUtils.ALPHANUMERIC_CH
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class CreateMemberRequest {
 
   @NotNull(message = "The name must not be null")

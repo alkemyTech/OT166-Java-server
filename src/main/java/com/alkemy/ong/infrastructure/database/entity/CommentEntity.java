@@ -32,14 +32,14 @@ public class CommentEntity {
   @Column(name = "COMMENT_ID")
   private Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
   @JoinColumn(name = "USER_ID")
   private UserEntity user;
 
   @Column(name = "BODY")
   private String body;
 
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
   @JoinColumn(name = "NEWS_ID")
   private NewsEntity news;
 
