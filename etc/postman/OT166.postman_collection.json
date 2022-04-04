@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "82afcb5c-b552-4908-8b32-a13a3ba5275a",
-		"name": "OT166 Copy 2",
+		"name": "OT166",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -155,6 +155,43 @@
 							"path": [
 								"users",
 								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH User Admin/User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"lastName\": \"Developer\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"1"
 							]
 						}
 					},

@@ -16,5 +16,6 @@ public class RegisterResponse {
   private String lastName;
   @Schema(example = "example@email.com")
   private String email;
+  private String token;
 
 }
