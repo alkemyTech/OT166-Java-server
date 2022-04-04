@@ -31,6 +31,6 @@ public interface IOrganizationMapper {
       @Mapping(target = "socialMedia.instagramUrl", source = "organizationEntity.instagramUrl"),
       @Mapping(target = "socialMedia.linkedInUrl", source = "organizationEntity.linkedInUrl"),
   })
-  OrganizationResponse toOrganizationResponseFull(OrganizationEntity organizationEntity);
+  OrganizationResponse toOrganizationResponseUpdate(OrganizationEntity organizationEntity);
 
 }
