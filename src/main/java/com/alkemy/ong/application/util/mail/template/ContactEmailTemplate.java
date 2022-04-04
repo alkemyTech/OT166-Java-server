@@ -9,7 +9,7 @@ public class ContactEmailTemplate implements IContent, IEmail {
   private final String sendTo;
   private final String contactName;
 
-  public ContactEmailTemplate(String email,String name) {
+  public ContactEmailTemplate(String email, String name) {
     this.sendTo = email;
     this.contactName = name;
   }

@@ -9,7 +9,6 @@ import com.alkemy.ong.application.util.mail.template.ContactEmailTemplate;
 import com.alkemy.ong.infrastructure.database.entity.ContactEntity;
 import com.alkemy.ong.infrastructure.database.mapper.abstraction.IContactMapper;
 import com.alkemy.ong.infrastructure.database.repository.IContactRepository;
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +30,21 @@ public class ContactService implements ICreateContactService {
 
   @Override
   public ContactResponse save(CreateContactRequest contactRequest) {
-    ContactEntity contactEntity = contactMapper.toContactEntity(contactRequest);
+    ContactEntity contactEntity = contactRepository.save(
+        contactMapper.toContactEntity(contactRequest));
+    sendEmail(contactEntity);
+    return contactMapper.toContactResponse(contactEntity);
+  }
+
+  private void sendEmail(ContactEntity contactEntity) {
     ContactEmailTemplate template = new ContactEmailTemplate(
-        contactEntity.getEmail(),contactEntity.getName());
+        contactEntity.getEmail(),
+        contactEntity.getName());
+
     try {
       emailDelegate.send(template);
     } catch (SendEmailException e) {
       log.error(e.getMessage());
     }
-    return contactMapper.toContactResponse(contactRepository.save(contactEntity));
   }
 }

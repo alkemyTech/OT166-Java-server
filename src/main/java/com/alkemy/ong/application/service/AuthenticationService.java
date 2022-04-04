@@ -66,16 +66,16 @@ public class AuthenticationService implements IAuthenticationService, IRegisterS
       throw new UserAlreadyExistException("Email is already in use.");
     }
 
-    RoleEntity userRole = roleRepository.findByName(Role.USER.getFullRoleName());
-    if (userRole == null) {
+    RoleEntity userRoleEntity = roleRepository.findByName(Role.USER.getFullRoleName());
+    if (userRoleEntity == null) {
       throw new EntityNotFoundException("Missing record in role table.");
     }
 
-    UserEntity newUser = userMapper.toUserEntity(registerRequest);
-    newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-    newUser.setSoftDeleted(false);
-    newUser.setRole(userRole);
-    newUser = userRepository.save(newUser);
+    UserEntity userEntity = userMapper.toUserEntity(registerRequest);
+    userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+    userEntity.setSoftDeleted(false);
+    userEntity.setRole(userRoleEntity);
+    userEntity = userRepository.save(userEntity);
 
     try {
       WelcomeTemplate email = new WelcomeTemplate(organizationMapper
@@ -86,7 +86,9 @@ public class AuthenticationService implements IAuthenticationService, IRegisterS
       log.info("Something went wrong sending the email. Reason: " + e.getMessage());
     }
 
-    return userMapper.toRegisterResponse(newUser);
+    RegisterResponse registerResponse = userMapper.toRegisterResponse(userEntity);
+    registerResponse.setToken(jwtUtils.generateToken(userEntity));
+    return registerResponse;
   }
 
   @Override
