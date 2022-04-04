@@ -48,7 +48,7 @@ public class OrganizationService implements IGetOrganizationDetailsService,
         updateOrganizationRequest,organizationEntity);
     organizationRepository.save(organizationUpdate);
 
-    return organizationMapper.toOrganizationResponseFull(organizationUpdate);
+    return organizationMapper.toOrganizationResponseUpdate(organizationUpdate);
   }
 
   private OrganizationEntity findOrganization() {
