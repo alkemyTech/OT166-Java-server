@@ -22,7 +22,7 @@ public class ContactEmailTemplate implements IContent, IEmail {
         + "<div style=\"margin: 20px 20px;\">"
         + "<h2>Contact successfully registered</h2>"
         + "<br>"
-        + "<p style=\"font-size:130%;\"> Welcome "+ this.contactName
+        + "<p style=\"font-size:130%;\"> Welcome " + this.contactName
         + ", thanks for register in our contact list</p>"
         + "</div>"
         + "</div>"
