@@ -4,26 +4,22 @@ import com.alkemy.ong.application.exception.EntityNotFoundException;
 import com.alkemy.ong.application.rest.response.ListUsersResponse;
 import com.alkemy.ong.application.rest.response.UserResponse;
 import com.alkemy.ong.application.service.abstraction.IDeleteUserService;
-import com.alkemy.ong.application.service.abstraction.IGetUserAuthenticateService;
 import com.alkemy.ong.application.service.abstraction.IGetUserService;
+import com.alkemy.ong.application.util.SecurityUtils;
 import com.alkemy.ong.infrastructure.database.entity.UserEntity;
 import com.alkemy.ong.infrastructure.database.mapper.abstraction.IUserMapper;
 import com.alkemy.ong.infrastructure.database.repository.IUserRepository;
-import com.alkemy.ong.infrastructure.util.JwtUtils;
 import java.util.List;
 import java.util.Optional;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-
 @Service
-@AllArgsConstructor
-public class UserService implements UserDetailsService, IDeleteUserService, IGetUserService, 
-    IGetUserAuthenticateService {
+public class UserService implements UserDetailsService, IDeleteUserService, IGetUserService {
 
   @Autowired
   private IUserRepository userRepository;
@@ -32,7 +28,8 @@ public class UserService implements UserDetailsService, IDeleteUserService, IGet
   private IUserMapper userMapper;
 
   @Autowired
-  private JwtUtils jwtUtils;
+  @Lazy
+  private SecurityUtils securityUtils;
 
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -55,8 +52,8 @@ public class UserService implements UserDetailsService, IDeleteUserService, IGet
   }
 
   @Override
-  public UserResponse getUserAuthenticated(String authorization) {
-    UserEntity userEntity = getUser(jwtUtils.extractUsernameFromHeader(authorization));
+  public UserResponse getUserAuthenticated() {
+    UserEntity userEntity = getUser(securityUtils.getUserAuthenticated().getUsername());
     return userMapper.toUserResponse(userEntity);
   }
 

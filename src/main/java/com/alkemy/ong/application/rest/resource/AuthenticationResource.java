@@ -6,7 +6,7 @@ import com.alkemy.ong.application.rest.response.AuthenticationResponse;
 import com.alkemy.ong.application.rest.response.RegisterResponse;
 import com.alkemy.ong.application.rest.response.UserResponse;
 import com.alkemy.ong.application.service.abstraction.IAuthenticationService;
-import com.alkemy.ong.application.service.abstraction.IGetUserAuthenticateService;
+import com.alkemy.ong.application.service.abstraction.IGetUserService;
 import com.alkemy.ong.application.service.abstraction.IRegisterService;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -31,7 +31,7 @@ public class AuthenticationResource {
   private IRegisterService registerService;
   
   @Autowired
-  private IGetUserAuthenticateService userService;
+  private IGetUserService userService;
 
   @PostMapping(path = "/register",
       consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -49,11 +49,9 @@ public class AuthenticationResource {
       @Valid @RequestBody AuthenticationRequest authenticationRequest) {
     return ResponseEntity.ok().body(authService.login(authenticationRequest));
   }
-  
+
   @GetMapping(path = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserResponse> getUser(HttpServletRequest httpServletRequest) {
-    return ResponseEntity.ok().body(userService.getUserAuthenticated(
-        httpServletRequest.getHeader("Authorization")));
+    return ResponseEntity.ok().body(userService.getUserAuthenticated());
   }
 }
-
