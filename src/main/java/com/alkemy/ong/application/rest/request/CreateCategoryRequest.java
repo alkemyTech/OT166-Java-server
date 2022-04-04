@@ -3,11 +3,13 @@ package com.alkemy.ong.application.rest.request;
 import com.alkemy.ong.application.util.RegExpressionUtils;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 public class CreateCategoryRequest {
 
   @NotEmpty(message = "The name must not be empty or null.")

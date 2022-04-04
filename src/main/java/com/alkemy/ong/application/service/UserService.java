@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -30,6 +30,9 @@ public class UserService implements UserDetailsService, IDeleteUserService, IGet
 
   @Autowired
   private IUserMapper userMapper;
+
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
 
   @Override
@@ -51,37 +54,6 @@ public class UserService implements UserDetailsService, IDeleteUserService, IGet
     userRepository.save(userUpdated);
   }
 
-  private UserEntity findBy(Long id) {
-    Optional<UserEntity> optionalUserEntity = userRepository.findById(id);
-    if (optionalUserEntity.isEmpty()
-        || Boolean.TRUE.equals(optionalUserEntity.get().getSoftDeleted())) {
-      throw new EntityNotFoundException("User not found.");
-    }
-    return optionalUserEntity.get();
-  }
-
-  private UserEntity updateValues(UpdateUserRequest updateUserRequest, UserEntity userEntity) {
-    final String firstName = updateUserRequest.getFirstName();
-    final String lastName = updateUserRequest.getLastName();
-    final String password = updateUserRequest.getPassword();
-    final String photo = updateUserRequest.getPhoto();
-
-    if (firstName != null) {
-      userEntity.setFirstName(firstName);
-    }
-    if (lastName != null) {
-      userEntity.setLastName(lastName);
-    }
-    if (password != null) {
-      userEntity.setPassword(new BCryptPasswordEncoder().encode(password));
-    }
-    if (photo != null) {
-      userEntity.setPhoto(photo);
-    }
-
-    return userEntity;
-  }
-
   @Override
   public ListUsersResponse listActiveUsers() {
     List<UserEntity> listUserEntities = userRepository.findAllActiveUsers();
@@ -97,4 +69,38 @@ public class UserService implements UserDetailsService, IDeleteUserService, IGet
     }
     return userEntity;
   }
+
+  private UserEntity findBy(Long id) {
+    Optional<UserEntity> optionalUserEntity = userRepository.findById(id);
+    if (optionalUserEntity.isEmpty()
+        || Boolean.TRUE.equals(optionalUserEntity.get().getSoftDeleted())) {
+      throw new EntityNotFoundException("User not found.");
+    }
+    return optionalUserEntity.get();
+  }
+
+  private UserEntity updateValues(UpdateUserRequest updateUserRequest, UserEntity userEntity) {
+    String firstName = updateUserRequest.getFirstName();
+    if (firstName != null) {
+      userEntity.setFirstName(firstName);
+    }
+
+    String lastName = updateUserRequest.getLastName();
+    if (lastName != null) {
+      userEntity.setLastName(lastName);
+    }
+
+    String password = updateUserRequest.getPassword();
+    if (password != null) {
+      userEntity.setPassword(passwordEncoder.encode(password));
+    }
+
+    String photo = updateUserRequest.getPhoto();
+    if (photo != null) {
+      userEntity.setPhoto(photo);
+    }
+
+    return userEntity;
+  }
+
 }
