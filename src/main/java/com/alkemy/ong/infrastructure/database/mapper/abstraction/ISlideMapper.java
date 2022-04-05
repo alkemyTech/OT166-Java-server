@@ -10,4 +10,6 @@ public interface ISlideMapper {
 
   List<SlideResponse> toListSlideResponse(List<SlideEntity> listSlideEntities);
 
+  SlideResponse toSlideResponse(SlideEntity slideEntity);
+
 }
