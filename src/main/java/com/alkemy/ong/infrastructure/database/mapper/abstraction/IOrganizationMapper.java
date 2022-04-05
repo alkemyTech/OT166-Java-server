@@ -12,7 +12,10 @@ public interface IOrganizationMapper {
   @Mappings({
       @Mapping(target = "socialMedia.facebookUrl", source = "organizationEntity.facebookUrl"),
       @Mapping(target = "socialMedia.instagramUrl", source = "organizationEntity.instagramUrl"),
-      @Mapping(target = "socialMedia.linkedInUrl", source = "organizationEntity.linkedInUrl")
+      @Mapping(target = "socialMedia.linkedInUrl", source = "organizationEntity.linkedInUrl"),
+      @Mapping(target = "email", ignore = true),
+      @Mapping(target = "welcomeText", ignore = true),
+      @Mapping(target = "aboutUsText", ignore = true),
   })
   OrganizationResponse toOrganizationResponse(OrganizationEntity organizationEntity);
 
@@ -22,5 +25,13 @@ public interface IOrganizationMapper {
       @Mapping(target = "linkedInUrl", source = "socialMedia.linkedInUrl")
   })
   OrganizationEntity toOrganizationEntity(OrganizationResponse organizationResponse);
+
+  @Mappings({
+      @Mapping(target = "socialMedia.facebookUrl", source = "organizationEntity.facebookUrl"),
+      @Mapping(target = "socialMedia.instagramUrl", source = "organizationEntity.instagramUrl"),
+      @Mapping(target = "socialMedia.linkedInUrl", source = "organizationEntity.linkedInUrl"),
+      @Mapping(target = "slides", ignore = true),
+  })
+  OrganizationResponse toOrganizationResponseUpdate(OrganizationEntity organizationEntity);
 
 }
