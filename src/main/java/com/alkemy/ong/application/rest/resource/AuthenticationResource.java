@@ -77,6 +77,9 @@ public class AuthenticationResource {
     return ResponseEntity.ok().body(authService.login(authenticationRequest));
   }
 
+  @Operation(summary = "Get my data user.", description = "Get my data user.", tags = "Get")
+  @ApiResponse(responseCode = "200", description = "Returns my data user.", content = @Content(
+      schema = @Schema(implementation = UserResponse.class)))
   @GetMapping(path = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<UserResponse> getUser() {
     return ResponseEntity.ok().body(getUserService.getUserAuthenticated());
