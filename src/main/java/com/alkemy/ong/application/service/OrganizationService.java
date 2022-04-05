@@ -32,20 +32,16 @@ public class OrganizationService implements IGetOrganizationDetailsService,
 
   @Override
   public OrganizationResponse getPublicOrganizationDetails() {
-
-    OrganizationResponse organizationResponse = new OrganizationResponse();
-    organizationResponse = organizationMapper.toOrganizationResponse(findOrganization());
+    OrganizationResponse organizationResponse =
+        organizationMapper.toOrganizationResponse(findOrganization());
     organizationResponse.setSlides(getSlideService.list());
-
     return organizationResponse;
   }
 
   @Override
   public OrganizationResponse update(UpdateOrganizationRequest updateOrganizationRequest) {
-
-    OrganizationEntity organizationEntity = findOrganization();
-    OrganizationEntity organizationUpdate = updateValues(
-        updateOrganizationRequest,organizationEntity);
+    OrganizationEntity organizationUpdate =
+        updateValues(updateOrganizationRequest, findOrganization());
     organizationRepository.save(organizationUpdate);
 
     return organizationMapper.toOrganizationResponseUpdate(organizationUpdate);
@@ -62,6 +58,15 @@ public class OrganizationService implements IGetOrganizationDetailsService,
   private OrganizationEntity updateValues(UpdateOrganizationRequest updateOrganizationRequest,
       OrganizationEntity organizationEntity) {
 
+    updateBasicInformation(updateOrganizationRequest, organizationEntity);
+    updateOrganizationText(updateOrganizationRequest, organizationEntity);
+    updateSocialMedia(organizationEntity, updateOrganizationRequest.getSocialMedia());
+
+    return organizationEntity;
+  }
+
+  private void updateBasicInformation(UpdateOrganizationRequest updateOrganizationRequest,
+      OrganizationEntity organizationEntity) {
     String name = updateOrganizationRequest.getName();
     if (name != null) {
       organizationEntity.setName(name);
@@ -77,11 +82,6 @@ public class OrganizationService implements IGetOrganizationDetailsService,
       organizationEntity.setEmail(email);
     }
 
-    String welcomeText = updateOrganizationRequest.getWelcomeText();
-    if (welcomeText != null) {
-      organizationEntity.setWelcomeText(welcomeText);
-    }
-
     String phone = updateOrganizationRequest.getPhone();
     if (phone != null) {
       organizationEntity.setPhone(phone);
@@ -91,30 +91,40 @@ public class OrganizationService implements IGetOrganizationDetailsService,
     if (address != null) {
       organizationEntity.setAddress(address);
     }
+  }
+
+  private void updateOrganizationText(UpdateOrganizationRequest updateOrganizationRequest,
+      OrganizationEntity organizationEntity) {
+    String welcomeText = updateOrganizationRequest.getWelcomeText();
+    if (welcomeText != null) {
+      organizationEntity.setWelcomeText(welcomeText);
+    }
 
     String aboutUsText = updateOrganizationRequest.getAboutUsText();
     if (aboutUsText != null) {
       organizationEntity.setAboutUsText(aboutUsText);
     }
+  }
 
-    SocialMediaRequest socialMedia = updateOrganizationRequest.getSocialMedia();
-    if (socialMedia != null) {
-      String facebookUrl = socialMedia.getFacebookUrl();
-      String instagramUrl = socialMedia.getInstagramUrl();
-      String linkedInUrl = socialMedia.getLinkedInUrl();
+  private void updateSocialMedia(OrganizationEntity organizationEntity,
+      SocialMediaRequest socialMediaRequest) {
+    if (socialMediaRequest != null) {
 
+      String facebookUrl = socialMediaRequest.getFacebookUrl();
       if (facebookUrl != null) {
         organizationEntity.setFacebookUrl(facebookUrl);
       }
+
+      String instagramUrl = socialMediaRequest.getInstagramUrl();
       if (instagramUrl != null) {
         organizationEntity.setInstagramUrl(instagramUrl);
       }
+
+      String linkedInUrl = socialMediaRequest.getLinkedInUrl();
       if (linkedInUrl != null) {
         organizationEntity.setLinkedInUrl(linkedInUrl);
       }
     }
-
-    return organizationEntity;
   }
 
 }
