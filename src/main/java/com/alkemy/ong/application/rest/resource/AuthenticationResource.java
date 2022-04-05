@@ -8,7 +8,6 @@ import com.alkemy.ong.application.rest.response.UserResponse;
 import com.alkemy.ong.application.service.abstraction.IAuthenticationService;
 import com.alkemy.ong.application.service.abstraction.IGetUserService;
 import com.alkemy.ong.application.service.abstraction.IRegisterService;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +30,7 @@ public class AuthenticationResource {
   private IRegisterService registerService;
   
   @Autowired
-  private IGetUserService userService;
+  private IGetUserService getUserService;
 
   @PostMapping(path = "/register",
       consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -51,7 +50,7 @@ public class AuthenticationResource {
   }
 
   @GetMapping(path = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<UserResponse> getUser(HttpServletRequest httpServletRequest) {
-    return ResponseEntity.ok().body(userService.getUserAuthenticated());
+  public ResponseEntity<UserResponse> getUser() {
+    return ResponseEntity.ok().body(getUserService.getUserAuthenticated());
   }
 }

@@ -68,8 +68,7 @@ public class UserService implements UserDetailsService, IDeleteUserService, IGet
 
   @Override
   public UserResponse getUserAuthenticated() {
-    UserEntity userEntity = getUser(securityUtils.getUserAuthenticated().getUsername());
-    return userMapper.toUserResponse(userEntity);
+    return userMapper.toUserResponse((UserEntity) securityUtils.getUserAuthenticated());
   }
 
   private UserEntity getUser(String username) {
