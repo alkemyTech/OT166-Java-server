@@ -1,7 +1,6 @@
 package com.alkemy.ong.application.service;
 
 import com.alkemy.ong.application.exception.EntityNotFoundException;
-import com.alkemy.ong.application.rest.response.CategoryResponse;
 import com.alkemy.ong.application.rest.response.SlideResponse;
 import com.alkemy.ong.application.service.abstraction.IDeleteSlideService;
 import com.alkemy.ong.application.service.abstraction.IGetSlideService;
@@ -23,7 +22,7 @@ public class SlideService implements IDeleteSlideService, IGetSlideService {
 
   @Override
   public void delete(Long id) {
-    findBy(id);
+    checkIfExist(id);
     slideRepository.deleteById(id);
   }
 
@@ -35,11 +34,11 @@ public class SlideService implements IDeleteSlideService, IGetSlideService {
 
   @Override
   public SlideResponse getBy(Long id) {
-    findBy(id);
+    checkIfExist(id);
     return slideMapper.toSlideResponse(slideRepository.getById(id));
   }
 
-  public void findBy(Long id) {
+  private void checkIfExist(Long id) {
     if (!slideRepository.existsById(id)) {
       throw new EntityNotFoundException("Slide not found.");
     }
