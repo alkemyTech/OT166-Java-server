@@ -63,8 +63,8 @@ public class AuthenticationResource {
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Returns JWT.", content = @Content(
           schema = @Schema(implementation = AuthenticationResponse.class))),
-      @ApiResponse(responseCode = "401", description = "Invalid email or password.", content = @Content(
-          schema = @Schema(implementation = ErrorResponse.class))),
+      @ApiResponse(responseCode = "401", description = "Invalid email or password.",
+          content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
   })
 
   @PostMapping(path = "/login",
