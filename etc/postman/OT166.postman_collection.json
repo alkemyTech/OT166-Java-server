@@ -704,6 +704,43 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Patch organization ADMIN",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Somos Mas\",\r\n    \"image\": \"1234a\",\r\n    \"address\": \"Elm Street 3\",\r\n    \"phone\": \"+5411345678\",\r\n    \"socialMedia\": {\r\n        \"facebookUrl\": \"https://www.facebook.com/Somos_Mas/\",\r\n        \"instagramUrl\": \"https://www.instagram.com/SomosMas/\",\r\n        \"linkedInUrl\": \"https://www.linkedin.com/in/Somos-Mas/\"\r\n    },\r\n    \"email\": \"somosmas@gmail.com\",\r\n    \"welcomeText\": \"Welcome\",\r\n    \"aboutUsText\" :\"Somos mas ONG\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/organization/public",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"organization",
+								"public"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
