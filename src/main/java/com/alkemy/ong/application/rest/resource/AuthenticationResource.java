@@ -4,13 +4,16 @@ import com.alkemy.ong.application.rest.request.AuthenticationRequest;
 import com.alkemy.ong.application.rest.request.RegisterRequest;
 import com.alkemy.ong.application.rest.response.AuthenticationResponse;
 import com.alkemy.ong.application.rest.response.RegisterResponse;
+import com.alkemy.ong.application.rest.response.UserResponse;
 import com.alkemy.ong.application.service.abstraction.IAuthenticationService;
+import com.alkemy.ong.application.service.abstraction.IGetUserService;
 import com.alkemy.ong.application.service.abstraction.IRegisterService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +28,9 @@ public class AuthenticationResource {
 
   @Autowired
   private IRegisterService registerService;
+  
+  @Autowired
+  private IGetUserService getUserService;
 
   @PostMapping(path = "/register",
       consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -43,5 +49,8 @@ public class AuthenticationResource {
     return ResponseEntity.ok().body(authService.login(authenticationRequest));
   }
 
+  @GetMapping(path = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<UserResponse> getUser() {
+    return ResponseEntity.ok().body(getUserService.getUserAuthenticated());
+  }
 }
-
