@@ -44,7 +44,7 @@ public class AuthenticationResource {
   @ApiResponses(value = {
       @ApiResponse(content = @Content(schema = @Schema(implementation = RegisterResponse.class)),
       responseCode = "201", description = "Returns user created."),
-      @ApiResponse(responseCode = "400", description = "Error response.", content = @Content(
+      @ApiResponse(responseCode = "400", description = "Invalid input data.", content = @Content(
           schema = @Schema(implementation = ErrorResponse.class)
       ))
   })
@@ -63,7 +63,7 @@ public class AuthenticationResource {
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Returns JWT.", content = @Content(
           schema = @Schema(implementation = AuthenticationResponse.class))),
-      @ApiResponse(responseCode = "401", description = "Error response.", content = @Content(
+      @ApiResponse(responseCode = "401", description = "Invalid email or password.", content = @Content(
           schema = @Schema(implementation = ErrorResponse.class))),
   })
 
