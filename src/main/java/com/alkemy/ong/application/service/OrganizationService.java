@@ -62,41 +62,46 @@ public class OrganizationService implements IGetOrganizationDetailsService,
   private OrganizationEntity updateValues(UpdateOrganizationRequest updateOrganizationRequest,
       OrganizationEntity organizationEntity) {
 
-    final String name = updateOrganizationRequest.getName();
-    final String image = updateOrganizationRequest.getImage();
-    final String email = updateOrganizationRequest.getEmail();
-    final String welcomeText = updateOrganizationRequest.getWelcomeText();
-    final String phone = updateOrganizationRequest.getPhone();
-    final String address = updateOrganizationRequest.getAddress();
-    final String aboutUsText = updateOrganizationRequest.getAboutUsText();
-    final SocialMediaRequest socialMedia = updateOrganizationRequest.getSocialMedia();
-
+    String name = updateOrganizationRequest.getName();
     if (name != null) {
       organizationEntity.setName(name);
     }
+
+    String image = updateOrganizationRequest.getImage();
     if (image != null) {
       organizationEntity.setImage(image);
     }
+
+    String email = updateOrganizationRequest.getEmail();
     if (email != null) {
       organizationEntity.setEmail(email);
     }
+
+    String welcomeText = updateOrganizationRequest.getWelcomeText();
     if (welcomeText != null) {
       organizationEntity.setWelcomeText(welcomeText);
     }
+
+    String phone = updateOrganizationRequest.getPhone();
     if (phone != null) {
       organizationEntity.setPhone(phone);
     }
+
+    String address = updateOrganizationRequest.getAddress();
     if (address != null) {
       organizationEntity.setAddress(address);
     }
+
+    String aboutUsText = updateOrganizationRequest.getAboutUsText();
     if (aboutUsText != null) {
       organizationEntity.setAboutUsText(aboutUsText);
     }
-    if (socialMedia != null) {
 
-      String facebookUrl = updateOrganizationRequest.getSocialMedia().getFacebookUrl();
-      String instagramUrl = updateOrganizationRequest.getSocialMedia().getInstagramUrl();
-      String linkedInUrl = updateOrganizationRequest.getSocialMedia().getLinkedInUrl();
+    SocialMediaRequest socialMedia = updateOrganizationRequest.getSocialMedia();
+    if (socialMedia != null) {
+      String facebookUrl = socialMedia.getFacebookUrl();
+      String instagramUrl = socialMedia.getInstagramUrl();
+      String linkedInUrl = socialMedia.getLinkedInUrl();
 
       if (facebookUrl != null) {
         organizationEntity.setFacebookUrl(facebookUrl);
