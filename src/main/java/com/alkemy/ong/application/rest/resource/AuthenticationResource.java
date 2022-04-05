@@ -7,6 +7,7 @@ import com.alkemy.ong.application.rest.response.ErrorResponse;
 import com.alkemy.ong.application.rest.response.RegisterResponse;
 import com.alkemy.ong.application.rest.response.UserResponse;
 import com.alkemy.ong.application.service.abstraction.IAuthenticationService;
+import com.alkemy.ong.application.service.abstraction.IGetUserService;
 import com.alkemy.ong.application.service.abstraction.IRegisterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +36,9 @@ public class AuthenticationResource {
 
   @Autowired
   private IRegisterService registerService;
+  
+  @Autowired
+  private IGetUserService getUserService;
 
   @Operation(summary = "Register", description = "Register a new user.", tags = "Post")
   @ApiResponses(value = {
@@ -72,5 +77,8 @@ public class AuthenticationResource {
     return ResponseEntity.ok().body(authService.login(authenticationRequest));
   }
 
+  @GetMapping(path = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<UserResponse> getUser() {
+    return ResponseEntity.ok().body(getUserService.getUserAuthenticated());
+  }
 }
-

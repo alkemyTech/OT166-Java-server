@@ -7,4 +7,6 @@ public interface IGetSlideService {
 
   List<SlideResponse> list();
 
+  SlideResponse getBy(Long id);
+
 }

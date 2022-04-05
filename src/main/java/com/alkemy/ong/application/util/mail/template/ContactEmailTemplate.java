@@ -2,7 +2,6 @@ package com.alkemy.ong.application.util.mail.template;
 
 import com.alkemy.ong.application.util.mail.IContent;
 import com.alkemy.ong.application.util.mail.IEmail;
-import java.text.MessageFormat;
 
 public class ContactEmailTemplate implements IContent, IEmail {
 
