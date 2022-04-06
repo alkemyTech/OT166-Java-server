@@ -75,10 +75,11 @@ public class UpdateUserIntegrationTest extends BigTest {
   }
 
   @Test
-  public void shouldReturnNotFoundErrorResponseWhenUserIsNotFound() throws Exception {
+  public void shouldReturnNotFoundErrorResponseWhenUserNotExist() throws Exception {
     UserEntity randomUser = getRandomUser();
 
-    mockMvc.perform(patch("/users/{id}", "1000000")
+    String nonExistUserId = "1000000";
+    mockMvc.perform(patch("/users/{id}", nonExistUserId)
             .content(objectMapper.writeValueAsString(UpdateUserRequest.builder()
                 .lastName("Gordon")
                 .build()))

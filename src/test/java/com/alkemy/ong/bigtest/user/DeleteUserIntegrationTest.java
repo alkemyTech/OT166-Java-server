@@ -12,11 +12,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.alkemy.ong.bigtest.util.BigTest;
 import com.alkemy.ong.infrastructure.database.entity.UserEntity;
 import java.util.Optional;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-class DeleteUserIntegrationTest extends BigTest {
+public class DeleteUserIntegrationTest extends BigTest {
 
   @Test
   public void shouldDeleteUserWhenUserHasAdminRole() throws Exception {
@@ -28,8 +28,7 @@ class DeleteUserIntegrationTest extends BigTest {
         .andExpect(jsonPath("$").doesNotExist())
         .andExpect(status().isNoContent());
 
-    Optional<UserEntity> updatedUser = userRepository.findById(randomUser.getId());
-    updatedUser.ifPresent(userEntity -> assertFalse(userEntity.isEnabled()));
+    assertUserHasBeenDeleted(randomUser.getId());
 
     cleanUsersData(randomUser);
   }
@@ -44,8 +43,7 @@ class DeleteUserIntegrationTest extends BigTest {
         .andExpect(jsonPath("$").doesNotExist())
         .andExpect(status().isNoContent());
 
-    Optional<UserEntity> updatedUser = userRepository.findById(randomUser.getId());
-    updatedUser.ifPresent(userEntity -> assertFalse(userEntity.isEnabled()));
+    assertUserHasBeenDeleted(randomUser.getId());
 
     cleanUsersData(randomUser);
   }
@@ -61,17 +59,16 @@ class DeleteUserIntegrationTest extends BigTest {
             equalTo("Access denied. Please, try to login again or contact your admin.")))
         .andExpect(status().isForbidden());
 
-    Optional<UserEntity> updatedUser = userRepository.findById(randomUser.getId());
-    updatedUser.ifPresent(userEntity -> assertTrue(userEntity.isEnabled()));
+    assertUserHasNotBeenDeleted(randomUser.getId());
 
     cleanUsersData(randomUser);
   }
 
   @Test
-  public void shouldReturnNotFoundErrorResponseWhenUserIsNotFound() throws Exception {
-    UserEntity randomUser = getRandomUser();
+  public void shouldReturnNotFoundErrorResponseWhenUserNotExist() throws Exception {
 
-    mockMvc.perform(delete("/users/{id}", "100000")
+    String nonExistUserId = "1000000";
+    mockMvc.perform(delete("/users/{id}", nonExistUserId)
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$.statusCode", equalTo(404)))
@@ -80,10 +77,16 @@ class DeleteUserIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.moreInfo", hasItem("User not found.")))
         .andExpect(status().isNotFound());
 
-    Optional<UserEntity> updatedUser = userRepository.findById(randomUser.getId());
-    updatedUser.ifPresent(userEntity -> assertTrue(userEntity.isEnabled()));
+  }
 
-    cleanUsersData(randomUser);
+  private void assertUserHasBeenDeleted(Long userId){
+    Optional<UserEntity> updatedUser = userRepository.findById(userId);
+    updatedUser.ifPresent(userEntity -> assertFalse(userEntity.isEnabled()));
+  }
+
+  private void assertUserHasNotBeenDeleted(Long userId){
+    Optional<UserEntity> updatedUser = userRepository.findById(userId);
+    updatedUser.ifPresent(userEntity -> assertTrue(userEntity.isEnabled()));
   }
 
 }

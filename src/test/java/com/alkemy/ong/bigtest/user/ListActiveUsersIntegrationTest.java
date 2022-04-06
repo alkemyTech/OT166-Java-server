@@ -8,14 +8,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.alkemy.ong.bigtest.util.BigTest;
 import com.alkemy.ong.infrastructure.database.entity.UserEntity;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-class ListActiveUsersIntegrationTest extends BigTest {
+public class ListActiveUsersIntegrationTest extends BigTest {
 
   @Test
-  void shouldReturnListOfUsersWhenUserHasAdminRole() throws Exception {
+  public void shouldReturnListOfUsersWhenUserHasAdminRole() throws Exception {
     UserEntity randomUser = getRandomUser();
 
     mockMvc.perform(get("/users")
@@ -40,7 +40,6 @@ class ListActiveUsersIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnForbiddenErrorResponseWhenUserHasStandardUserRole() throws Exception {
-    UserEntity randomUser = getRandomUser();
 
     mockMvc.perform(get("/users")
             .contentType(MediaType.APPLICATION_JSON)
@@ -50,12 +49,10 @@ class ListActiveUsersIntegrationTest extends BigTest {
             equalTo("Access denied. Please, try to login again or contact your admin.")))
         .andExpect(status().isForbidden());
 
-    cleanUsersData(randomUser);
   }
 
   @Test
   public void shouldReturnForbiddenErrorResponseWhenTokenIsNotSent() throws Exception {
-    UserEntity randomUser = getRandomUser();
 
     mockMvc.perform(get("/users")
             .contentType(MediaType.APPLICATION_JSON))
@@ -64,6 +61,5 @@ class ListActiveUsersIntegrationTest extends BigTest {
             equalTo("Access denied. Please, try to login again or contact your admin.")))
         .andExpect(status().isForbidden());
 
-    cleanUsersData(randomUser);
   }
 }
