@@ -18,7 +18,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class MemberService implements ICreateMemberService, IGetMemberService, IDeleteMemberService {
+public class MemberService implements ICreateMemberService,
+    IGetMemberService,
+    IDeleteMemberService {
 
   @Autowired
   private IMemberRepository memberRepository;
