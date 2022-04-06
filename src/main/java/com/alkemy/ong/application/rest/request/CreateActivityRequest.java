@@ -24,9 +24,9 @@ public class CreateActivityRequest {
       message = "The name has invalid format.")
   private String name;
 
-  @NotNull(message = "The name must not be null")
+  @NotNull(message = "The content must not be null")
   @Pattern(regexp = RegExpressionUtils.ALPHANUMERIC_CHARACTERS_WITH_BLANK_SPACES,
-      message = "The name has invalid format.")
+      message = "The content has invalid format.")
   private String content;
 
   @NotNull(message = "The image must not be null")

@@ -32,11 +32,14 @@ public class ActivityService implements ICreateActivityService, IUpdateActivityS
 
   @Override
   public ActivityResponse update(long id, UpdateActivityRequest updateActivityRequest) {
-    ActivityEntity activityEntity = findBy(id);
-    activityEntity.setName(updateActivityRequest.getName());
-    activityEntity.setContent(updateActivityRequest.getContent());
-    activityEntity.setImage(updateActivityRequest.getImage());
-    return activityMapper.toActivityResponse(activityEntity);
+    ActivityEntity activityUpdate = findBy(id);
+    activityUpdate.setName(updateActivityRequest.getName());
+    activityUpdate.setContent(updateActivityRequest.getContent());
+    activityUpdate.setImage(updateActivityRequest.getImage());
+
+    activityRepository.save(activityUpdate);
+
+    return activityMapper.toActivityResponse(activityUpdate);
   }
 
   private ActivityEntity findBy(long id) {
