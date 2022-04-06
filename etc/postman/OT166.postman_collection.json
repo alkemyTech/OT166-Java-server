@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "38a3d8cd-ec75-4dd6-8abc-ba30a022579b",
+		"_postman_id": "dfc8ea0f-6ca2-4ad6-ace1-485a15177f39",
 		"name": "OT166",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -417,6 +417,14 @@
 								"3"
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET member ADMIN",
+					"request": {
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				}
