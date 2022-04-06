@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ListContactResponse {
+public class ListContactsResponse {
 
   private List<ContactResponse> contacts;
 

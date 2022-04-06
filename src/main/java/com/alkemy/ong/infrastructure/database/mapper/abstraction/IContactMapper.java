@@ -13,6 +13,6 @@ public interface IContactMapper {
 
   ContactResponse toContactResponse(ContactEntity contactEntity);
 
-  List<ContactResponse> toListContactResponse(List<ContactEntity> contactEntityList);
+  List<ContactResponse> toListContactResponse(List<ContactEntity> contactEntities);
 
 }

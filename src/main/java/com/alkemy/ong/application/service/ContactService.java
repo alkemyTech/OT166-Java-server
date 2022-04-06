@@ -1,10 +1,9 @@
 package com.alkemy.ong.application.service;
 
-import com.alkemy.ong.application.exception.EntityNotFoundException;
 import com.alkemy.ong.application.exception.SendEmailException;
 import com.alkemy.ong.application.rest.request.CreateContactRequest;
 import com.alkemy.ong.application.rest.response.ContactResponse;
-import com.alkemy.ong.application.rest.response.ListContactResponse;
+import com.alkemy.ong.application.rest.response.ListContactsResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateContactService;
 import com.alkemy.ong.application.service.abstraction.IGetContactService;
 import com.alkemy.ong.application.util.mail.EmailDelegate;
@@ -53,10 +52,10 @@ public class ContactService implements ICreateContactService, IGetContactService
   }
 
   @Override
-  public ListContactResponse listActiveContacts() {
+  public ListContactsResponse listActiveContacts() {
     List<ContactEntity> contactEntities = contactRepository.findAllByDeletedAtIsNull();
-    ListContactResponse listContactResponse = new ListContactResponse();
-    listContactResponse.setContacts(contactMapper.toListContactResponse(contactEntities));
-    return listContactResponse;
+    ListContactsResponse listContactsResponse = new ListContactsResponse();
+    listContactsResponse.setContacts(contactMapper.toListContactResponse(contactEntities));
+    return listContactsResponse;
   }
 }
