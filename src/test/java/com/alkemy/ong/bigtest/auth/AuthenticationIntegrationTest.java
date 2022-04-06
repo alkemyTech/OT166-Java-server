@@ -1,6 +1,9 @@
 package com.alkemy.ong.bigtest.auth;
 
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.IsEqual.equalToObject;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.alkemy.ong.application.rest.request.AuthenticationRequest;
@@ -22,7 +25,7 @@ public class AuthenticationIntegrationTest extends BigTest {
   }
 
   @Test
-  public void shouldReturnIsUnauthorizedStatusCode() throws Exception {
+  public void shouldReturnIsUnauthorizedStatusCodeWhenCredentialsAreInvalid() throws Exception {
 
     mockMvc.perform(post("/auth/login")
             .content(objectMapper.writeValueAsString(AuthenticationRequest.builder()
@@ -33,7 +36,7 @@ public class AuthenticationIntegrationTest extends BigTest {
   }
 
   @Test
-  public void shouldReturnBadRequestStatusCode() throws Exception {
+  public void shouldReturnBadRequestStatusCodeWhenCredentialsHaveInvalidFormat() throws Exception {
 
     mockMvc.perform(post("/auth/login")
             .content(objectMapper.writeValueAsString(AuthenticationRequest.builder()
