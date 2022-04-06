@@ -40,7 +40,6 @@ public class ListActiveUsersIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnForbiddenErrorResponseWhenUserHasStandardUserRole() throws Exception {
-
     mockMvc.perform(get("/users")
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
@@ -48,18 +47,15 @@ public class ListActiveUsersIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.message",
             equalTo("Access denied. Please, try to login again or contact your admin.")))
         .andExpect(status().isForbidden());
-
   }
 
   @Test
   public void shouldReturnForbiddenErrorResponseWhenTokenIsNotSent() throws Exception {
-
     mockMvc.perform(get("/users")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.statusCode", equalTo(403)))
         .andExpect(jsonPath("$.message",
             equalTo("Access denied. Please, try to login again or contact your admin.")))
         .andExpect(status().isForbidden());
-
   }
 }

@@ -76,8 +76,6 @@ public class UpdateUserIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnNotFoundErrorResponseWhenUserNotExist() throws Exception {
-    UserEntity randomUser = getRandomUser();
-
     String nonExistUserId = "1000000";
     mockMvc.perform(patch("/users/{id}", nonExistUserId)
             .content(objectMapper.writeValueAsString(UpdateUserRequest.builder()
@@ -90,8 +88,6 @@ public class UpdateUserIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
         .andExpect(jsonPath("$.moreInfo", hasItem("User not found.")))
         .andExpect(status().isNotFound());
-
-    cleanUsersData(randomUser);
   }
 
   @Test
