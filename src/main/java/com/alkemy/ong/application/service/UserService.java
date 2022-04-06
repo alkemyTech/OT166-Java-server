@@ -3,9 +3,11 @@ package com.alkemy.ong.application.service;
 import com.alkemy.ong.application.exception.EntityNotFoundException;
 import com.alkemy.ong.application.rest.request.UpdateUserRequest;
 import com.alkemy.ong.application.rest.response.ListUsersResponse;
+import com.alkemy.ong.application.rest.response.UserResponse;
 import com.alkemy.ong.application.service.abstraction.IDeleteUserService;
 import com.alkemy.ong.application.service.abstraction.IGetUserService;
 import com.alkemy.ong.application.service.abstraction.IUpdateUserService;
+import com.alkemy.ong.application.util.SecurityUtils;
 import com.alkemy.ong.infrastructure.database.entity.UserEntity;
 import com.alkemy.ong.infrastructure.database.mapper.abstraction.IUserMapper;
 import com.alkemy.ong.infrastructure.database.repository.IUserRepository;
@@ -19,7 +21,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
 @Service
 @AllArgsConstructor
 public class UserService implements UserDetailsService, IDeleteUserService, IGetUserService,
@@ -30,6 +31,9 @@ public class UserService implements UserDetailsService, IDeleteUserService, IGet
 
   @Autowired
   private IUserMapper userMapper;
+
+  @Autowired
+  private SecurityUtils securityUtils;
 
   @Autowired
   private PasswordEncoder passwordEncoder;
@@ -60,6 +64,11 @@ public class UserService implements UserDetailsService, IDeleteUserService, IGet
     ListUsersResponse listUsersResponse = new ListUsersResponse();
     listUsersResponse.setUsers(userMapper.toListUserResponse(listUserEntities));
     return listUsersResponse;
+  }
+
+  @Override
+  public UserResponse getUserAuthenticated() {
+    return userMapper.toUserResponse((UserEntity) securityUtils.getUserAuthenticated());
   }
 
   private UserEntity getUser(String username) {

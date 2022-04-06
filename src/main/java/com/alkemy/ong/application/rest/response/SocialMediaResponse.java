@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class SocialMedia {
+public class SocialMediaResponse {
 
   private String facebookUrl;
   private String instagramUrl;
