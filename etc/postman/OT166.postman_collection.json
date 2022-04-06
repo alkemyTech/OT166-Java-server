@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2602b4ff-272a-4013-8bf1-a8791b8f4240",
+		"_postman_id": "38a3d8cd-ec75-4dd6-8abc-ba30a022579b",
 		"name": "OT166",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -704,7 +704,16 @@
 					"name": "GET Contacts",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/contacts",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"contacts"
+							]
+						}
 					},
 					"response": []
 				}
