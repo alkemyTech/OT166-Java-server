@@ -257,6 +257,24 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "GET Slide ADMIN/USER",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/slides/5",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"slides",
+								"5"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

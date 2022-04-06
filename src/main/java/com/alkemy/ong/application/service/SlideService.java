@@ -22,9 +22,7 @@ public class SlideService implements IDeleteSlideService, IGetSlideService {
 
   @Override
   public void delete(Long id) {
-    if (!slideRepository.existsById(id)) {
-      throw new EntityNotFoundException("Slide not found.");
-    }
+    checkIfExist(id);
     slideRepository.deleteById(id);
   }
 
@@ -33,4 +31,17 @@ public class SlideService implements IDeleteSlideService, IGetSlideService {
     List<SlideEntity> slideEntities = slideRepository.findAllByOrderByOrder();
     return slideMapper.toListSlideResponse(slideEntities);
   }
+
+  @Override
+  public SlideResponse getBy(Long id) {
+    checkIfExist(id);
+    return slideMapper.toSlideResponse(slideRepository.getById(id));
+  }
+
+  private void checkIfExist(Long id) {
+    if (!slideRepository.existsById(id)) {
+      throw new EntityNotFoundException("Slide not found.");
+    }
+  }
+
 }
