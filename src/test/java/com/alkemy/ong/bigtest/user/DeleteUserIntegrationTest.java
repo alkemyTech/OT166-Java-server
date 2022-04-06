@@ -66,7 +66,6 @@ public class DeleteUserIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnNotFoundErrorResponseWhenUserNotExist() throws Exception {
-
     String nonExistUserId = "1000000";
     mockMvc.perform(delete("/users/{id}", nonExistUserId)
             .contentType(MediaType.APPLICATION_JSON)
@@ -76,15 +75,14 @@ public class DeleteUserIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
         .andExpect(jsonPath("$.moreInfo", hasItem("User not found.")))
         .andExpect(status().isNotFound());
-
   }
 
-  private void assertUserHasBeenDeleted(Long userId){
+  private void assertUserHasBeenDeleted(Long userId) {
     Optional<UserEntity> updatedUser = userRepository.findById(userId);
     updatedUser.ifPresent(userEntity -> assertFalse(userEntity.isEnabled()));
   }
 
-  private void assertUserHasNotBeenDeleted(Long userId){
+  private void assertUserHasNotBeenDeleted(Long userId) {
     Optional<UserEntity> updatedUser = userRepository.findById(userId);
     updatedUser.ifPresent(userEntity -> assertTrue(userEntity.isEnabled()));
   }
