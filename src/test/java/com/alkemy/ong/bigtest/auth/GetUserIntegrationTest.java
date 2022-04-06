@@ -7,23 +7,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.alkemy.ong.bigtest.util.BigTest;
 import com.alkemy.ong.infrastructure.database.entity.UserEntity;
-import org.junit.jupiter.api.Test;
+import com.alkemy.ong.infrastructure.spring.config.security.Role;
+import org.junit.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
 
-public class GetMyUserIntegrationTest extends BigTest {
+public class GetUserIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnMyUser() throws Exception {
-    UserEntity randomUser = getRandomUser();
 
     mockMvc.perform(get("/auth/me")
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
+        .andExpect(jsonPath("$.firstName", equalTo("Freddy")))
+        .andExpect(jsonPath("$.lastName", equalTo("Krueger")))
+        .andExpect(jsonPath("$.email", equalTo("freedy@krueger.com")))
+        .andExpect(jsonPath("$.role", equalTo("ROLE_USER")))
         .andExpect(status().isOk());
 
-    cleanUsersData(randomUser);
   }
 
 }
