@@ -19,7 +19,7 @@ import org.springframework.http.MediaType;
 public class RegisterAuthenticationIntegrationTest extends BigTest {
 
   @Test
-  public void shouldPostNewUserWhenGivenDataIsValid() throws Exception {
+  public void shouldCreateNewUserWhenGivenDataIsValid() throws Exception {
 
     mockMvc.perform(post("/auth/register")
             .content(objectMapper.writeValueAsString(RegisterRequest.builder()
