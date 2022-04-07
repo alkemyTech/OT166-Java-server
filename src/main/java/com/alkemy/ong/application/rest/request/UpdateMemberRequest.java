@@ -14,12 +14,14 @@ import lombok.Setter;
 @Builder
 public class UpdateMemberRequest {
 
+  @NotNull(message = "The name must not be null")
   @Pattern(regexp = ALPHABETIC_CHARACTERS_WITH_BLANK_SPACES,
       message = "The name has invalid format.")
   private String name;
   private String facebookUrl;
   private String instagramUrl;
   private String linkedInUrl;
+  @NotNull(message = "The image must not be null")
   @Pattern(regexp = URL, message = "The image has invalid format.")
   private String image;
   private String description;
