@@ -53,9 +53,14 @@ public class CommentService implements IDeleteCommentService, ICreateCommentServ
     CommentEntity commentEntity = commentMapper.toCommentEntity(
         createCommentRequest);
 
-    buildComment(commentEntity,userEntity,newsEntity);
+    buildCommentEntity(commentEntity,userEntity,newsEntity);
 
-    return commentMapper.toCommentResponse(commentRepository.save(commentEntity));
+    CommentResponse commentResponse =
+        commentMapper.toCommentResponse(commentRepository.save(commentEntity));
+
+    buildCommentResponse(commentResponse,userEntity,newsEntity);
+
+    return commentResponse;
   }
 
   private void validateIfOperationIsAllowed(UserEntity userEntity) {
@@ -89,10 +94,16 @@ public class CommentService implements IDeleteCommentService, ICreateCommentServ
     return newsEntity;
   }
 
-  private void buildComment(
+  private void buildCommentEntity(
       CommentEntity commentEntity, UserEntity userEntity, NewsEntity newsEntity) {
     commentEntity.setUser(userEntity);
     commentEntity.setNews(newsEntity);
+  }
+
+  private void buildCommentResponse(
+      CommentResponse commentResponse, UserEntity userEntity, NewsEntity newsEntity) {
+    commentResponse.setCreatedBy(userEntity.getFirstName() + " " + userEntity.getLastName());
+    commentResponse.setAssociatedNews(newsEntity.getName());
   }
 
 }
