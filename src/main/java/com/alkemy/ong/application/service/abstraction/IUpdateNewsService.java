@@ -5,6 +5,6 @@ import com.alkemy.ong.application.rest.response.NewsResponse;
 
 public interface IUpdateNewsService {
 
-  NewsResponse update(long id, UpdateNewsRequest updateNewsRequest);
+  NewsResponse update(Long id, UpdateNewsRequest updateNewsRequest);
 
 }

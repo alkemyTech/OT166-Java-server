@@ -11,7 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
 
-public class GetUserIntegrationTest extends BigTest {
+public class GetAuthenticatedUserDetailsIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnUserWhenHasUserRole() throws Exception {

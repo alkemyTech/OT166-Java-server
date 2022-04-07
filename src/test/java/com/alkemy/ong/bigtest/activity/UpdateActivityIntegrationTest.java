@@ -29,9 +29,9 @@ public class UpdateActivityIntegrationTest extends BigTest {
     Long randomActivityId = randomActivity.getId();
 
     mockMvc.perform(put("/activities/{id}", String.valueOf(randomActivityId))
-                .content(getContent("New name", "", "https://s3.com/activity.jpg"))
-                .contentType(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
+            .content(getContent("New name", "", "https://s3.com/activity.jpg"))
+            .contentType(MediaType.APPLICATION_JSON)
+            .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$.id", notNullValue()))
         .andExpect(jsonPath("$.name", equalTo("New name")))
         .andExpect(jsonPath("$.content", equalTo("")))
@@ -96,7 +96,7 @@ public class UpdateActivityIntegrationTest extends BigTest {
     ActivityEntity randomActivity = getRandomActivity();
 
     mockMvc.perform(put("/activities/{id}", String.valueOf(randomActivity.getId()))
-            .content(getContent("Nam3 whit numb3rs","", "https://s3.com/activity.jpg"))
+            .content(getContent("Nam3 whit numb3rs", "", "https://s3.com/activity.jpg"))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
@@ -113,7 +113,7 @@ public class UpdateActivityIntegrationTest extends BigTest {
     ActivityEntity randomActivity = getRandomActivity();
 
     mockMvc.perform(put("/activities/{id}", String.valueOf(randomActivity.getId()))
-            .content(getContent("","", "https://s3.com/ activity.jpg"))
+            .content(getContent("", "", "https://s3.com/ activity.jpg"))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$.statusCode", equalTo(400)))

@@ -40,7 +40,7 @@ public class NewsService implements ICreateNewsService, IDeleteNewsService, IUpd
   }
 
   @Override
-  public NewsResponse update(long id, UpdateNewsRequest updateNewsRequest) {
+  public NewsResponse update(Long id, UpdateNewsRequest updateNewsRequest) {
     NewsEntity newsEntity = findBy(id);
     newsEntity.setName(updateNewsRequest.getName());
     newsEntity.setContent(updateNewsRequest.getText());

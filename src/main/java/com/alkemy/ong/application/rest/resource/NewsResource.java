@@ -28,14 +28,14 @@ public class NewsResource {
   private ICreateNewsService createNewsService;
 
   @Autowired
-  private IUpdateNewsService updateNewsService; 
+  private IUpdateNewsService updateNewsService;
 
   @Autowired
   private IDeleteNewsService deleteNewsService;
 
   @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,
       consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<NewsResponse> postNews(
+  public ResponseEntity<NewsResponse> create(
       @Valid @RequestBody CreateNewsRequest createNewsRequest) {
     NewsResponse newsResponse = createNewsService.create(createNewsRequest);
     URI location = ServletUriComponentsBuilder
@@ -53,10 +53,11 @@ public class NewsResource {
     return ResponseEntity.noContent().build();
   }
 
-  @PutMapping("/{id}")
-  public ResponseEntity<NewsResponse> updateNews(@PathVariable long id,
+  @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE,
+      consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<NewsResponse> update(@PathVariable Long id,
       @Valid @RequestBody UpdateNewsRequest updateNewsRequest) {
-    return ResponseEntity.ok(updateNewsService.update(id,updateNewsRequest));
+    return ResponseEntity.ok(updateNewsService.update(id, updateNewsRequest));
   }
 
 }
