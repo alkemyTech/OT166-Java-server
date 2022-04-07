@@ -36,11 +36,10 @@ public class RegisterAuthenticationIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.token", notNullValue()))
         .andExpect(status().isCreated());
 
-
-      UserEntity newUser = userRepository.findByEmail("pepeLePew@mail.com");
-      assertNotNull(newUser);
-      assertEquals("Pepe", newUser.getFirstName());
-      assertEquals("Le Pew", newUser.getLastName());
+    UserEntity newUser = userRepository.findByEmail("pepeLePew@mail.com");
+    assertNotNull(newUser);
+    assertEquals("Pepe", newUser.getFirstName());
+    assertEquals("Le Pew", newUser.getLastName());
   }
 
   @Test
@@ -57,7 +56,7 @@ public class RegisterAuthenticationIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
         .andExpect(jsonPath("$.moreInfo",
-            hasItem("The firstName must not be null")))
+            hasItem("The first name must not be null")))
         .andExpect(status().isBadRequest());
   }
 
@@ -76,7 +75,7 @@ public class RegisterAuthenticationIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
         .andExpect(jsonPath("$.moreInfo",
-            hasItem("Name can contain letters and spaces")))
+            hasItem("First name can contain letters and spaces")))
         .andExpect(status().isBadRequest());
   }
 
@@ -94,7 +93,7 @@ public class RegisterAuthenticationIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
         .andExpect(jsonPath("$.moreInfo",
-            hasItem("The lastName must not be null")))
+            hasItem("The last name must not be null")))
         .andExpect(status().isBadRequest());
   }
 
@@ -122,7 +121,7 @@ public class RegisterAuthenticationIntegrationTest extends BigTest {
 
     mockMvc.perform(post("/auth/register")
             .content(objectMapper.writeValueAsString(RegisterRequest.builder()
-                    .firstName("Pepe")
+                .firstName("Pepe")
                 .lastName("Le Pew")
                 .password("pass1234")
                 .build()))
@@ -229,7 +228,6 @@ public class RegisterAuthenticationIntegrationTest extends BigTest {
             hasItem("The password must be between 6 and 8 characters.")))
         .andExpect(status().isBadRequest());
   }
-
 
 
 }

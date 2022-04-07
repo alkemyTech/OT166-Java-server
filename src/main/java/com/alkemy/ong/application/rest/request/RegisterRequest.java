@@ -15,13 +15,13 @@ import org.hibernate.validator.constraints.Length;
 @Builder
 public class RegisterRequest {
 
-  @NotNull(message = "The firstName must not be null")
+  @NotNull(message = "The first name must not be null")
   @Pattern(regexp = RegExpressionUtils.ALPHABETIC_CHARACTERS_WITH_BLANK_SPACES,
-      message = "Name can contain letters and spaces")
+      message = "First name can contain letters and spaces")
   @Schema(example = "Richard")
   private String firstName;
 
-  @NotNull(message = "The lastName must not be null")
+  @NotNull(message = "The last name must not be null")
   @Pattern(regexp = RegExpressionUtils.ALPHABETIC_CHARACTERS_WITH_BLANK_SPACES,
       message = "Last name can contain letters and spaces")
   @Schema(example = "Fort")
@@ -34,6 +34,6 @@ public class RegisterRequest {
 
   @NotNull(message = "The password must not be null")
   @Length(min = 6, max = 8, message = "The password must be between 6 and 8 characters.")
-  @Schema(minLength = 6, maxLength = 8, example = "comander")
+  @Schema(minLength = 6, maxLength = 8, example = "foo1234")
   private String password;
 }

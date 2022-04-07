@@ -32,7 +32,7 @@ public class UpdateOrganizationRequest {
 
   @Nullable
   @Pattern(regexp = RegExpressionUtils.ALPHANUMERIC_CHARACTERS_WITH_BLANK_SPACES,
-      message = "The welcomeText has invalid format")
+      message = "The welcome text has invalid format")
   @Length(max = 50)
   private String welcomeText;
 

@@ -42,5 +42,4 @@ public class GetUserIntegrationTest extends BigTest {
   }
 
 
-
 }
