@@ -20,7 +20,6 @@ public class CreateActivityIntegrationTest extends BigTest {
 
   @Test
   public void shouldCreateActivityWhenRequestUserHasAdminRole() throws Exception {
-
     mockMvc.perform(post("/activities")
             .content(getContent("Activity Name", "Activity Content", "imageActivity"))
             .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -30,12 +29,10 @@ public class CreateActivityIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.content", equalTo("Activity Content")))
         .andExpect(jsonPath("$.image", equalTo("imageActivity")))
         .andExpect(status().isCreated());
-
   }
 
   @Test
   public void shouldReturnForbiddenErrorResponseWhenTokenIsNotSent() throws Exception {
-
     mockMvc.perform(post("/activities")
             .content(getContent("Activity Name", "Activity Content", "imageActivity"))
             .contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -43,12 +40,10 @@ public class CreateActivityIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.message",
             equalTo("Access denied. Please, try to login again or contact your admin.")))
         .andExpect(status().isForbidden());
-
   }
 
   @Test
   public void shouldReturnBadRequestWhenNameIsNull() throws Exception {
-
     mockMvc.perform(post("/activities")
             .content(getContent(null, "Activity Content", "imageActivity"))
             .contentType(MediaType.APPLICATION_JSON)
@@ -63,7 +58,6 @@ public class CreateActivityIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnBadRequestWhenContentIsNull() throws Exception {
-
     mockMvc.perform(post("/activities")
             .content(getContent("Activity name", null, "imageActivity"))
             .contentType(MediaType.APPLICATION_JSON)
@@ -78,7 +72,6 @@ public class CreateActivityIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnBadRequestWhenImageIsNull() throws Exception {
-
     mockMvc.perform(post("/activities")
             .content(getContent("Activity name", "Activity Content", null))
             .contentType(MediaType.APPLICATION_JSON)
@@ -93,12 +86,10 @@ public class CreateActivityIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnBadRequestWhenNameIsTooLong() throws Exception {
-
-    String nameToLong = RandomStringUtils.random(60, ".");
+    String nameTooLong = RandomStringUtils.random(60, ".");
 
     mockMvc.perform(post("/activities")
-            .content(getContent(nameToLong,
-                "Activity Content", "imageActivity"))
+            .content(getContent(nameTooLong,"Activity Content", "imageActivity"))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
@@ -111,7 +102,6 @@ public class CreateActivityIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnBadRequestWhenNameIContainsNumbers() throws Exception {
-
     mockMvc.perform(post("/activities")
             .content(getContent("Nam3 whit numb3rs","", ""))
             .contentType(MediaType.APPLICATION_JSON)
@@ -122,12 +112,10 @@ public class CreateActivityIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.moreInfo",
             hasItem("The name has invalid format.")))
         .andExpect(status().isBadRequest());
-
   }
 
   @Test
   public void shouldReturnBadRequestWhenImageContainsBlankSpaces() throws Exception {
-
     mockMvc.perform(post("/activities")
             .content(getContent("","", "https://s3.com/ activity.jpg"))
             .contentType(MediaType.APPLICATION_JSON)
@@ -138,7 +126,6 @@ public class CreateActivityIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.moreInfo",
             hasItem("The image has invalid format.")))
         .andExpect(status().isBadRequest());
-
   }
 
   private String getContent(String name, String content, String image)
