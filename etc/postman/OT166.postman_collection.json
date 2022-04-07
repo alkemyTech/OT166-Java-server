@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "dfc8ea0f-6ca2-4ad6-ace1-485a15177f39",
+		"_postman_id": "8ed1e3fc-286f-499f-862d-87084620b351",
 		"name": "OT166",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -424,7 +424,10 @@
 					"name": "GET member ADMIN",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": ""
+						}
 					},
 					"response": []
 				}
@@ -520,6 +523,43 @@
 							"path": [
 								"categories",
 								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Category ADMIN",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6IlJPTEVfQURNSU4iLCJzdWIiOiJhbGZyZWRvQGdtYWlsLmNvbSIsImlhdCI6MTY0OTM2MTI0OCwiZXhwIjoxNjQ5MzYzMDQ4fQ.DG_ypNcOSVwobHKYk_lsy7Vsybos64lfZyuKbgvHRNY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\",\r\n    \"description\": \"\",\r\n    \"image\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/categories/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"categories",
+								""
 							]
 						}
 					},
