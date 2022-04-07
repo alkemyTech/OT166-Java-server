@@ -237,8 +237,10 @@ public abstract class BigTest {
   }
 
   protected ActivityEntity getRandomActivity() {
-    return activityRepository.save(buildActivity("Name Activity",
-        "Content Activity", "\"https://s3.com/activity.jpg\""));
+    return activityRepository.save(buildActivity(
+        "Name Activity",
+        "Content Activity",
+        "https://s3.com/activity.jpg"));
   }
 
   private String getAuthorizationTokenForUser(String email) throws Exception {
