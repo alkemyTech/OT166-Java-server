@@ -22,8 +22,7 @@ public class UpdateOrganizationRequest {
   private String name;
 
   @Nullable
-  @Pattern(regexp = RegExpressionUtils.ALPHANUMERIC_CHARACTERS_WITHOUT_BLANK_SPACES,
-      message = "The image has invalid format.")
+  @Pattern(regexp = RegExpressionUtils.URL, message = "The image has invalid format.")
   private String image;
 
   @Nullable
