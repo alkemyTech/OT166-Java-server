@@ -14,7 +14,7 @@ public class ActivitySeeder {
 
   private static final List<String> ACTIVITIES_NAMES = List.of(
       "Elementary School school-based support programmes",
-      "High School school-based support progammes", "Lessons");
+      "High School school-based support programmes", "Lessons");
   private static final List<String> ACTIVITIES_CONTENTS = List.of("The school support space is the "
       + "heart of the educational area.This workshop is designed to help students with the "
       + "material they bring from school, we also have a teacher who gives them "
@@ -35,19 +35,19 @@ public class ActivitySeeder {
   }
 
   private void createActivities() {
-    if (activityRepository.count() < 3) {
+    if (activityRepository.count() == 0) {
       saveActivities();
     }
   }
 
   private void saveActivities() {
-    List<ActivityEntity> activities = new ArrayList<>(3);
+    List<ActivityEntity> activityEntities = new ArrayList<>(3);
     for (int index = 0; index < 3; index++) {
-      activities.add(buildActivity(
+      activityEntities.add(buildActivity(
           ACTIVITIES_NAMES.get(index),
           ACTIVITIES_CONTENTS.get(index)));
     }
-    activityRepository.saveAll(activities);
+    activityRepository.saveAll(activityEntities);
   }
 
   private ActivityEntity buildActivity(String name, String content) {

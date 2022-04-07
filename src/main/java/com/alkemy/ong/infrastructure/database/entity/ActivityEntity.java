@@ -32,7 +32,7 @@ public class ActivityEntity {
   @Column(name = "NAME", nullable = false)
   private String name;
 
-  @Column(name = "CONTENT", nullable = false, columnDefinition = "text")
+  @Column(name = "CONTENT", nullable = false)
   private String content;
 
   @Column(name = "IMAGE", nullable = false)
