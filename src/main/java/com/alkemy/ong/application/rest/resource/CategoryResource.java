@@ -52,7 +52,8 @@ public class CategoryResource {
     return ResponseEntity.created(location).body(categoryResponse);
   }
 
-  @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE,
+      produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<CategoryResponse> update(@PathVariable Long id,
       @Valid @RequestBody UpdateCategoryRequest updateCategoryRequest) {
     return ResponseEntity.ok().body(updateCategoryService.update(id, updateCategoryRequest));
