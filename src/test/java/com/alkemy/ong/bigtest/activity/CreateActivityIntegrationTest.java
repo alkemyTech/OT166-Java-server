@@ -37,8 +37,8 @@ public class CreateActivityIntegrationTest extends BigTest {
         .andExpect(status().isCreated())
         .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
 
-    Long activityId = JsonPath.read(response, "$.id");
-    assertActivityHasBeenCreated(activityId);
+    Integer activityId = JsonPath.read(response, "$.id");
+    assertActivityHasBeenCreated(Long.valueOf(activityId));
   }
 
   @Test
@@ -61,8 +61,7 @@ public class CreateActivityIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
         .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
-        .andExpect(jsonPath("$.moreInfo",
-            hasItem("The name must not be null")))
+        .andExpect(jsonPath("$.moreInfo", hasItem("The name must not be null")))
         .andExpect(status().isBadRequest());
   }
 
@@ -75,8 +74,7 @@ public class CreateActivityIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
         .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
-        .andExpect(jsonPath("$.moreInfo",
-            hasItem("The content must not be null")))
+        .andExpect(jsonPath("$.moreInfo", hasItem("The content must not be null")))
         .andExpect(status().isBadRequest());
   }
 
@@ -89,8 +87,7 @@ public class CreateActivityIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
         .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
-        .andExpect(jsonPath("$.moreInfo",
-            hasItem("The image must not be null")))
+        .andExpect(jsonPath("$.moreInfo", hasItem("The image must not be null")))
         .andExpect(status().isBadRequest());
   }
 
@@ -111,16 +108,15 @@ public class CreateActivityIntegrationTest extends BigTest {
   }
 
   @Test
-  public void shouldReturnBadRequestWhenNameIContainsNumbers() throws Exception {
+  public void shouldReturnBadRequestWhenNameContainsNumbers() throws Exception {
     mockMvc.perform(post("/activities")
-            .content(getContent("Nam3 whit numb3rs", "", ""))
+            .content(getContent("Nam3 whit numb3rs", "", "https://s3.com/activity.jpg"))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
         .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
-        .andExpect(jsonPath("$.moreInfo",
-            hasItem("The name has invalid format.")))
+        .andExpect(jsonPath("$.moreInfo", hasItem("The name has invalid format.")))
         .andExpect(status().isBadRequest());
   }
 
@@ -133,8 +129,7 @@ public class CreateActivityIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
         .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
-        .andExpect(jsonPath("$.moreInfo",
-            hasItem("The image has invalid format.")))
+        .andExpect(jsonPath("$.moreInfo", hasItem("The image has invalid format.")))
         .andExpect(status().isBadRequest());
   }
 

@@ -29,13 +29,13 @@ public class UpdateActivityIntegrationTest extends BigTest {
     Long randomActivityId = randomActivity.getId();
 
     mockMvc.perform(put("/activities/{id}", String.valueOf(randomActivityId))
-                .content(getContent("New name", "", ""))
+                .content(getContent("New name", "", "https://s3.com/activity.jpg"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$.id", notNullValue()))
         .andExpect(jsonPath("$.name", equalTo("New name")))
         .andExpect(jsonPath("$.content", equalTo("")))
-        .andExpect(jsonPath("$.image", equalTo("")))
+        .andExpect(jsonPath("$.image", equalTo("https://s3.com/activity.jpg")))
         .andExpect(status().isOk());
 
     assertActivityHasBeenCreated(randomActivityId);
@@ -47,7 +47,7 @@ public class UpdateActivityIntegrationTest extends BigTest {
     ActivityEntity randomActivity = getRandomActivity();
 
     mockMvc.perform(put("/activities/{id}", String.valueOf(randomActivity.getId()))
-            .content(getContent("New name", "", ""))
+            .content(getContent("New name", "", "https://s3.com/activity.jpg"))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.statusCode", equalTo(403)))
         .andExpect(jsonPath("$.message",
@@ -62,7 +62,7 @@ public class UpdateActivityIntegrationTest extends BigTest {
     String nonExistActivityId = "1000000";
 
     mockMvc.perform(put("/activities/{id}", nonExistActivityId)
-            .content(getContent("New name", "", ""))
+            .content(getContent("New name", "", "https://s3.com/activity.jpg"))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$.statusCode", equalTo(404)))
@@ -78,7 +78,7 @@ public class UpdateActivityIntegrationTest extends BigTest {
     String nameTooLong = RandomStringUtils.random(60, ".");
 
     mockMvc.perform(put("/activities/{id}", String.valueOf(randomActivity.getId()))
-            .content(getContent(nameTooLong, "", ""))
+            .content(getContent(nameTooLong, "", "https://s3.com/activity.jpg"))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
@@ -96,14 +96,13 @@ public class UpdateActivityIntegrationTest extends BigTest {
     ActivityEntity randomActivity = getRandomActivity();
 
     mockMvc.perform(put("/activities/{id}", String.valueOf(randomActivity.getId()))
-            .content(getContent("Nam3 whit numb3rs","", ""))
+            .content(getContent("Nam3 whit numb3rs","", "https://s3.com/activity.jpg"))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
         .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
-        .andExpect(jsonPath("$.moreInfo",
-            hasItem("The name has invalid format.")))
+        .andExpect(jsonPath("$.moreInfo", hasItem("The name has invalid format.")))
         .andExpect(status().isBadRequest());
 
     cleanActivityData(randomActivity);
@@ -120,8 +119,7 @@ public class UpdateActivityIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
         .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
-        .andExpect(jsonPath("$.moreInfo",
-            hasItem("The image has invalid format.")))
+        .andExpect(jsonPath("$.moreInfo", hasItem("The image has invalid format.")))
         .andExpect(status().isBadRequest());
 
     cleanActivityData(randomActivity);
@@ -141,7 +139,7 @@ public class UpdateActivityIntegrationTest extends BigTest {
     assertTrue(optionalActivityEntity.isPresent());
     assertEquals("New name", optionalActivityEntity.get().getName());
     assertEquals("", optionalActivityEntity.get().getContent());
-    assertEquals("", optionalActivityEntity.get().getImage());
+    assertEquals("https://s3.com/activity.jpg", optionalActivityEntity.get().getImage());
   }
 
 }
