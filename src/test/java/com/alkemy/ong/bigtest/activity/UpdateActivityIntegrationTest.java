@@ -25,7 +25,6 @@ public class UpdateActivityIntegrationTest extends BigTest {
 
   @Test
   public void shouldUpdateActivityWhenRequestUserHasAdminRole() throws Exception {
-
     ActivityEntity randomActivity = getRandomActivity();
     Long randomActivityId = randomActivity.getId();
 
@@ -39,18 +38,12 @@ public class UpdateActivityIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.image", equalTo("")))
         .andExpect(status().isOk());
 
-    Optional<ActivityEntity> updatedActivity = activityRepository.findById(randomActivityId);
-    assertTrue(updatedActivity.isPresent());
-    assertEquals("New name", updatedActivity.get().getName());
-    assertEquals("", updatedActivity.get().getContent());
-    assertEquals("", updatedActivity.get().getImage());
-
+    assertActivityHasBeenCreated(randomActivityId);
     cleanActivityData(randomActivity);
   }
 
   @Test
   public void shouldReturnForbiddenErrorResponseWhenTokenIsNotSent() throws Exception {
-
     ActivityEntity randomActivity = getRandomActivity();
 
     mockMvc.perform(put("/activities/{id}", String.valueOf(randomActivity.getId()))
@@ -66,10 +59,9 @@ public class UpdateActivityIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnNotFoundErrorResponseWhenActivityNotExist() throws Exception {
+    String nonExistActivityId = "1000000";
 
-    String nonExistUActivityId = "1000000";
-
-    mockMvc.perform(put("/activities/{id}", nonExistUActivityId)
+    mockMvc.perform(put("/activities/{id}", nonExistActivityId)
             .content(getContent("New name", "", ""))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
@@ -82,13 +74,11 @@ public class UpdateActivityIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnBadRequestWhenNameIsTooLong() throws Exception {
-
     ActivityEntity randomActivity = getRandomActivity();
-    String nameToLong = RandomStringUtils.random(60, ".");
+    String nameTooLong = RandomStringUtils.random(60, ".");
 
     mockMvc.perform(put("/activities/{id}", String.valueOf(randomActivity.getId()))
-            .content(getContent(nameToLong,
-                "", ""))
+            .content(getContent(nameTooLong, "", ""))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
@@ -102,8 +92,7 @@ public class UpdateActivityIntegrationTest extends BigTest {
   }
 
   @Test
-  public void shouldReturnBadRequestWhenNameIContainsNumbers() throws Exception {
-
+  public void shouldReturnBadRequestWhenNameContainsNumbers() throws Exception {
     ActivityEntity randomActivity = getRandomActivity();
 
     mockMvc.perform(put("/activities/{id}", String.valueOf(randomActivity.getId()))
@@ -122,7 +111,6 @@ public class UpdateActivityIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnBadRequestWhenImageContainsBlankSpaces() throws Exception {
-
     ActivityEntity randomActivity = getRandomActivity();
 
     mockMvc.perform(put("/activities/{id}", String.valueOf(randomActivity.getId()))
@@ -146,6 +134,14 @@ public class UpdateActivityIntegrationTest extends BigTest {
         .content(content)
         .image(image)
         .build());
+  }
+
+  private void assertActivityHasBeenCreated(Long randomActivityId) {
+    Optional<ActivityEntity> optionalActivityEntity = activityRepository.findById(randomActivityId);
+    assertTrue(optionalActivityEntity.isPresent());
+    assertEquals("New name", optionalActivityEntity.get().getName());
+    assertEquals("", optionalActivityEntity.get().getContent());
+    assertEquals("", optionalActivityEntity.get().getImage());
   }
 
 }
