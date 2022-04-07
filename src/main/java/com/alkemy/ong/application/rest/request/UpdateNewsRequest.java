@@ -25,7 +25,7 @@ public class UpdateNewsRequest {
       message = "The text accepts only alphanumeric characters and blank spaces.")
   private String text;
 
-  @Pattern(regexp = RegExpressionUtils.ALPHANUMERIC_CHARACTERS_WITHOUT_BLANK_SPACES,
+  @Pattern(regexp = RegExpressionUtils.URL,
       message = "The image accepts only alphanumeric characters.")
   private String image;
 
