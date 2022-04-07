@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "82afcb5c-b552-4908-8b32-a13a3ba5275a",
+		"_postman_id": "dfc8ea0f-6ca2-4ad6-ace1-485a15177f39",
 		"name": "OT166",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -419,6 +419,14 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "GET member ADMIN",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			]
 		},
@@ -687,6 +695,23 @@
 					"name": "POST contact --",
 					"request": {
 						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/contacts",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"contacts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Contacts",
+					"request": {
+						"method": "GET",
 						"header": [],
 						"url": {
 							"raw": "{{URL}}/contacts",
