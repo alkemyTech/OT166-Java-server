@@ -5,7 +5,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -19,7 +19,7 @@ import org.springframework.http.MediaType;
 public class RegisterAuthenticationIntegrationTest extends BigTest {
 
   @Test
-  public void shouldPostNewUser() throws Exception {
+  public void shouldPostNewUserWhenGivenDataIsValid() throws Exception {
 
     mockMvc.perform(post("/auth/register")
             .content(objectMapper.writeValueAsString(RegisterRequest.builder()
@@ -38,7 +38,7 @@ public class RegisterAuthenticationIntegrationTest extends BigTest {
 
 
       UserEntity newUser = userRepository.findByEmail("pepeLePew@mail.com");
-      assertTrue(newUser != null);
+      assertNotNull(newUser);
       assertEquals("Pepe", newUser.getFirstName());
       assertEquals("Le Pew", newUser.getLastName());
   }
@@ -57,7 +57,7 @@ public class RegisterAuthenticationIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
         .andExpect(jsonPath("$.moreInfo",
-            hasItem("must not be null")))
+            hasItem("The firstName must not be null")))
         .andExpect(status().isBadRequest());
   }
 
@@ -94,7 +94,7 @@ public class RegisterAuthenticationIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
         .andExpect(jsonPath("$.moreInfo",
-            hasItem("must not be null")))
+            hasItem("The lastName must not be null")))
         .andExpect(status().isBadRequest());
   }
 
@@ -131,7 +131,7 @@ public class RegisterAuthenticationIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
         .andExpect(jsonPath("$.moreInfo",
-            hasItem("must not be null")))
+            hasItem("The email must not be null")))
         .andExpect(status().isBadRequest());
   }
 
@@ -188,7 +188,7 @@ public class RegisterAuthenticationIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
         .andExpect(jsonPath("$.moreInfo",
-            hasItem("must not be null")))
+            hasItem("The password must not be null")))
         .andExpect(status().isBadRequest());
   }
 

@@ -3,11 +3,8 @@ package com.alkemy.ong.bigtest.auth;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.isA;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.hamcrest.core.IsEqual.equalToObject;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,7 +17,7 @@ import org.springframework.http.MediaType;
 public class AuthenticationIntegrationTest extends BigTest {
 
   @Test
-  public void shouldReturnOKStatusCode() throws Exception {
+  public void shouldReturnTokenWhenCredentialsAreValid() throws Exception {
 
     mockMvc.perform(post("/auth/login")
             .content(objectMapper.writeValueAsString(AuthenticationRequest.builder()

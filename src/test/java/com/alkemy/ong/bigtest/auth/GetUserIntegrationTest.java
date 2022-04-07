@@ -28,14 +28,16 @@ public class GetUserIntegrationTest extends BigTest {
 
 
   @Test
-  public void shouldReturnForbiddenErrorResponseWhenHasAdminRole() throws Exception {
+  public void shouldReturnUserWhenHasAdminRole() throws Exception {
 
     mockMvc.perform(get("/auth/me")
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
-        .andExpect(jsonPath("$.statusCode", equalTo(403)))
-        .andExpect(jsonPath("$.message", equalTo("Access denied. Please, try to login again or contact your admin.")))
-        .andExpect(status().isForbidden());
+        .andExpect(jsonPath("$.firstName", equalTo("Jason")))
+        .andExpect(jsonPath("$.lastName", equalTo("Voorhees")))
+        .andExpect(jsonPath("$.email", equalTo("jason@voorhees.com")))
+        .andExpect(jsonPath("$.role", equalTo("ROLE_ADMIN")))
+        .andExpect(status().isOk());
 
   }
 

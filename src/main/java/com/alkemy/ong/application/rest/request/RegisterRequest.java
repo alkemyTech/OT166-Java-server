@@ -15,24 +15,24 @@ import org.hibernate.validator.constraints.Length;
 @Builder
 public class RegisterRequest {
 
-  @NotNull
+  @NotNull(message = "The firstName must not be null")
   @Pattern(regexp = RegExpressionUtils.ALPHABETIC_CHARACTERS_WITH_BLANK_SPACES,
       message = "Name can contain letters and spaces")
   @Schema(example = "Richard")
   private String firstName;
 
-  @NotNull
+  @NotNull(message = "The lastName must not be null")
   @Pattern(regexp = RegExpressionUtils.ALPHABETIC_CHARACTERS_WITH_BLANK_SPACES,
       message = "Last name can contain letters and spaces")
   @Schema(example = "Fort")
   private String lastName;
 
-  @NotNull
+  @NotNull(message = "The email must not be null")
   @Email(message = "The email has invalid format.")
   @Schema(example = "example@email.com")
   private String email;
 
-  @NotNull
+  @NotNull(message = "The password must not be null")
   @Length(min = 6, max = 8, message = "The password must be between 6 and 8 characters.")
   @Schema(minLength = 6, maxLength = 8, example = "comander")
   private String password;
