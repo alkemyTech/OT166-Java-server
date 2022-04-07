@@ -16,7 +16,8 @@ import lombok.Setter;
 @Builder
 public class CreateCommentRequest {
 
-  @Pattern(regexp = RegExpressionUtils.ALPHANUMERIC_CHARACTERS_WITH_BLANK_SPACES)
+  @Pattern(regexp = RegExpressionUtils.ALPHANUMERIC_CHARACTERS_WITH_BLANK_SPACES,
+      message = "Body can only have alphanumeric characters with spaces.")
   private String body;
 
   @NotNull(message = "The user ID must not be null")
