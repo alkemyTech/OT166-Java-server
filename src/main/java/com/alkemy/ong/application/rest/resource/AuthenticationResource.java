@@ -36,14 +36,14 @@ public class AuthenticationResource {
 
   @Autowired
   private IRegisterService registerService;
-  
+
   @Autowired
   private IGetUserService getUserService;
 
   @Operation(summary = "Register", description = "Register a new user.", tags = "Post")
   @ApiResponses(value = {
       @ApiResponse(content = @Content(schema = @Schema(implementation = RegisterResponse.class)),
-      responseCode = "201", description = "Returns user created."),
+          responseCode = "201", description = "Returns user created."),
       @ApiResponse(responseCode = "400", description = "Invalid input data.", content = @Content(
           schema = @Schema(implementation = ErrorResponse.class)
       ))
@@ -73,7 +73,7 @@ public class AuthenticationResource {
   public ResponseEntity<AuthenticationResponse> login(
       @Valid @RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody(required = true,
           description = "User credentials", content = @Content(schema = @Schema(implementation =
-      AuthenticationRequest.class))) AuthenticationRequest authenticationRequest) {
+          AuthenticationRequest.class))) AuthenticationRequest authenticationRequest) {
     return ResponseEntity.ok().body(authService.login(authenticationRequest));
   }
 

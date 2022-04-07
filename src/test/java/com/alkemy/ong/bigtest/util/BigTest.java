@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import com.alkemy.ong.OngApplication;
 import com.alkemy.ong.application.rest.request.AuthenticationRequest;
+import com.alkemy.ong.infrastructure.database.entity.ActivityEntity;
 import com.alkemy.ong.infrastructure.database.entity.CategoryEntity;
 import com.alkemy.ong.infrastructure.database.entity.CommentEntity;
 import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
@@ -11,6 +12,7 @@ import com.alkemy.ong.infrastructure.database.entity.OrganizationEntity;
 import com.alkemy.ong.infrastructure.database.entity.RoleEntity;
 import com.alkemy.ong.infrastructure.database.entity.SlideEntity;
 import com.alkemy.ong.infrastructure.database.entity.UserEntity;
+import com.alkemy.ong.infrastructure.database.repository.IActivityRepository;
 import com.alkemy.ong.infrastructure.database.repository.ICategoryRepository;
 import com.alkemy.ong.infrastructure.database.repository.ICommentRepository;
 import com.alkemy.ong.infrastructure.database.repository.INewsRepository;
@@ -77,6 +79,9 @@ public abstract class BigTest {
   @Autowired
   protected IRoleRepository roleRepository;
 
+  @Autowired
+  protected IActivityRepository activityRepository;
+
   @Before
   public void setup() {
     createCategoryNews();
@@ -120,12 +125,17 @@ public abstract class BigTest {
     userRepository.deleteAllInBatch(Arrays.asList(users));
   }
 
+  protected void cleanActivityData(ActivityEntity... activity) {
+    activityRepository.deleteAllInBatch(Arrays.asList(activity));
+  }
+
   private void deleteAllEntities() {
     organizationRepository.deleteAll();
     slideRepository.deleteAll();
     commentRepository.deleteAll();
     newsRepository.deleteAll();
     categoryRepository.deleteAll();
+    activityRepository.deleteAll();
   }
 
   protected void saveOrganizationDetails() {
@@ -198,6 +208,15 @@ public abstract class BigTest {
         .build();
   }
 
+  private ActivityEntity buildActivity(String name, String content, String image) {
+    return ActivityEntity.builder()
+        .name(name)
+        .content(content)
+        .image(image)
+        .softDeleted(false)
+        .build();
+  }
+
   private RoleEntity buildRole(Role role) {
     return RoleEntity.builder()
         .description(role.name())
@@ -215,6 +234,13 @@ public abstract class BigTest {
 
   protected UserEntity getRandomUser() {
     return userRepository.save(buildUser("Bruce", "Wayne", "bruce@wayne.com", Role.USER));
+  }
+
+  protected ActivityEntity getRandomActivity() {
+    return activityRepository.save(buildActivity(
+        "Name Activity",
+        "Content Activity",
+        "https://s3.com/activity.jpg"));
   }
 
   private String getAuthorizationTokenForUser(String email) throws Exception {
