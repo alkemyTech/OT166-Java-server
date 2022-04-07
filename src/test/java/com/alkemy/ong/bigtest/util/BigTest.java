@@ -181,14 +181,6 @@ public abstract class BigTest {
     return categoryRepository.save(CategoryEntity.builder().name(name).build());
   }
 
-  protected ActivityEntity saveActivity() {
-    return activityRepository.save(ActivityEntity.builder()
-        .name("Activity 1")
-        .content("My first Activity")
-        .image("https://s3.com/activity.jpg")
-        .build());
-  }
-
   private void saveStandardUser() {
     userRepository.save(buildUser(
         "Freddy",

@@ -1,96 +1,94 @@
 package com.alkemy.ong.bigtest.activity;
 
+
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.alkemy.ong.application.rest.request.CreateActivityRequest;
 import com.alkemy.ong.bigtest.util.BigTest;
+import com.alkemy.ong.infrastructure.database.entity.ActivityEntity;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import java.util.Optional;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-public class PostActivityIntegrationTest extends BigTest {
+public class UpdateActivityIntegrationTest extends BigTest {
 
   @Test
-  public void shouldPostActivityWhenRequestUserHasAdminRole() throws Exception {
+  public void shouldUpdateActivityWhenRequestUserHasAdminRole() throws Exception {
 
-    mockMvc.perform(post("/activities")
-            .content(getContent("Activity Name", "Activity Content", "imageActivity"))
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
-        .andExpect(status().isCreated());
+    ActivityEntity randomActivity = getRandomActivity();
+    Long randomActivityId = randomActivity.getId();
 
+    mockMvc.perform(put("/activities/{id}", String.valueOf(randomActivityId))
+                .content(getContent("New name", "", ""))
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
+        .andExpect(jsonPath("$.id", notNullValue()))
+        .andExpect(jsonPath("$.name", equalTo("New name")))
+        .andExpect(jsonPath("$.content", equalTo("")))
+        .andExpect(jsonPath("$.image", equalTo("")))
+        .andExpect(status().isOk());
+
+    Optional<ActivityEntity> updatedActivity = activityRepository.findById(randomActivityId);
+    assertTrue(updatedActivity.isPresent());
+    assertEquals("New name", updatedActivity.get().getName());
+    assertEquals("", updatedActivity.get().getContent());
+    assertEquals("", updatedActivity.get().getImage());
+
+    cleanActivityData(randomActivity);
   }
 
   @Test
   public void shouldReturnForbiddenErrorResponseWhenTokenIsNotSent() throws Exception {
 
-    mockMvc.perform(post("/activities")
-            .content(getContent("Activity Name", "Activity Content", "imageActivity"))
-            .contentType(MediaType.APPLICATION_JSON_VALUE))
+    ActivityEntity randomActivity = getRandomActivity();
+
+    mockMvc.perform(put("/activities/{id}", String.valueOf(randomActivity.getId()))
+            .content(getContent("New name", "", ""))
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.statusCode", equalTo(403)))
         .andExpect(jsonPath("$.message",
             equalTo("Access denied. Please, try to login again or contact your admin.")))
         .andExpect(status().isForbidden());
 
+    cleanActivityData(randomActivity);
   }
 
   @Test
-  public void shouldReturnBadRequestWhenNameIsNull() throws Exception {
+  public void shouldReturnNotFoundErrorResponseWhenActivityNotExist() throws Exception {
 
-    mockMvc.perform(post("/activities")
-            .content(getContent(null, "Activity Content", "imageActivity"))
+    String nonExistUActivityId = "1000000";
+
+    mockMvc.perform(put("/activities/{id}", nonExistUActivityId)
+            .content(getContent("New name", "", ""))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
-        .andExpect(jsonPath("$.statusCode", equalTo(400)))
-        .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
+        .andExpect(jsonPath("$.statusCode", equalTo(404)))
+        .andExpect(jsonPath("$.message", equalTo("Entity not found.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
-        .andExpect(jsonPath("$.moreInfo",
-            hasItem("The name must not be null")))
-        .andExpect(status().isBadRequest());
-  }
-
-  @Test
-  public void shouldReturnBadRequestWhenContentIsNull() throws Exception {
-
-    mockMvc.perform(post("/activities")
-            .content(getContent("Activity name", null, "imageActivity"))
-            .contentType(MediaType.APPLICATION_JSON)
-            .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
-        .andExpect(jsonPath("$.statusCode", equalTo(400)))
-        .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
-        .andExpect(jsonPath("$.moreInfo", hasSize(1)))
-        .andExpect(jsonPath("$.moreInfo",
-            hasItem("The content must not be null")))
-        .andExpect(status().isBadRequest());
-  }
-
-  @Test
-  public void shouldReturnBadRequestWhenImageIsNull() throws Exception {
-
-    mockMvc.perform(post("/activities")
-            .content(getContent("Activity name", "Activity Content", null))
-            .contentType(MediaType.APPLICATION_JSON)
-            .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
-        .andExpect(jsonPath("$.statusCode", equalTo(400)))
-        .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
-        .andExpect(jsonPath("$.moreInfo", hasSize(1)))
-        .andExpect(jsonPath("$.moreInfo",
-            hasItem("The image must not be null")))
-        .andExpect(status().isBadRequest());
+        .andExpect(jsonPath("$.moreInfo", hasItem("Activity not found.")))
+        .andExpect(status().isNotFound());
   }
 
   @Test
   public void shouldReturnBadRequestWhenNameIsTooLong() throws Exception {
 
-    mockMvc.perform(post("/activities")
-            .content(getContent("NameToLong.........................................",
-                "Activity Content", "imageActivity"))
+    ActivityEntity randomActivity = getRandomActivity();
+    String nameToLong = RandomStringUtils.random(60, ".");
+
+    mockMvc.perform(put("/activities/{id}", String.valueOf(randomActivity.getId()))
+            .content(getContent(nameToLong,
+                "", ""))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
@@ -99,12 +97,16 @@ public class PostActivityIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.moreInfo",
             hasItem("The name attribute must not be more than 50 characters")))
         .andExpect(status().isBadRequest());
+
+    cleanActivityData(randomActivity);
   }
 
   @Test
   public void shouldReturnBadRequestWhenNameIContainsNumbers() throws Exception {
 
-    mockMvc.perform(post("/activities")
+    ActivityEntity randomActivity = getRandomActivity();
+
+    mockMvc.perform(put("/activities/{id}", String.valueOf(randomActivity.getId()))
             .content(getContent("Nam3 whit numb3rs","", ""))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
@@ -115,12 +117,15 @@ public class PostActivityIntegrationTest extends BigTest {
             hasItem("The name has invalid format.")))
         .andExpect(status().isBadRequest());
 
+    cleanActivityData(randomActivity);
   }
 
   @Test
   public void shouldReturnBadRequestWhenImageContainsBlankSpaces() throws Exception {
 
-    mockMvc.perform(post("/activities")
+    ActivityEntity randomActivity = getRandomActivity();
+
+    mockMvc.perform(put("/activities/{id}", String.valueOf(randomActivity.getId()))
             .content(getContent("","", "https://s3.com/ activity.jpg"))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
@@ -131,6 +136,7 @@ public class PostActivityIntegrationTest extends BigTest {
             hasItem("The image has invalid format.")))
         .andExpect(status().isBadRequest());
 
+    cleanActivityData(randomActivity);
   }
 
   private String getContent(String name, String content, String image)
