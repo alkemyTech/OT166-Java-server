@@ -28,7 +28,7 @@ public class CreateNewsRequest {
   @NotEmpty(message = "The text must not be empty.")
   private String text;
 
-  @Pattern(regexp = RegExpressionUtils.ALPHANUMERIC_CHARACTERS_WITHOUT_BLANK_SPACES,
+  @Pattern(regexp = RegExpressionUtils.URL,
       message = "The image accepts only alphanumeric characters.")
   @NotEmpty(message = "The image must not be empty.")
   private String image;

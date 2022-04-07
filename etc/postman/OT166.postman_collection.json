@@ -636,6 +636,43 @@
 					"response": []
 				},
 				{
+					"name": "PUT news ADMIN",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"juan\",\r\n    \"text\" : \"texto\",\r\n    \"image\" : \"urlimage\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/news/2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"news",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "DELETE news --",
 					"request": {
 						"auth": {
