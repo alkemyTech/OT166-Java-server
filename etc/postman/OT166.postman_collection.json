@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "8ed1e3fc-286f-499f-862d-87084620b351",
+		"_postman_id": "9355bb10-170c-436f-88d7-932b81a503bf",
 		"name": "OT166",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -26,7 +26,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"somos_mas@alkemy.com\",\r\n    \"password\": \"passpas\"\r\n}",
+							"raw": "{\r\n    \"email\": \"adrian.luna@gmail.com\",\r\n    \"password\": \"pass123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -430,6 +430,43 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "PUT member USER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Nombre con espacios\",\r\n    \"image\": \"descripcion\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/members/2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"members",
+								"2"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -523,43 +560,6 @@
 							"path": [
 								"categories",
 								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PUT Category ADMIN",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6IlJPTEVfQURNSU4iLCJzdWIiOiJhbGZyZWRvQGdtYWlsLmNvbSIsImlhdCI6MTY0OTM2MTI0OCwiZXhwIjoxNjQ5MzYzMDQ4fQ.DG_ypNcOSVwobHKYk_lsy7Vsybos64lfZyuKbgvHRNY",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"\",\r\n    \"description\": \"\",\r\n    \"image\": \"\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{URL}}/categories/",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"categories",
-								""
 							]
 						}
 					},
