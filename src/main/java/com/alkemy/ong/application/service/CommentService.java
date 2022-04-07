@@ -53,8 +53,7 @@ public class CommentService implements IDeleteCommentService, ICreateCommentServ
     CommentEntity commentEntity = commentMapper.toCommentEntity(
         createCommentRequest);
 
-    commentEntity.setUser(userEntity);
-    commentEntity.setNews(newsEntity);
+    buildComment(commentEntity,userEntity,newsEntity);
 
     return commentMapper.toCommentResponse(commentRepository.save(commentEntity));
   }
@@ -88,6 +87,12 @@ public class CommentService implements IDeleteCommentService, ICreateCommentServ
       throw new EntityNotFoundException("News not found");
     }
     return newsEntity;
+  }
+
+  private void buildComment(
+      CommentEntity commentEntity, UserEntity userEntity, NewsEntity newsEntity) {
+    commentEntity.setUser(userEntity);
+    commentEntity.setNews(newsEntity);
   }
 
 }
