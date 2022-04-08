@@ -58,7 +58,8 @@ public class MemberResource {
     return ResponseEntity.noContent().build();
   }
 
-  @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE,
+      consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<MemberResponse> update(@PathVariable Long id, @Valid @RequestBody
       UpdateMemberRequest updateMemberRequest) {
     return ResponseEntity.ok().body(updateMemberService.update(id, updateMemberRequest));
