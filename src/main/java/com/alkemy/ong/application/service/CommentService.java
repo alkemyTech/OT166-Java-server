@@ -14,6 +14,7 @@ import com.alkemy.ong.infrastructure.database.mapper.abstraction.ICommentMapper;
 import com.alkemy.ong.infrastructure.database.repository.ICommentRepository;
 import com.alkemy.ong.infrastructure.database.repository.INewsRepository;
 import com.alkemy.ong.infrastructure.database.repository.IUserRepository;
+import java.text.MessageFormat;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,12 +54,12 @@ public class CommentService implements IDeleteCommentService, ICreateCommentServ
     CommentEntity commentEntity = commentMapper.toCommentEntity(
         createCommentRequest);
 
-    buildCommentEntity(commentEntity,userEntity,newsEntity);
+    buildCommentEntity(commentEntity, userEntity, newsEntity);
 
     CommentResponse commentResponse =
         commentMapper.toCommentResponse(commentRepository.save(commentEntity));
 
-    buildCommentResponse(commentResponse,userEntity,newsEntity);
+    buildCommentResponse(commentResponse, userEntity, newsEntity);
 
     return commentResponse;
   }
@@ -102,7 +103,8 @@ public class CommentService implements IDeleteCommentService, ICreateCommentServ
 
   private void buildCommentResponse(
       CommentResponse commentResponse, UserEntity userEntity, NewsEntity newsEntity) {
-    commentResponse.setCreatedBy(userEntity.getFirstName() + " " + userEntity.getLastName());
+    commentResponse.setCreatedBy(
+        MessageFormat.format("{0} {1}", userEntity.getFirstName(), userEntity.getLastName()));
     commentResponse.setAssociatedNews(newsEntity.getName());
   }
 
