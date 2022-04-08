@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "9355bb10-170c-436f-88d7-932b81a503bf",
+		"_postman_id": "76b7615f-beae-446e-98b4-b0ffcc61fd3d",
 		"name": "OT166",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -26,7 +26,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"adrian.luna@gmail.com\",\r\n    \"password\": \"pass123\"\r\n}",
+							"raw": "{\r\n    \"email\": \"somos_mas@alkemy.com\",\r\n    \"password\": \"passpas\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -538,6 +538,34 @@
 					"response": []
 				},
 				{
+					"name": "GET CategoryId ADMIN/USER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/categories/2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"categories",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET CategoryName ADMIN/USER",
 					"request": {
 						"auth": {
@@ -572,21 +600,30 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{token}}",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6IlJPTEVfQURNSU4iLCJzdWIiOiJhbGZyZWRvQGdtYWlsLmNvbSIsImlhdCI6MTY0OTM2MTI0OCwiZXhwIjoxNjQ5MzYzMDQ4fQ.DG_ypNcOSVwobHKYk_lsy7Vsybos64lfZyuKbgvHRNY",
 									"type": "string"
 								}
 							]
 						},
-						"method": "GET",
+						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"\",\r\n    \"description\": \"\",\r\n    \"image\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{URL}}/categories/2",
+							"raw": "{{URL}}/categories/",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"categories",
-								"2"
+								""
 							]
 						}
 					},
