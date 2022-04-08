@@ -3,6 +3,7 @@ package com.alkemy.ong.application.rest.resource;
 import com.alkemy.ong.application.rest.request.CreateCategoryRequest;
 import com.alkemy.ong.application.rest.request.UpdateCategoryRequest;
 import com.alkemy.ong.application.rest.response.CategoryResponse;
+import com.alkemy.ong.application.rest.response.ListCategoriesResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateCategoryService;
 import com.alkemy.ong.application.service.abstraction.IDeleteCategoryService;
 import com.alkemy.ong.application.service.abstraction.IGetCategoryService;
@@ -68,6 +69,11 @@ public class CategoryResource {
   @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<CategoryResponse> getBy(@PathVariable Long id) {
     return ResponseEntity.ok().body(getCategoryService.getBy(id));
+  }
+
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<ListCategoriesResponse> listActiveCategories() {
+    return ResponseEntity.ok().body(getCategoryService.listActiveCategories());
   }
 
 }

@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface INewsRepository extends JpaRepository<NewsEntity, Long> {
 
+  NewsEntity findByIdAndSoftDeletedFalse(Long id);
+
 }
