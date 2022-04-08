@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 public class SlideResponse {
 
+  private Long id;
   private String imageUrl;
   private String text;
   private Integer order;
