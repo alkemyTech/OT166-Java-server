@@ -49,10 +49,10 @@ public class TestimonialService implements IDeleteTestimonialService,
 
   @Override
   public TestimonialResponse update(Long id, UpdateTestimonialRequest updateTestimonialRequest) {
-    TestimonialEntity testimonialEntity = findBy(id);
-    testimonialEntity.setName(updateTestimonialRequest.getName());
-    testimonialEntity.setContent(updateTestimonialRequest.getContent());
-    testimonialEntity.setImage(updateTestimonialRequest.getImage());
-    return testimonialMapper.toTestimonialResponse(testimonialRepository.save(testimonialEntity));
+    TestimonialEntity testimonialUpdate = findBy(id);
+    testimonialUpdate.setName(updateTestimonialRequest.getName());
+    testimonialUpdate.setContent(updateTestimonialRequest.getContent());
+    testimonialUpdate.setImage(updateTestimonialRequest.getImage());
+    return testimonialMapper.toTestimonialResponse(testimonialRepository.save(testimonialUpdate));
   }
 }

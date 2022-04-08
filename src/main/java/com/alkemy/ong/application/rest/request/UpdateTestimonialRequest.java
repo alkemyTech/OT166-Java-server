@@ -20,7 +20,7 @@ public class UpdateTestimonialRequest {
   String name;
 
   @Size(max = 150, message = "The name attribute must not be more than 150 characters")
-  @Pattern(regexp = RegExpressionUtils.ALPHABETIC_CHARACTERS_WITH_BLANK_SPACES,
+  @Pattern(regexp = RegExpressionUtils.ALPHANUMERIC_CHARACTERS_WITH_BLANK_SPACES,
       message = "The content has invalid format.")
   String content;
 
