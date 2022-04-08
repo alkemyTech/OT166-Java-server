@@ -18,7 +18,7 @@ public class ActivitySeeder {
   private static final List<String> ACTIVITIES_CONTENTS = List.of("The school support space is the "
       + "heart of the educational area.This workshop is designed to help students with the "
       + "material they bring from school, we also have a teacher who gives them "
-      + "language and math classes.","Here the young people present themselves with the "
+      + "language and math classes.", "Here the young people present themselves with the "
       + "material they bring from school and a teacher from the institution and a group of "
       + "volunteers welcomes them to help them study or do homework.", "It is a program aimed at "
       + "young people from the third year of high school, "

@@ -11,9 +11,10 @@ public interface IUserRepository extends JpaRepository<UserEntity, Long> {
 
   UserEntity findByEmail(String email);
 
-
   @Query(value = "SELECT u FROM UserEntity u WHERE u.softDeleted=false")
   List<UserEntity> findAllActiveUsers();
+
+  UserEntity findByIdAndSoftDeletedFalse(Long id);
 
 
 }
