@@ -59,7 +59,7 @@ public class CategoryResource {
   }
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<ListCategoriesResponse> listNameCategories() {
+  public ResponseEntity<ListCategoriesResponse> listActiveCategories() {
     return ResponseEntity.ok().body(getCategoryService.listActiveCategories());
   }
 
