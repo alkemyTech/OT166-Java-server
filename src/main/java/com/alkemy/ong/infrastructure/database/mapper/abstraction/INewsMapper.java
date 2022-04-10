@@ -1,6 +1,7 @@
 package com.alkemy.ong.infrastructure.database.mapper.abstraction;
 
 import com.alkemy.ong.application.rest.request.CreateNewsRequest;
+import com.alkemy.ong.application.rest.response.NewsDetailResponse;
 import com.alkemy.ong.application.rest.response.NewsResponse;
 import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
 import org.mapstruct.Mapper;
@@ -15,5 +16,8 @@ public interface INewsMapper {
 
   @Mappings({@Mapping(target = "text", source = "newsEntity.content")})
   NewsResponse toNewsResponse(NewsEntity newsEntity);
+
+  @Mappings({@Mapping(target = "text", source = "newsEntity.content")})
+  NewsDetailResponse toNewsDetailResponse(NewsEntity newsEntity);
 
 }
