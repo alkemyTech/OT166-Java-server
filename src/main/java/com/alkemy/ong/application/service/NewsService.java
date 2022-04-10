@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class NewsDetailService implements ICreateNewsService, IDeleteNewsService,
+public class NewsService implements ICreateNewsService, IDeleteNewsService,
     IUpdateNewsService, IGetNewsDetailService {
 
   @Autowired
