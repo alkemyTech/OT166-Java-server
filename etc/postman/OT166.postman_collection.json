@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "8ed1e3fc-286f-499f-862d-87084620b351",
+		"_postman_id": "6cecb34c-e370-4420-9bd8-c39df7acbb7d",
 		"name": "OT166",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -734,6 +734,34 @@
 							"path": [
 								"news",
 								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET news detail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/news/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"news",
+								"1"
 							]
 						}
 					},
