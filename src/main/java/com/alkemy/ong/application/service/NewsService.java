@@ -3,9 +3,11 @@ package com.alkemy.ong.application.service;
 import com.alkemy.ong.application.exception.EntityNotFoundException;
 import com.alkemy.ong.application.rest.request.CreateNewsRequest;
 import com.alkemy.ong.application.rest.request.UpdateNewsRequest;
+import com.alkemy.ong.application.rest.response.NewsDetailResponse;
 import com.alkemy.ong.application.rest.response.NewsResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateNewsService;
 import com.alkemy.ong.application.service.abstraction.IDeleteNewsService;
+import com.alkemy.ong.application.service.abstraction.IGetNewsDetailService;
 import com.alkemy.ong.application.service.abstraction.IUpdateNewsService;
 import com.alkemy.ong.infrastructure.database.entity.CategoryEntity;
 import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
@@ -17,7 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class NewsService implements ICreateNewsService, IDeleteNewsService, IUpdateNewsService {
+public class NewsDetailService implements ICreateNewsService, IDeleteNewsService,
+    IUpdateNewsService, IGetNewsDetailService {
 
   @Autowired
   private INewsRepository newsRepository;
@@ -62,6 +65,12 @@ public class NewsService implements ICreateNewsService, IDeleteNewsService, IUpd
       throw new EntityNotFoundException("News not found.");
     }
     return optionalNewsEntity.get();
+  }
+
+  @Override
+  public NewsDetailResponse getBy(Long id) {
+    NewsEntity newsEntity = findBy(id);
+    return newsMapper.toNewsDetailResponse(newsEntity);
   }
 
 }
