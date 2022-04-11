@@ -2,11 +2,14 @@ package com.alkemy.ong.application.service;
 
 import com.alkemy.ong.application.exception.EntityNotFoundException;
 import com.alkemy.ong.application.rest.request.CreateMemberRequest;
+import com.alkemy.ong.application.rest.request.UpdateMemberRequest;
 import com.alkemy.ong.application.rest.response.ListMembersResponse;
 import com.alkemy.ong.application.rest.response.MemberResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateMemberService;
 import com.alkemy.ong.application.service.abstraction.IDeleteMemberService;
 import com.alkemy.ong.application.service.abstraction.IGetMemberService;
+import com.alkemy.ong.application.service.abstraction.IUpdateMemberService;
+import com.alkemy.ong.infrastructure.database.entity.ActivityEntity;
 import com.alkemy.ong.infrastructure.database.entity.MemberEntity;
 import com.alkemy.ong.infrastructure.database.mapper.abstraction.IMemberMapper;
 import com.alkemy.ong.infrastructure.database.repository.IMemberRepository;
@@ -20,7 +23,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class MemberService implements ICreateMemberService,
     IGetMemberService,
-    IDeleteMemberService {
+    IDeleteMemberService, IUpdateMemberService {
 
   @Autowired
   private IMemberRepository memberRepository;
@@ -57,5 +60,22 @@ public class MemberService implements ICreateMemberService,
     ListMembersResponse listMembersResponse = new ListMembersResponse();
     listMembersResponse.setMembers(memberMapper.toListMemberResponse(memberEntities));
     return listMembersResponse;
+  }
+
+  @Override
+  public MemberResponse update(Long id, UpdateMemberRequest updateMemberRequest) {
+
+    MemberEntity memberUpdate = findBy(id);
+
+    memberUpdate.setName(updateMemberRequest.getName());
+    memberUpdate.setFacebookUrl(updateMemberRequest.getFacebookUrl());
+    memberUpdate.setInstagramUrl(updateMemberRequest.getInstagramUrl());
+    memberUpdate.setLinkedInUrl(updateMemberRequest.getLinkedInUrl());
+    memberUpdate.setImage(updateMemberRequest.getImage());
+    memberUpdate.setDescription(updateMemberRequest.getDescription());
+
+    memberRepository.save(memberUpdate);
+
+    return memberMapper.toMemberResponse(memberUpdate);
   }
 }

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "8ed1e3fc-286f-499f-862d-87084620b351",
+		"_postman_id": "76b7615f-beae-446e-98b4-b0ffcc61fd3d",
 		"name": "OT166",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -427,6 +427,43 @@
 						"header": [],
 						"url": {
 							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT member USER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Nombre con espacios\",\r\n    \"image\": \"descripcion\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/members/2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"members",
+								"2"
+							]
 						}
 					},
 					"response": []
