@@ -83,7 +83,8 @@ public class CategoryResource {
       UriComponentsBuilder uriBuilder,
       HttpServletResponse response) {
 
-    ListCategoriesResponse listCategoriesResponse = getCategoryService.listActiveCategories(pageable);
+    ListCategoriesResponse listCategoriesResponse =
+        getCategoryService.listActiveCategories(pageable);
 
     paginatedResultsRetrieved.addLinkHeaderOnPagedResourceRetrieval(
         uriBuilder, response, "/categories",
