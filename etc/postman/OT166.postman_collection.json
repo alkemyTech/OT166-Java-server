@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2d083264-3e79-4e81-a363-1d007a907100",
+		"_postman_id": "76b7615f-beae-446e-98b4-b0ffcc61fd3d",
 		"name": "OT166",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -380,6 +380,33 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "PUT testimonial ADMIN/USER",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"New  Testimonial Name\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/testimonials/3",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"testimonials",
+								"3"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -463,6 +490,43 @@
 						"header": [],
 						"url": {
 							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT member USER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Nombre con espacios\",\r\n    \"image\": \"descripcion\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/members/2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"members",
+								"2"
+							]
 						}
 					},
 					"response": []
@@ -798,6 +862,39 @@
 							"path": [
 								"news",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET pageable ADMIN/USER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/news?page=2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"news"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								}
 							]
 						}
 					},
