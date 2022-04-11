@@ -48,7 +48,7 @@ public class SlideService implements IDeleteSlideService, IGetSlideService, ICre
   @Override
   public SlideResponse create(CreateSlideRequest createSlideRequest) {
     String imageUrl = uploadImage(createSlideRequest);
-    SlideEntity slideEntity = slideBuilder(imageUrl, createSlideRequest);
+    SlideEntity slideEntity = buildSlide(imageUrl, createSlideRequest);
     return slideMapper.toSlideResponse(slideRepository.save(slideEntity));
   }
 
@@ -59,18 +59,10 @@ public class SlideService implements IDeleteSlideService, IGetSlideService, ICre
   }
 
   private String uploadImage(CreateSlideRequest slideRequest) {
-    return uploadImageDelegate.upload(imageBuilder(slideRequest));
+    return uploadImageDelegate.upload(Image.buildImage(slideRequest));
   }
 
-  private Image imageBuilder(CreateSlideRequest slideRequest) {
-    return Image.builder()
-        .fileName(slideRequest.getFileName())
-        .contentType(slideRequest.getContentType())
-        .encodedImage(slideRequest.getEncodedImage())
-        .build();
-  }
-
-  private SlideEntity slideBuilder(String imageUrl, CreateSlideRequest slideRequest) {
+  private SlideEntity buildSlide(String imageUrl, CreateSlideRequest slideRequest) {
     return SlideEntity.builder()
         .imageUrl(imageUrl)
         .text(slideRequest.getFileName())
