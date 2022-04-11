@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -59,6 +61,23 @@ public class MemberService implements ICreateMemberService,
     List<MemberEntity> memberEntities = memberRepository.findBySoftDeletedIsFalse();
     ListMembersResponse listMembersResponse = new ListMembersResponse();
     listMembersResponse.setMembers(memberMapper.toListMemberResponse(memberEntities));
+    return listMembersResponse;
+  }
+
+  @Override
+  public ListMembersResponse findAll(Pageable pageable) {
+    Page<MemberEntity> page =
+        memberRepository.findBySoftDeleteFalseOrderByTimestampDesc(pageable);
+    ListMembersResponse listMembersResponse = new ListMembersResponse();
+    listMembersResponse.setMembers(memberMapper.toListMemberResponse(page.getContent()));
+    return buildListResponse(listMembersResponse,page);
+  }
+
+  private ListMembersResponse buildListResponse(
+      ListMembersResponse listMembersResponse, Page<MemberEntity> page) {
+    listMembersResponse.setPage(page.getNumber());
+    listMembersResponse.setTotalPages(page.getTotalPages());
+    listMembersResponse.setSize(page.getSize());
     return listMembersResponse;
   }
 
