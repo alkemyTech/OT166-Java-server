@@ -7,6 +7,7 @@ import com.alkemy.ong.application.rest.request.AuthenticationRequest;
 import com.alkemy.ong.infrastructure.database.entity.ActivityEntity;
 import com.alkemy.ong.infrastructure.database.entity.CategoryEntity;
 import com.alkemy.ong.infrastructure.database.entity.CommentEntity;
+import com.alkemy.ong.infrastructure.database.entity.ContactEntity;
 import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
 import com.alkemy.ong.infrastructure.database.entity.OrganizationEntity;
 import com.alkemy.ong.infrastructure.database.entity.RoleEntity;
@@ -15,6 +16,7 @@ import com.alkemy.ong.infrastructure.database.entity.UserEntity;
 import com.alkemy.ong.infrastructure.database.repository.IActivityRepository;
 import com.alkemy.ong.infrastructure.database.repository.ICategoryRepository;
 import com.alkemy.ong.infrastructure.database.repository.ICommentRepository;
+import com.alkemy.ong.infrastructure.database.repository.IContactRepository;
 import com.alkemy.ong.infrastructure.database.repository.INewsRepository;
 import com.alkemy.ong.infrastructure.database.repository.IOrganizationRepository;
 import com.alkemy.ong.infrastructure.database.repository.IRoleRepository;
@@ -82,6 +84,9 @@ public abstract class BigTest {
   @Autowired
   protected IActivityRepository activityRepository;
 
+  @Autowired
+  protected IContactRepository contactRepository;
+
   @Before
   public void setup() {
     createCategoryNews();
@@ -129,6 +134,10 @@ public abstract class BigTest {
     activityRepository.deleteAllInBatch(Arrays.asList(activity));
   }
 
+  protected void cleanContactData(ContactEntity... contacts) {
+   contactRepository.deleteAllInBatch(Arrays.asList(contacts)); 
+  }
+
   private void deleteAllEntities() {
     organizationRepository.deleteAll();
     slideRepository.deleteAll();
@@ -136,6 +145,7 @@ public abstract class BigTest {
     newsRepository.deleteAll();
     categoryRepository.deleteAll();
     activityRepository.deleteAll();
+    contactRepository.deleteAll();
   }
 
   protected void saveOrganizationDetails() {
@@ -224,6 +234,15 @@ public abstract class BigTest {
         .build();
   }
 
+  private ContactEntity buildContact(String name, String phone, String email, String message) {
+    return ContactEntity.builder()
+        .name(name)
+        .phone(phone)
+        .email(email)
+        .message(message)
+        .build();
+  }
+
   protected String getAuthorizationTokenForAdminUser() throws Exception {
     return getAuthorizationTokenForUser(ADMIN_EMAIL);
   }
@@ -252,5 +271,9 @@ public abstract class BigTest {
             .build()))).andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
 
     return JsonPath.read(content, "$.token");
+  }
+  
+  protected ContactEntity getRandomContact() {
+    return contactRepository.save(buildContact("juan","159028080","juan@gmail.com","mi mensaje"));
   }
 }
