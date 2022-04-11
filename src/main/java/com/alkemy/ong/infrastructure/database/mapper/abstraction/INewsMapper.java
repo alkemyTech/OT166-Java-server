@@ -4,6 +4,7 @@ import com.alkemy.ong.application.rest.request.CreateNewsRequest;
 import com.alkemy.ong.application.rest.response.NewsDetailResponse;
 import com.alkemy.ong.application.rest.response.NewsResponse;
 import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -16,6 +17,8 @@ public interface INewsMapper {
 
   @Mappings({@Mapping(target = "text", source = "newsEntity.content")})
   NewsResponse toNewsResponse(NewsEntity newsEntity);
+
+  List<NewsResponse> toListNewsResponse(List<NewsEntity> newsEntities);
 
   @Mappings({@Mapping(target = "text", source = "newsEntity.content")})
   NewsDetailResponse toNewsDetailResponse(NewsEntity newsEntity);

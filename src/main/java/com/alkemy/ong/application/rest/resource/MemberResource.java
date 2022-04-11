@@ -1,11 +1,14 @@
 package com.alkemy.ong.application.rest.resource;
 
 import com.alkemy.ong.application.rest.request.CreateMemberRequest;
+import com.alkemy.ong.application.rest.request.UpdateMemberRequest;
 import com.alkemy.ong.application.rest.response.ListMembersResponse;
 import com.alkemy.ong.application.rest.response.MemberResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateMemberService;
 import com.alkemy.ong.application.service.abstraction.IDeleteMemberService;
 import com.alkemy.ong.application.service.abstraction.IGetMemberService;
+import com.alkemy.ong.application.service.abstraction.IUpdateMemberService;
+import com.alkemy.ong.infrastructure.database.entity.MemberEntity;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +35,9 @@ public class MemberResource {
 
   @Autowired
   private IDeleteMemberService deleteMemberService;
+
+  @Autowired
+  private IUpdateMemberService updateMemberService;
 
   @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,
       consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -49,6 +56,13 @@ public class MemberResource {
   public ResponseEntity<Void> delete(@PathVariable Long id) {
     deleteMemberService.delete(id);
     return ResponseEntity.noContent().build();
+  }
+
+  @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE,
+      consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<MemberResponse> update(@PathVariable Long id, @Valid @RequestBody
+      UpdateMemberRequest updateMemberRequest) {
+    return ResponseEntity.ok().body(updateMemberService.update(id, updateMemberRequest));
   }
 
 }
