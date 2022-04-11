@@ -11,7 +11,7 @@ public interface ISlideRepository extends JpaRepository<SlideEntity, Long> {
 
   List<SlideEntity> findAllByOrderByOrder();
 
-  @Query(value = "SELECT MAX(s.order) FROM SlideEntity s")
+  @Query(value = "SELECT COALESCE(MAX(s.order), 0) FROM SlideEntity s")
   int getHighestOrder();
 
 }

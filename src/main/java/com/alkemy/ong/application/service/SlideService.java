@@ -6,13 +6,11 @@ import com.alkemy.ong.application.rest.response.SlideResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateSlideService;
 import com.alkemy.ong.application.service.abstraction.IDeleteSlideService;
 import com.alkemy.ong.application.service.abstraction.IGetSlideService;
-import com.alkemy.ong.application.util.image.ImageImp;
+import com.alkemy.ong.application.util.image.Image;
 import com.alkemy.ong.application.util.image.UploadImageDelegate;
 import com.alkemy.ong.infrastructure.database.entity.SlideEntity;
 import com.alkemy.ong.infrastructure.database.mapper.abstraction.ISlideMapper;
 import com.alkemy.ong.infrastructure.database.repository.ISlideRepository;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,16 +59,14 @@ public class SlideService implements IDeleteSlideService, IGetSlideService, ICre
   }
 
   private String uploadImage(CreateSlideRequest slideRequest) {
-    InputStream inputStream = new ByteArrayInputStream(
-        ImageImp.decodeImage(slideRequest.getEncodedImage()));
-    return uploadImageDelegate.upload(imageBuilder(slideRequest, inputStream));
+    return uploadImageDelegate.upload(imageBuilder(slideRequest));
   }
 
-  private ImageImp imageBuilder(CreateSlideRequest slideRequest, InputStream stream) {
-    return ImageImp.builder()
+  private Image imageBuilder(CreateSlideRequest slideRequest) {
+    return Image.builder()
         .fileName(slideRequest.getFileName())
         .contentType(slideRequest.getContentType())
-        .inputStream(stream)
+        .encodedImage(slideRequest.getEncodedImage())
         .build();
   }
 
@@ -83,7 +79,7 @@ public class SlideService implements IDeleteSlideService, IGetSlideService, ICre
   }
 
   private int determineOrder(Integer order) {
-    return (order == null) ? slideRepository.getHighestOrder() + 1 : order;
+    return (order == null || order == 0) ? slideRepository.getHighestOrder() + 1 : order;
   }
 
 }
