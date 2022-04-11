@@ -61,7 +61,7 @@ public class MemberResource {
     ListMembersResponse listMembersResponse = getMemberService.findAll(pageable);
 
     paginatedResultsRetrieved.addLinkHeaderOnPagedResourceRetrieval(
-        uriBuilder, response,"/news",
+        uriBuilder, response,"/members",
         listMembersResponse.getPage(),
         listMembersResponse.getTotalPages(),
         listMembersResponse.getSize());
