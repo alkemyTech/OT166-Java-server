@@ -61,12 +61,18 @@ public class NewsService implements
   }
 
   @Override
-  public ListNewsResponse findAll(Pageable pageable) {
-    Page<NewsEntity> page =
-        newsRepository.findBySoftDeletedFalseOrderByIdAsc(pageable);
+  public ListNewsResponse list(Pageable pageable) {
+    Page<NewsEntity> page = newsRepository.findBySoftDeletedFalseOrderByIdAsc(pageable);
     ListNewsResponse listNewsResponse = new ListNewsResponse();
     listNewsResponse.setNews(newsMapper.toListNewsResponse(page.getContent()));
-    return buildListResponse(listNewsResponse,page);
+    setPagination(listNewsResponse, page);
+    return listNewsResponse;
+  }
+
+  @Override
+  public NewsResponse getBy(Long id) {
+    NewsEntity newsEntity = findBy(id);
+    return newsMapper.toNewsResponseWithCategory(newsEntity);
   }
 
   private NewsEntity findBy(Long id) {
@@ -78,13 +84,10 @@ public class NewsService implements
     return optionalNewsEntity.get();
   }
 
-  private ListNewsResponse buildListResponse(
-      ListNewsResponse listNewsResponse, Page<NewsEntity> page) {
+  private void setPagination(ListNewsResponse listNewsResponse, Page<NewsEntity> page) {
     listNewsResponse.setPage(page.getNumber());
     listNewsResponse.setTotalPages(page.getTotalPages());
     listNewsResponse.setSize(page.getSize());
-    return listNewsResponse;
   }
-
 
 }

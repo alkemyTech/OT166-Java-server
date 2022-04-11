@@ -9,14 +9,14 @@ import com.alkemy.ong.application.service.abstraction.ICreateMemberService;
 import com.alkemy.ong.application.service.abstraction.IDeleteMemberService;
 import com.alkemy.ong.application.service.abstraction.IGetMemberService;
 import com.alkemy.ong.application.service.abstraction.IUpdateMemberService;
-import com.alkemy.ong.infrastructure.database.entity.ActivityEntity;
 import com.alkemy.ong.infrastructure.database.entity.MemberEntity;
 import com.alkemy.ong.infrastructure.database.mapper.abstraction.IMemberMapper;
 import com.alkemy.ong.infrastructure.database.repository.IMemberRepository;
-import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -55,10 +55,18 @@ public class MemberService implements ICreateMemberService,
   }
 
   @Override
-  public ListMembersResponse listActiveMembers() {
-    List<MemberEntity> memberEntities = memberRepository.findBySoftDeletedIsFalse();
+  public ListMembersResponse listActiveMembers(Pageable pageable) {
+    Page<MemberEntity> page = memberRepository.findBySoftDeletedIsFalse(pageable);
     ListMembersResponse listMembersResponse = new ListMembersResponse();
-    listMembersResponse.setMembers(memberMapper.toListMemberResponse(memberEntities));
+    listMembersResponse.setMembers(memberMapper.toListMemberResponse(page.getContent()));
+    return buildListResponse(listMembersResponse, page);
+  }
+
+  private ListMembersResponse buildListResponse(
+      ListMembersResponse listMembersResponse, Page<MemberEntity> page) {
+    listMembersResponse.setPage(page.getNumber());
+    listMembersResponse.setTotalPages(page.getTotalPages());
+    listMembersResponse.setSize(page.getSize());
     return listMembersResponse;
   }
 

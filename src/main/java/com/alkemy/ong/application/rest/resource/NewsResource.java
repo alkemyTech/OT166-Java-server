@@ -78,15 +78,20 @@ public class NewsResource {
       UriComponentsBuilder uriBuilder,
       HttpServletResponse response) {
 
-    ListNewsResponse listNewsResponse = getNewsService.findAll(pageable);
+    ListNewsResponse listNewsResponse = getNewsService.list(pageable);
 
     paginatedResultsRetrieved.addLinkHeaderOnPagedResourceRetrieval(
-        uriBuilder, response,"/news",
+        uriBuilder, response, "/news",
         listNewsResponse.getPage(),
         listNewsResponse.getTotalPages(),
         listNewsResponse.getSize());
 
     return ResponseEntity.ok().body(listNewsResponse);
+  }
+
+  @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<NewsResponse> getBy(@PathVariable Long id) {
+    return ResponseEntity.ok().body(getNewsService.getBy(id));
   }
 
 }
