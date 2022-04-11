@@ -4,7 +4,6 @@ import com.alkemy.ong.application.exception.EntityNotFoundException;
 import com.alkemy.ong.application.rest.request.CreateNewsRequest;
 import com.alkemy.ong.application.rest.request.UpdateNewsRequest;
 import com.alkemy.ong.application.rest.response.ListNewsResponse;
-import com.alkemy.ong.application.rest.response.NewsDetailResponse;
 import com.alkemy.ong.application.rest.response.NewsResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateNewsService;
 import com.alkemy.ong.application.service.abstraction.IDeleteNewsService;
@@ -89,7 +88,7 @@ public class NewsService implements
 
 
   @Override
-  public NewsDetailResponse getBy(Long id) {
+  public NewsResponse getBy(Long id) {
     NewsEntity newsEntity = findBy(id);
     return newsMapper.toNewsDetailResponse(newsEntity);
   }

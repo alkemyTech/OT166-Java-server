@@ -3,12 +3,10 @@ package com.alkemy.ong.application.rest.resource;
 import com.alkemy.ong.application.rest.request.CreateNewsRequest;
 import com.alkemy.ong.application.rest.request.UpdateNewsRequest;
 import com.alkemy.ong.application.rest.response.ListNewsResponse;
-import com.alkemy.ong.application.rest.response.NewsDetailResponse;
 import com.alkemy.ong.application.rest.response.NewsResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateNewsService;
 import com.alkemy.ong.application.service.abstraction.IDeleteNewsService;
 import com.alkemy.ong.application.service.abstraction.IGetNewsService;
-import com.alkemy.ong.application.service.abstraction.IGetNewsDetailService;
 import com.alkemy.ong.application.service.abstraction.IUpdateNewsService;
 import com.alkemy.ong.application.util.PaginatedResultsRetrieved;
 import java.net.URI;
@@ -47,9 +45,6 @@ public class NewsResource {
 
   @Autowired
   private PaginatedResultsRetrieved paginatedResultsRetrieved;
-
-  @Autowired
-  private IGetNewsDetailService getNewsDetailsService;
 
   @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,
       consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -95,8 +90,8 @@ public class NewsResource {
   }
 
   @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<NewsDetailResponse> getBy(@PathVariable Long id) {
-    return ResponseEntity.ok().body(getNewsDetailsService.getBy(id));
+  public ResponseEntity<NewsResponse> getBy(@PathVariable Long id) {
+    return ResponseEntity.ok().body(getNewsService.getBy(id));
   }
 
 }
