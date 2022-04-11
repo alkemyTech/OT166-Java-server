@@ -45,17 +45,17 @@ public class SlideService implements IDeleteSlideService, IGetSlideService, ICre
     return slideMapper.toSlideResponse(slideRepository.getById(id));
   }
 
-  private void checkIfExist(Long id) {
-    if (!slideRepository.existsById(id)) {
-      throw new EntityNotFoundException("Slide not found.");
-    }
-  }
-
   @Override
   public SlideResponse create(CreateSlideRequest createSlideRequest) {
     String imageUrl = uploadImage(createSlideRequest);
     SlideEntity slideEntity = slideBuilder(imageUrl, createSlideRequest);
     return slideMapper.toSlideResponse(slideRepository.save(slideEntity));
+  }
+
+  private void checkIfExist(Long id) {
+    if (!slideRepository.existsById(id)) {
+      throw new EntityNotFoundException("Slide not found.");
+    }
   }
 
   private String uploadImage(CreateSlideRequest slideRequest) {
@@ -79,7 +79,7 @@ public class SlideService implements IDeleteSlideService, IGetSlideService, ICre
   }
 
   private int determineOrder(Integer order) {
-    return (order == null || order == 0) ? slideRepository.getHighestOrder() + 1 : order;
+    return (order == null || order <= 0) ? slideRepository.getHighestOrder() + 1 : order;
   }
 
 }
