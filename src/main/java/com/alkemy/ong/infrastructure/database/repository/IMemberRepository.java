@@ -10,8 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IMemberRepository extends JpaRepository<MemberEntity, Long> {
 
-  List<MemberEntity> findBySoftDeletedIsFalse();
-
-  Page<MemberEntity> findBySoftDeletedFalseOrderByCreateTimestampDesc(Pageable pageable);
+  Page<MemberEntity> findBySoftDeletedIsFalse(Pageable pageable);
 
 }

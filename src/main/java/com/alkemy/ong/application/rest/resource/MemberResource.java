@@ -58,7 +58,7 @@ public class MemberResource {
   public ResponseEntity<ListMembersResponse> listActiveMembers(Pageable pageable,
       UriComponentsBuilder uriBuilder,
       HttpServletResponse response) {
-    ListMembersResponse listMembersResponse = getMemberService.findAll(pageable);
+    ListMembersResponse listMembersResponse = getMemberService.listActiveMembers(pageable);
 
     paginatedResultsRetrieved.addLinkHeaderOnPagedResourceRetrieval(
         uriBuilder, response,"/members",

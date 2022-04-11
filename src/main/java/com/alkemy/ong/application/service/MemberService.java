@@ -57,28 +57,19 @@ public class MemberService implements ICreateMemberService,
   }
 
   @Override
-  public ListMembersResponse listActiveMembers() {
-    List<MemberEntity> memberEntities = memberRepository.findBySoftDeletedIsFalse();
-    ListMembersResponse listMembersResponse = new ListMembersResponse();
-    listMembersResponse.setMembers(memberMapper.toListMemberResponse(memberEntities));
-    return listMembersResponse;
-  }
-
-  @Override
-  public ListMembersResponse findAll(Pageable pageable) {
-    Page<MemberEntity> page =
-        memberRepository.findBySoftDeletedFalseOrderByCreateTimestampDesc(pageable);
+  public ListMembersResponse listActiveMembers(Pageable pageable) {
+    Page<MemberEntity> page = memberRepository.findBySoftDeletedIsFalse(pageable);
     ListMembersResponse listMembersResponse = new ListMembersResponse();
     listMembersResponse.setMembers(memberMapper.toListMemberResponse(page.getContent()));
     return buildListResponse(listMembersResponse,page);
   }
 
   private ListMembersResponse buildListResponse(
-      ListMembersResponse listM, Page<MemberEntity> page) {
-    listM.setPage(page.getNumber());
-    listM.setTotalPages(page.getTotalPages());
-    listM.setSize(page.getSize());
-    return listM;
+      ListMembersResponse listMembersResponse, Page<MemberEntity> page) {
+    listMembersResponse.setPage(page.getNumber());
+    listMembersResponse.setTotalPages(page.getTotalPages());
+    listMembersResponse.setSize(page.getSize());
+    return listMembersResponse;
   }
 
   @Override

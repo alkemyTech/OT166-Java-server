@@ -5,8 +5,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface IGetMemberService {
 
-  ListMembersResponse listActiveMembers();
-
-  ListMembersResponse findAll(Pageable pageable);
+  ListMembersResponse listActiveMembers(Pageable pageable);
 
 }
