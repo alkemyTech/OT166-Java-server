@@ -344,6 +344,33 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "PUT testimonial ADMIN/USER",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"New  Testimonial Name\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/testimonials/3",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"testimonials",
+								"3"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

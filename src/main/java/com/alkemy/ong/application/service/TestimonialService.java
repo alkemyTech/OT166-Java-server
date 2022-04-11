@@ -2,9 +2,11 @@ package com.alkemy.ong.application.service;
 
 import com.alkemy.ong.application.exception.EntityNotFoundException;
 import com.alkemy.ong.application.rest.request.CreateTestimonialRequest;
+import com.alkemy.ong.application.rest.request.UpdateTestimonialRequest;
 import com.alkemy.ong.application.rest.response.TestimonialResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateTestimonialService;
 import com.alkemy.ong.application.service.abstraction.IDeleteTestimonialService;
+import com.alkemy.ong.application.service.abstraction.IUpdateTestimonialService;
 import com.alkemy.ong.infrastructure.database.entity.TestimonialEntity;
 import com.alkemy.ong.infrastructure.database.mapper.abstraction.ITestimonialMapper;
 import com.alkemy.ong.infrastructure.database.repository.ITestimonialRepository;
@@ -13,7 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TestimonialService implements IDeleteTestimonialService, ICreateTestimonialService {
+public class TestimonialService implements IDeleteTestimonialService,
+    ICreateTestimonialService, IUpdateTestimonialService {
 
   @Autowired
   private ITestimonialRepository testimonialRepository;
@@ -42,5 +45,14 @@ public class TestimonialService implements IDeleteTestimonialService, ICreateTes
         createTestimonialRequest);
     testimonialEntity = testimonialRepository.save(testimonialEntity);
     return testimonialMapper.toTestimonialResponse(testimonialEntity);
+  }
+
+  @Override
+  public TestimonialResponse update(Long id, UpdateTestimonialRequest updateTestimonialRequest) {
+    TestimonialEntity testimonialUpdate = findBy(id);
+    testimonialUpdate.setName(updateTestimonialRequest.getName());
+    testimonialUpdate.setContent(updateTestimonialRequest.getContent());
+    testimonialUpdate.setImage(updateTestimonialRequest.getImage());
+    return testimonialMapper.toTestimonialResponse(testimonialRepository.save(testimonialUpdate));
   }
 }
