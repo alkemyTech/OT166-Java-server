@@ -89,4 +89,9 @@ public class NewsResource {
     return ResponseEntity.ok().body(listNewsResponse);
   }
 
+  @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<NewsResponse> getBy(@PathVariable Long id) {
+    return ResponseEntity.ok().body(getNewsService.getBy(id));
+  }
+
 }

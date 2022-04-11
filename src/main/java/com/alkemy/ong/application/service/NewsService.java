@@ -87,4 +87,10 @@ public class NewsService implements
   }
 
 
+  @Override
+  public NewsResponse getBy(Long id) {
+    NewsEntity newsEntity = findBy(id);
+    return newsMapper.toNewsDetailResponse(newsEntity);
+  }
+
 }
