@@ -9,7 +9,6 @@ import com.alkemy.ong.application.service.abstraction.IDeleteMemberService;
 import com.alkemy.ong.application.service.abstraction.IGetMemberService;
 import com.alkemy.ong.application.service.abstraction.IUpdateMemberService;
 import com.alkemy.ong.application.util.PaginatedResultsRetrieved;
-import com.alkemy.ong.infrastructure.database.entity.MemberEntity;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +60,7 @@ public class MemberResource {
     ListMembersResponse listMembersResponse = getMemberService.listActiveMembers(pageable);
 
     paginatedResultsRetrieved.addLinkHeaderOnPagedResourceRetrieval(
-        uriBuilder, response,"/members",
+        uriBuilder, response, "/members",
         listMembersResponse.getPage(),
         listMembersResponse.getTotalPages(),
         listMembersResponse.getSize());

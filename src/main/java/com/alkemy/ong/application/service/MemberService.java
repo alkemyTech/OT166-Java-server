@@ -9,11 +9,9 @@ import com.alkemy.ong.application.service.abstraction.ICreateMemberService;
 import com.alkemy.ong.application.service.abstraction.IDeleteMemberService;
 import com.alkemy.ong.application.service.abstraction.IGetMemberService;
 import com.alkemy.ong.application.service.abstraction.IUpdateMemberService;
-import com.alkemy.ong.infrastructure.database.entity.ActivityEntity;
 import com.alkemy.ong.infrastructure.database.entity.MemberEntity;
 import com.alkemy.ong.infrastructure.database.mapper.abstraction.IMemberMapper;
 import com.alkemy.ong.infrastructure.database.repository.IMemberRepository;
-import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +59,7 @@ public class MemberService implements ICreateMemberService,
     Page<MemberEntity> page = memberRepository.findBySoftDeletedIsFalse(pageable);
     ListMembersResponse listMembersResponse = new ListMembersResponse();
     listMembersResponse.setMembers(memberMapper.toListMemberResponse(page.getContent()));
-    return buildListResponse(listMembersResponse,page);
+    return buildListResponse(listMembersResponse, page);
   }
 
   private ListMembersResponse buildListResponse(

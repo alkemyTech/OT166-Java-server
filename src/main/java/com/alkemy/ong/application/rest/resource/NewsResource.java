@@ -78,10 +78,10 @@ public class NewsResource {
       UriComponentsBuilder uriBuilder,
       HttpServletResponse response) {
 
-    ListNewsResponse listNewsResponse = getNewsService.findAll(pageable);
+    ListNewsResponse listNewsResponse = getNewsService.list(pageable);
 
     paginatedResultsRetrieved.addLinkHeaderOnPagedResourceRetrieval(
-        uriBuilder, response,"/news",
+        uriBuilder, response, "/news",
         listNewsResponse.getPage(),
         listNewsResponse.getTotalPages(),
         listNewsResponse.getSize());

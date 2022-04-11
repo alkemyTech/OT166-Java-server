@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface IGetNewsService {
 
-  ListNewsResponse findAll(Pageable pageable);
+  ListNewsResponse list(Pageable pageable);
 
   NewsResponse getBy(Long id);
 

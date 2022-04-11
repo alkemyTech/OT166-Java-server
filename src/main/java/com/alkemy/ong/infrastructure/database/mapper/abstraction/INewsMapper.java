@@ -25,6 +25,6 @@ public interface INewsMapper {
   List<NewsResponse> toListNewsResponse(List<NewsEntity> newsEntities);
 
   @Mappings({@Mapping(target = "text", source = "newsEntity.content")})
-  NewsResponse toNewsDetailResponse(NewsEntity newsEntity);
+  NewsResponse toNewsResponseWithCategory(NewsEntity newsEntity);
 
 }
