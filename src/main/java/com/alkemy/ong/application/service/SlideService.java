@@ -2,6 +2,7 @@ package com.alkemy.ong.application.service;
 
 import com.alkemy.ong.application.exception.EntityNotFoundException;
 import com.alkemy.ong.application.rest.request.CreateSlideRequest;
+import com.alkemy.ong.application.rest.response.ListSlidesResponse;
 import com.alkemy.ong.application.rest.response.SlideResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateSlideService;
 import com.alkemy.ong.application.service.abstraction.IDeleteSlideService;
@@ -43,6 +44,14 @@ public class SlideService implements IDeleteSlideService, IGetSlideService, ICre
   public SlideResponse getBy(Long id) {
     checkIfExist(id);
     return slideMapper.toSlideResponse(slideRepository.getById(id));
+  }
+
+  @Override
+  public ListSlidesResponse listSlides() {
+    List<SlideEntity> slideEntities = slideRepository.findAll();
+    ListSlidesResponse listSlidesResponse = new ListSlidesResponse();
+    listSlidesResponse.setSlides(slideMapper.toSlideImageAndOrderResponse(slideEntities));
+    return listSlidesResponse;
   }
 
   @Override
