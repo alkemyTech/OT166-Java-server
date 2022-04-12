@@ -135,7 +135,7 @@ public abstract class BigTest {
   }
 
   protected void cleanContactData(ContactEntity... contacts) {
-   contactRepository.deleteAllInBatch(Arrays.asList(contacts)); 
+    contactRepository.deleteAllInBatch(Arrays.asList(contacts));
   }
 
   private void deleteAllEntities() {
@@ -272,8 +272,9 @@ public abstract class BigTest {
 
     return JsonPath.read(content, "$.token");
   }
-  
+
   protected ContactEntity getRandomContact() {
-    return contactRepository.save(buildContact("juan","159028080","juan@gmail.com","my message"));
+    return contactRepository.save(
+        buildContact("James", "159028080", "james@gmail.com", "my message"));
   }
 }
