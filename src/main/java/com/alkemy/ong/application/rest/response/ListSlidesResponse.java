@@ -1,6 +1,6 @@
 package com.alkemy.ong.application.rest.response;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,12 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class SlideResponse {
+public class ListSlidesResponse {
 
-  private Long id;
-  private String imageUrl;
-  private String text;
-  private Integer order;
+  private List<SlideResponse> slides;
 
 }

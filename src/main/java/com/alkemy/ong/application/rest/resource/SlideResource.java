@@ -1,6 +1,7 @@
 package com.alkemy.ong.application.rest.resource;
 
 import com.alkemy.ong.application.rest.request.CreateSlideRequest;
+import com.alkemy.ong.application.rest.response.ListSlidesResponse;
 import com.alkemy.ong.application.rest.response.SlideResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateSlideService;
 import com.alkemy.ong.application.service.abstraction.IDeleteSlideService;
@@ -31,6 +32,7 @@ public class SlideResource {
   @Autowired
   private ICreateSlideService createSlideService;
 
+
   @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Void> delete(@PathVariable Long id) {
     deleteSlideService.delete(id);
@@ -58,6 +60,11 @@ public class SlideResource {
         .toUri();
 
     return ResponseEntity.created(location).body(slideResponse);
+  }
+
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<ListSlidesResponse> listSlides() {
+    return ResponseEntity.ok().body(getSlideService.listSlides());
   }
 
 }
