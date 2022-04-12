@@ -274,6 +274,6 @@ public abstract class BigTest {
   }
   
   protected ContactEntity getRandomContact() {
-    return contactRepository.save(buildContact("juan","159028080","juan@gmail.com","mi mensaje"));
+    return contactRepository.save(buildContact("juan","159028080","juan@gmail.com","my message"));
   }
 }
