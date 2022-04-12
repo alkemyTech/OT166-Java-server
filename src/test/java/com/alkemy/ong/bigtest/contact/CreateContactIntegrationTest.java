@@ -89,7 +89,7 @@ public class CreateContactIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
         .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
-        .andExpect(jsonPath("$.moreInfo", hasItem("The name must not be null")))
+        .andExpect(jsonPath("$.moreInfo", hasItem("Name must not be null")))
         .andExpect(status().isBadRequest());
   }
 
@@ -102,7 +102,7 @@ public class CreateContactIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
         .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
-        .andExpect(jsonPath("$.moreInfo", hasItem("The name has invalid format.")))
+        .andExpect(jsonPath("$.moreInfo", hasItem("Name has invalid format.")))
         .andExpect(status().isBadRequest());
   }
 
@@ -115,7 +115,7 @@ public class CreateContactIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
         .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
-        .andExpect(jsonPath("$.moreInfo", hasItem("The email must not be empty.")))
+        .andExpect(jsonPath("$.moreInfo", hasItem("Email must not be empty.")))
         .andExpect(status().isBadRequest());
   }
 
@@ -128,7 +128,7 @@ public class CreateContactIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
         .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
-        .andExpect(jsonPath("$.moreInfo", hasItem("The message must not be empty.")))
+        .andExpect(jsonPath("$.moreInfo", hasItem("Message must not be empty.")))
         .andExpect(status().isBadRequest());
   }
 
@@ -142,7 +142,7 @@ public class CreateContactIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
         .andExpect(jsonPath("$.moreInfo",
-            hasItem("The message accepts only alphanumeric characters and blank spaces.")))
+            hasItem("Message accepts only alphanumeric characters and blank spaces.")))
         .andExpect(status().isBadRequest());
   }
 
@@ -157,7 +157,7 @@ public class CreateContactIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
         .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
-        .andExpect(jsonPath("$.moreInfo", hasItem("The message must be 150 characters or less")))
+        .andExpect(jsonPath("$.moreInfo", hasItem("Message must be 150 characters or less")))
         .andExpect(status().isBadRequest());
   }
 
