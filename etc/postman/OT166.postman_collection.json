@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "87fd2b34-90e1-4a95-b791-eca774abd702",
+		"_postman_id": "d3205636-54ce-4bb5-911b-91d920fc2772",
 		"name": "OT166",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -304,6 +304,33 @@
 							"raw": "{{url}}/slides",
 							"host": [
 								"{{url}}"
+							],
+							"path": [
+								"slides"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get listSlides ADMIN",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/slides",
+							"host": [
+								"{{URL}}"
 							],
 							"path": [
 								"slides"
@@ -660,12 +687,18 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/categories",
+							"raw": "{{URL}}/categories?page=2",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"categories"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								}
 							]
 						}
 					},

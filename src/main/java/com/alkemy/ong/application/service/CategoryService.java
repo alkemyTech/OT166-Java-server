@@ -12,9 +12,10 @@ import com.alkemy.ong.application.service.abstraction.IUpdateCategoryService;
 import com.alkemy.ong.infrastructure.database.entity.CategoryEntity;
 import com.alkemy.ong.infrastructure.database.mapper.abstraction.ICategoryMapper;
 import com.alkemy.ong.infrastructure.database.repository.ICategoryRepository;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -48,10 +49,11 @@ public class CategoryService implements ICreateCategoryService, IDeleteCategoryS
   }
 
   @Override
-  public ListCategoriesResponse listActiveCategories() {
-    List<CategoryEntity> categoryEntities = categoryRepository.findBySoftDeletedIsFalse();
+  public ListCategoriesResponse listActiveCategories(Pageable pageable) {
+    Page<CategoryEntity> page = categoryRepository.findBySoftDeletedIsFalseOrderByIdAsc(pageable);
     ListCategoriesResponse listCategoriesResponse = new ListCategoriesResponse();
-    listCategoriesResponse.setCategories(categoryMapper.toCategoryNameResponses(categoryEntities));
+    listCategoriesResponse.setCategories(categoryMapper.toCategoryNameResponses(page.getContent()));
+    setPagination(listCategoriesResponse, page);
     return listCategoriesResponse;
   }
 
@@ -71,5 +73,12 @@ public class CategoryService implements ICreateCategoryService, IDeleteCategoryS
     categoryEntity.setDescription(updateCategoryRequest.getDescription());
     categoryEntity.setImage(updateCategoryRequest.getImage());
     return categoryMapper.toCategoryResponse(categoryRepository.save(categoryEntity));
+  }
+
+  private void setPagination(
+      ListCategoriesResponse listCategoriesResponse, Page<CategoryEntity> page) {
+    listCategoriesResponse.setPage(page.getNumber());
+    listCategoriesResponse.setTotalPages(page.getTotalPages());
+    listCategoriesResponse.setSize(page.getSize());
   }
 }

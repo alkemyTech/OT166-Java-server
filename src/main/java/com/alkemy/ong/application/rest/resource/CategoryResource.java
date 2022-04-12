@@ -8,9 +8,12 @@ import com.alkemy.ong.application.service.abstraction.ICreateCategoryService;
 import com.alkemy.ong.application.service.abstraction.IDeleteCategoryService;
 import com.alkemy.ong.application.service.abstraction.IGetCategoryService;
 import com.alkemy.ong.application.service.abstraction.IUpdateCategoryService;
+import com.alkemy.ong.application.util.PaginatedResultsRetrieved;
 import java.net.URI;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("categories")
@@ -38,6 +42,9 @@ public class CategoryResource {
 
   @Autowired
   private IUpdateCategoryService updateCategoryService;
+
+  @Autowired
+  private PaginatedResultsRetrieved paginatedResultsRetrieved;
 
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
@@ -72,8 +79,19 @@ public class CategoryResource {
   }
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<ListCategoriesResponse> listActiveCategories() {
-    return ResponseEntity.ok().body(getCategoryService.listActiveCategories());
+  public ResponseEntity<ListCategoriesResponse> listActiveCategories(Pageable pageable,
+      UriComponentsBuilder uriBuilder,
+      HttpServletResponse response) {
+
+    ListCategoriesResponse listCategoriesResponse =
+        getCategoryService.listActiveCategories(pageable);
+
+    paginatedResultsRetrieved.addLinkHeaderOnPagedResourceRetrieval(
+        uriBuilder, response, "/categories",
+        listCategoriesResponse.getPage(),
+        listCategoriesResponse.getTotalPages(),
+        listCategoriesResponse.getSize());
+    return ResponseEntity.ok().body(listCategoriesResponse);
   }
 
 }
