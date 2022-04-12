@@ -4,8 +4,10 @@ import com.alkemy.ong.application.exception.EntityNotFoundException;
 import com.alkemy.ong.application.exception.OperationNotPermittedException;
 import com.alkemy.ong.application.rest.request.CreateCommentRequest;
 import com.alkemy.ong.application.rest.response.CommentResponse;
+import com.alkemy.ong.application.rest.response.ListCommentsResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateCommentService;
 import com.alkemy.ong.application.service.abstraction.IDeleteCommentService;
+import com.alkemy.ong.application.service.abstraction.IGetCommentService;
 import com.alkemy.ong.application.util.SecurityUtils;
 import com.alkemy.ong.infrastructure.database.entity.CommentEntity;
 import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
@@ -15,6 +17,7 @@ import com.alkemy.ong.infrastructure.database.repository.ICommentRepository;
 import com.alkemy.ong.infrastructure.database.repository.INewsRepository;
 import com.alkemy.ong.infrastructure.database.repository.IUserRepository;
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +25,8 @@ import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
 @Service
-public class CommentService implements IDeleteCommentService, ICreateCommentService {
+public class CommentService implements IDeleteCommentService, ICreateCommentService,
+    IGetCommentService {
 
   @Autowired
   private ICommentRepository commentRepository;
@@ -108,4 +112,19 @@ public class CommentService implements IDeleteCommentService, ICreateCommentServ
     commentResponse.setAssociatedNews(newsEntity.getName());
   }
 
+  @Override
+  public ListCommentsResponse listCommentsByNewsId(Long id) {
+    String newsName = getNews(id).getName();
+    List<CommentEntity> commentsList = commentRepository.findByNewsId(id);
+    return buildListCommentsResponse(newsName, commentsList);
+  }
+
+  private ListCommentsResponse buildListCommentsResponse(
+      String newsName, List<CommentEntity> commentsList) {
+    List<CommentResponse> listOfComments = commentMapper.toListCommentsResponse(commentsList);
+    return ListCommentsResponse.builder()
+        .name(newsName)
+        .comments(listOfComments)
+        .build();
+  }
 }
