@@ -5,16 +5,13 @@ import com.alkemy.ong.application.rest.request.CreateCategoryRequest;
 import com.alkemy.ong.application.rest.request.UpdateCategoryRequest;
 import com.alkemy.ong.application.rest.response.CategoryResponse;
 import com.alkemy.ong.application.rest.response.ListCategoriesResponse;
-import com.alkemy.ong.application.rest.response.ListNewsResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateCategoryService;
 import com.alkemy.ong.application.service.abstraction.IDeleteCategoryService;
 import com.alkemy.ong.application.service.abstraction.IGetCategoryService;
 import com.alkemy.ong.application.service.abstraction.IUpdateCategoryService;
 import com.alkemy.ong.infrastructure.database.entity.CategoryEntity;
-import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
 import com.alkemy.ong.infrastructure.database.mapper.abstraction.ICategoryMapper;
 import com.alkemy.ong.infrastructure.database.repository.ICategoryRepository;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -56,8 +53,8 @@ public class CategoryService implements ICreateCategoryService, IDeleteCategoryS
     Page<CategoryEntity> page = categoryRepository.findBySoftDeletedIsFalseOrderByIdAsc(pageable);
     ListCategoriesResponse listCategoriesResponse = new ListCategoriesResponse();
     listCategoriesResponse.setCategories(categoryMapper.toCategoryNameResponses(page.getContent()));
-    return buildListResponse(listCategoriesResponse, page);
-
+    setPagination(listCategoriesResponse, page);
+    return listCategoriesResponse;
   }
 
   private CategoryEntity findBy(Long id) {
@@ -78,7 +75,7 @@ public class CategoryService implements ICreateCategoryService, IDeleteCategoryS
     return categoryMapper.toCategoryResponse(categoryRepository.save(categoryEntity));
   }
 
-  private ListCategoriesResponse buildListResponse(
+  private ListCategoriesResponse setPagination(
       ListCategoriesResponse listCategoriesResponse, Page<CategoryEntity> page) {
     listCategoriesResponse.setPage(page.getNumber());
     listCategoriesResponse.setTotalPages(page.getTotalPages());
