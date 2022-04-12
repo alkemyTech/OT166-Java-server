@@ -10,8 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ListCategoriesResponse extends PaginationResponse {
+public class ListSlidesResponse {
 
-  private List<CategoryResponse> categories;
+  private List<SlideResponse> slides;
 
 }
