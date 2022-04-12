@@ -75,11 +75,10 @@ public class CategoryService implements ICreateCategoryService, IDeleteCategoryS
     return categoryMapper.toCategoryResponse(categoryRepository.save(categoryEntity));
   }
 
-  private ListCategoriesResponse setPagination(
+  private void setPagination(
       ListCategoriesResponse listCategoriesResponse, Page<CategoryEntity> page) {
     listCategoriesResponse.setPage(page.getNumber());
     listCategoriesResponse.setTotalPages(page.getTotalPages());
     listCategoriesResponse.setSize(page.getSize());
-    return listCategoriesResponse;
   }
 }
