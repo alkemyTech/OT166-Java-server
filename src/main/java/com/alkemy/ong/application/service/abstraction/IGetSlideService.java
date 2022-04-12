@@ -10,6 +10,6 @@ public interface IGetSlideService {
 
   SlideResponse getBy(Long id);
 
-  ListSlidesResponse listSlides();
+  ListSlidesResponse listWithLessProperties();
 
 }

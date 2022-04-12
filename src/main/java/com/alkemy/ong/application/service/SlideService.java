@@ -47,7 +47,7 @@ public class SlideService implements IDeleteSlideService, IGetSlideService, ICre
   }
 
   @Override
-  public ListSlidesResponse listSlides() {
+  public ListSlidesResponse listWithLessProperties() {
     List<SlideEntity> slideEntities = slideRepository.findAll();
     ListSlidesResponse listSlidesResponse = new ListSlidesResponse();
     listSlidesResponse.setSlides(slideMapper.toSlideImageAndOrderResponse(slideEntities));

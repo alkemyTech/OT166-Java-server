@@ -63,8 +63,8 @@ public class SlideResource {
   }
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<ListSlidesResponse> listSlides() {
-    return ResponseEntity.ok().body(getSlideService.listSlides());
+  public ResponseEntity<ListSlidesResponse> list() {
+    return ResponseEntity.ok().body(getSlideService.listWithLessProperties());
   }
 
 }
