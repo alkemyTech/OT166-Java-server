@@ -80,7 +80,7 @@ public class UpdateTestimonialIntegrationTest extends BigTest {
   public void shouldReturnNotFoundErrorResponseWhenTestimonialNotExist() throws Exception {
     String nonExistTestimonialId = "1000000";
 
-    mockMvc.perform(put("/testimonials/{id}", String.valueOf(nonExistTestimonialId))
+    mockMvc.perform(put("/testimonials/{id}", nonExistTestimonialId)
             .content(getContent("New name", "New content", ""))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))

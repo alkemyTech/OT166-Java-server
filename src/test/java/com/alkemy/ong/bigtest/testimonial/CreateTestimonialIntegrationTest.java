@@ -43,6 +43,24 @@ public class CreateTestimonialIntegrationTest extends BigTest {
   }
 
   @Test
+  public void shouldCreateTestimonialWhenUserHasAdminRole() throws Exception {
+    String response = mockMvc.perform(post("/testimonials")
+            .content(getContent("Testimonial Name", "Testimonial Content",
+                "https://s3.com/testimonial.jpg"))
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
+        .andExpect(jsonPath("$.id", notNullValue()))
+        .andExpect(jsonPath("$.name", equalTo("Testimonial Name")))
+        .andExpect(jsonPath("$.content", equalTo("Testimonial Content")))
+        .andExpect(jsonPath("$.image", equalTo("https://s3.com/testimonial.jpg")))
+        .andExpect(status().isCreated())
+        .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+    Integer testimonialId = JsonPath.read(response, "$.id");
+    assertTestimonialHasBeenCreated(Long.valueOf(testimonialId));
+  }
+
+  @Test
   public void shouldReturnForbiddenErrorResponseWhenTokenIsNotSent() throws Exception {
     mockMvc.perform(post("/testimonials")
             .content(getContent("Testimonial Name", "Testimonial Content",
