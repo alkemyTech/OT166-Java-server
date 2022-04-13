@@ -24,6 +24,6 @@ public interface INewsRepository extends JpaRepository<NewsEntity, Long> {
       + "INNER JOIN CommentEntity AS c "
       + "ON c.news.id = :id "
       + "WHERE n.softDeleted = false")
-  List<Map<String, Object>> findByNewsId(@Param("id") Long id);
+  List<Map<String, Object>> findNewsWithAssociatedCommentsBy(@Param("id") Long id);
 
 }

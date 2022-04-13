@@ -108,6 +108,4 @@ public class CommentService implements IDeleteCommentService, ICreateCommentServ
     commentResponse.setAssociatedNews(newsEntity.getName());
   }
 
-
-
 }

@@ -99,21 +99,14 @@ public class NewsService implements
 
   @Override
   public ListCommentsResponse listCommentsByNewsId(Long id) {
-    existNewsById(id);
-    List<Map<String, Object>> queryResponses = newsRepository.findByNewsId(id);
+    List<Map<String, Object>> queryResponses = newsRepository.findNewsWithAssociatedCommentsBy(id);
     if (queryResponses.isEmpty()) {
-      throw new EntityNotFoundException("Comments not found in the news");
+      throw new EntityNotFoundException("Comments not found in the news.");
     }
     return ListCommentsResponse.builder()
-        .name(queryResponses.get(0).get("newsName").toString())
+        .name((String) queryResponses.get(0).get("newsName"))
         .comments(buildCommentResponses(queryResponses))
         .build();
-  }
-
-  private void existNewsById(Long id) {
-    if (!newsRepository.existsById(id)) {
-      throw new EntityNotFoundException("News not found");
-    }
   }
 
   private List<CommentResponse> buildCommentResponses(List<Map<String, Object>> queryResponses) {
@@ -125,13 +118,13 @@ public class NewsService implements
   }
 
   private CommentResponse buildCommentResponse(Map<String, Object> queryResponse) {
-    String createdBy = createdBy(queryResponse.get("firstName").toString(),
-        queryResponse.get("lastName").toString());
+    String createdBy = createdBy((String) queryResponse.get("firstName"),
+        (String) queryResponse.get("lastName"));
     return CommentResponse.builder()
-        .id(Long.parseLong(queryResponse.get("id").toString()))
-        .body(queryResponse.get("body").toString())
+        .id((Long) queryResponse.get("id"))
+        .body((String) queryResponse.get("body"))
         .createdBy(createdBy)
-        .createTimestamp(Timestamp.valueOf(queryResponse.get("createTimestamp").toString()))
+        .createTimestamp((Timestamp) queryResponse.get("createTimestamp"))
         .build();
   }
 
