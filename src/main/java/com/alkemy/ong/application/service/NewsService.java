@@ -3,6 +3,8 @@ package com.alkemy.ong.application.service;
 import com.alkemy.ong.application.exception.EntityNotFoundException;
 import com.alkemy.ong.application.rest.request.CreateNewsRequest;
 import com.alkemy.ong.application.rest.request.UpdateNewsRequest;
+import com.alkemy.ong.application.rest.response.CommentResponse;
+import com.alkemy.ong.application.rest.response.ListCommentsResponse;
 import com.alkemy.ong.application.rest.response.ListNewsResponse;
 import com.alkemy.ong.application.rest.response.NewsResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateNewsService;
@@ -11,9 +13,14 @@ import com.alkemy.ong.application.service.abstraction.IGetNewsService;
 import com.alkemy.ong.application.service.abstraction.IUpdateNewsService;
 import com.alkemy.ong.infrastructure.database.entity.CategoryEntity;
 import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
-import com.alkemy.ong.infrastructure.database.mapper.abstraction.INewsMapper;
+import com.alkemy.ong.infrastructure.database.mapper.INewsMapper;
 import com.alkemy.ong.infrastructure.database.repository.ICategoryRepository;
 import com.alkemy.ong.infrastructure.database.repository.INewsRepository;
+import java.sql.Timestamp;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -88,6 +95,41 @@ public class NewsService implements
     listNewsResponse.setPage(page.getNumber());
     listNewsResponse.setTotalPages(page.getTotalPages());
     listNewsResponse.setSize(page.getSize());
+  }
+
+  @Override
+  public ListCommentsResponse listCommentsByNewsId(Long id) {
+    List<Map<String, Object>> queryResponses = newsRepository.findNewsWithAssociatedCommentsBy(id);
+    if (queryResponses.isEmpty()) {
+      throw new EntityNotFoundException("Comments not found in the news.");
+    }
+    return ListCommentsResponse.builder()
+        .name((String) queryResponses.get(0).get("newsName"))
+        .comments(buildCommentResponses(queryResponses))
+        .build();
+  }
+
+  private List<CommentResponse> buildCommentResponses(List<Map<String, Object>> queryResponses) {
+    List<CommentResponse> commentResponses = new ArrayList<>();
+    for (Map<String, Object> queryResponse : queryResponses) {
+      commentResponses.add(buildCommentResponse(queryResponse));
+    }
+    return commentResponses;
+  }
+
+  private CommentResponse buildCommentResponse(Map<String, Object> queryResponse) {
+    String createdBy = createdBy((String) queryResponse.get("firstName"),
+        (String) queryResponse.get("lastName"));
+    return CommentResponse.builder()
+        .id((Long) queryResponse.get("id"))
+        .body((String) queryResponse.get("body"))
+        .createdBy(createdBy)
+        .createTimestamp((Timestamp) queryResponse.get("createTimestamp"))
+        .build();
+  }
+
+  private String createdBy(String firstName, String lastName) {
+    return MessageFormat.format("{0} {1}", firstName, lastName);
   }
 
 }

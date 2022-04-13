@@ -9,7 +9,7 @@ import com.alkemy.ong.application.service.abstraction.IGetUserService;
 import com.alkemy.ong.application.service.abstraction.IUpdateUserService;
 import com.alkemy.ong.application.util.SecurityUtils;
 import com.alkemy.ong.infrastructure.database.entity.UserEntity;
-import com.alkemy.ong.infrastructure.database.mapper.abstraction.IUserMapper;
+import com.alkemy.ong.infrastructure.database.mapper.IUserMapper;
 import com.alkemy.ong.infrastructure.database.repository.IUserRepository;
 import java.util.List;
 import java.util.Optional;

@@ -8,7 +8,7 @@ import com.alkemy.ong.application.service.abstraction.IGetOrganizationDetailsSer
 import com.alkemy.ong.application.service.abstraction.IGetSlideService;
 import com.alkemy.ong.application.service.abstraction.IUpdateOrganizationService;
 import com.alkemy.ong.infrastructure.database.entity.OrganizationEntity;
-import com.alkemy.ong.infrastructure.database.mapper.abstraction.IOrganizationMapper;
+import com.alkemy.ong.infrastructure.database.mapper.IOrganizationMapper;
 import com.alkemy.ong.infrastructure.database.repository.IOrganizationRepository;
 import java.util.List;
 import lombok.AllArgsConstructor;

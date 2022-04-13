@@ -10,7 +10,7 @@ import com.alkemy.ong.application.exception.EntityNotFoundException;
 import com.alkemy.ong.application.rest.response.OrganizationResponse;
 import com.alkemy.ong.application.service.abstraction.IGetSlideService;
 import com.alkemy.ong.infrastructure.database.entity.OrganizationEntity;
-import com.alkemy.ong.infrastructure.database.mapper.abstraction.IOrganizationMapper;
+import com.alkemy.ong.infrastructure.database.mapper.IOrganizationMapper;
 import com.alkemy.ong.infrastructure.database.repository.IOrganizationRepository;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

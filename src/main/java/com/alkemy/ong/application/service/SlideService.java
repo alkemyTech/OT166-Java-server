@@ -10,7 +10,7 @@ import com.alkemy.ong.application.service.abstraction.IGetSlideService;
 import com.alkemy.ong.application.util.image.Image;
 import com.alkemy.ong.application.util.image.UploadImageDelegate;
 import com.alkemy.ong.infrastructure.database.entity.SlideEntity;
-import com.alkemy.ong.infrastructure.database.mapper.abstraction.ISlideMapper;
+import com.alkemy.ong.infrastructure.database.mapper.ISlideMapper;
 import com.alkemy.ong.infrastructure.database.repository.ISlideRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
