@@ -91,7 +91,11 @@ public class MemberResource {
   }
 
   @Operation(summary = "Delete member.", description = "Delete member.", tags = "Delete")
-  @ApiResponse(responseCode = "204", description = "Delete member.")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "204", description = "Member deleted."),
+      @ApiResponse(responseCode = "404", description = "Member not found.", content = @Content(
+          schema = @Schema(implementation = ErrorResponse.class)))
+  })
   @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Void> delete(@PathVariable Long id) {
     deleteMemberService.delete(id);
@@ -103,8 +107,9 @@ public class MemberResource {
       @ApiResponse(content = @Content(schema = @Schema(implementation = MemberResponse.class)),
           responseCode = "200", description = "Returns member updated."),
       @ApiResponse(responseCode = "400", description = "Invalid input data.", content = @Content(
-          schema = @Schema(implementation = ErrorResponse.class)
-      ))
+          schema = @Schema(implementation = ErrorResponse.class))),
+      @ApiResponse(responseCode = "404", description = "Member not found.", content = @Content(
+          schema = @Schema(implementation = ErrorResponse.class)))
   })
   @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE,
       consumes = MediaType.APPLICATION_JSON_VALUE)
