@@ -976,6 +976,35 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "GET ListCommentsByNews ADMIN/USER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/news/1/comments",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"news",
+								"1",
+								"comments"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
