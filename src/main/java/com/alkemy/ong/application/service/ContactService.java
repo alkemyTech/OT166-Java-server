@@ -9,7 +9,7 @@ import com.alkemy.ong.application.service.abstraction.IGetContactService;
 import com.alkemy.ong.application.util.mail.EmailDelegate;
 import com.alkemy.ong.application.util.mail.template.ContactEmailTemplate;
 import com.alkemy.ong.infrastructure.database.entity.ContactEntity;
-import com.alkemy.ong.infrastructure.database.mapper.abstraction.IContactMapper;
+import com.alkemy.ong.infrastructure.database.mapper.IContactMapper;
 import com.alkemy.ong.infrastructure.database.repository.IContactRepository;
 import java.util.List;
 import lombok.AllArgsConstructor;

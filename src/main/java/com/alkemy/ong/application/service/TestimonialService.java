@@ -8,7 +8,7 @@ import com.alkemy.ong.application.service.abstraction.ICreateTestimonialService;
 import com.alkemy.ong.application.service.abstraction.IDeleteTestimonialService;
 import com.alkemy.ong.application.service.abstraction.IUpdateTestimonialService;
 import com.alkemy.ong.infrastructure.database.entity.TestimonialEntity;
-import com.alkemy.ong.infrastructure.database.mapper.abstraction.ITestimonialMapper;
+import com.alkemy.ong.infrastructure.database.mapper.ITestimonialMapper;
 import com.alkemy.ong.infrastructure.database.repository.ITestimonialRepository;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;

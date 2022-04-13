@@ -10,7 +10,7 @@ import com.alkemy.ong.application.util.SecurityUtils;
 import com.alkemy.ong.infrastructure.database.entity.CommentEntity;
 import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
 import com.alkemy.ong.infrastructure.database.entity.UserEntity;
-import com.alkemy.ong.infrastructure.database.mapper.abstraction.ICommentMapper;
+import com.alkemy.ong.infrastructure.database.mapper.ICommentMapper;
 import com.alkemy.ong.infrastructure.database.repository.ICommentRepository;
 import com.alkemy.ong.infrastructure.database.repository.INewsRepository;
 import com.alkemy.ong.infrastructure.database.repository.IUserRepository;
