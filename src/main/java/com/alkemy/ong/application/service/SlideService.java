@@ -2,22 +2,26 @@ package com.alkemy.ong.application.service;
 
 import com.alkemy.ong.application.exception.EntityNotFoundException;
 import com.alkemy.ong.application.rest.request.CreateSlideRequest;
+import com.alkemy.ong.application.rest.request.UpdateSlideRequest;
 import com.alkemy.ong.application.rest.response.ListSlidesResponse;
 import com.alkemy.ong.application.rest.response.SlideResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateSlideService;
 import com.alkemy.ong.application.service.abstraction.IDeleteSlideService;
 import com.alkemy.ong.application.service.abstraction.IGetSlideService;
+import com.alkemy.ong.application.service.abstraction.IUpdateSlideService;
 import com.alkemy.ong.application.util.image.Image;
 import com.alkemy.ong.application.util.image.UploadImageDelegate;
 import com.alkemy.ong.infrastructure.database.entity.SlideEntity;
 import com.alkemy.ong.infrastructure.database.mapper.ISlideMapper;
 import com.alkemy.ong.infrastructure.database.repository.ISlideRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SlideService implements IDeleteSlideService, IGetSlideService, ICreateSlideService {
+public class SlideService implements IDeleteSlideService, IGetSlideService,
+    ICreateSlideService, IUpdateSlideService {
 
   @Autowired
   private ISlideRepository slideRepository;
@@ -83,4 +87,19 @@ public class SlideService implements IDeleteSlideService, IGetSlideService, ICre
     return (order == null || order <= 0) ? slideRepository.getHighestOrder() + 1 : order;
   }
 
+  @Override
+  public SlideResponse update(Long id, UpdateSlideRequest updateSlideRequest) {
+    SlideEntity slideEntity = findBy(id);
+    slideEntity.setText(updateSlideRequest.getText());
+    slideEntity.setOrder(updateSlideRequest.getOrder());
+    return slideMapper.toSlideResponse(slideRepository.save(slideEntity));
+  }
+
+  private SlideEntity findBy(Long id) {
+    Optional<SlideEntity> optionalSlideEntity = slideRepository.findById(id);
+    if (optionalSlideEntity.isEmpty()) {
+      throw new EntityNotFoundException("Slide not found.");
+    }
+    return optionalSlideEntity.get();
+  }
 }
