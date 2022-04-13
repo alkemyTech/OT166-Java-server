@@ -13,7 +13,7 @@ import com.alkemy.ong.application.service.abstraction.IGetNewsService;
 import com.alkemy.ong.application.service.abstraction.IUpdateNewsService;
 import com.alkemy.ong.infrastructure.database.entity.CategoryEntity;
 import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
-import com.alkemy.ong.infrastructure.database.mapper.abstraction.INewsMapper;
+import com.alkemy.ong.infrastructure.database.mapper.INewsMapper;
 import com.alkemy.ong.infrastructure.database.repository.ICategoryRepository;
 import com.alkemy.ong.infrastructure.database.repository.INewsRepository;
 import java.sql.Timestamp;

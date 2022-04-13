@@ -10,7 +10,7 @@ import com.alkemy.ong.application.service.abstraction.IDeleteCategoryService;
 import com.alkemy.ong.application.service.abstraction.IGetCategoryService;
 import com.alkemy.ong.application.service.abstraction.IUpdateCategoryService;
 import com.alkemy.ong.infrastructure.database.entity.CategoryEntity;
-import com.alkemy.ong.infrastructure.database.mapper.abstraction.ICategoryMapper;
+import com.alkemy.ong.infrastructure.database.mapper.ICategoryMapper;
 import com.alkemy.ong.infrastructure.database.repository.ICategoryRepository;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;

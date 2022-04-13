@@ -10,7 +10,7 @@ import com.alkemy.ong.application.service.abstraction.IDeleteMemberService;
 import com.alkemy.ong.application.service.abstraction.IGetMemberService;
 import com.alkemy.ong.application.service.abstraction.IUpdateMemberService;
 import com.alkemy.ong.infrastructure.database.entity.MemberEntity;
-import com.alkemy.ong.infrastructure.database.mapper.abstraction.IMemberMapper;
+import com.alkemy.ong.infrastructure.database.mapper.IMemberMapper;
 import com.alkemy.ong.infrastructure.database.repository.IMemberRepository;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
