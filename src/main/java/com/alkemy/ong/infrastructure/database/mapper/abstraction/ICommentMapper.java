@@ -17,14 +17,4 @@ public interface ICommentMapper {
 
   CommentResponse toCommentResponse(CommentEntity commentEntity);
 
-  @IterableMapping(qualifiedByName = "nameCorrection")
-  List<CommentResponse> toListCommentsResponse(List<CommentEntity> commentEntities);
-
-  @Named("nameCorrection")
-  @Mappings({
-      @Mapping(target = "createdBy", source = "user.email"),
-      @Mapping(target = "associatedNews", ignore = true)
-  })
-  CommentResponse commentResponseSpecifications(CommentEntity comment);
-
 }

@@ -7,7 +7,6 @@ import com.alkemy.ong.application.rest.response.ListNewsResponse;
 import com.alkemy.ong.application.rest.response.NewsResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateNewsService;
 import com.alkemy.ong.application.service.abstraction.IDeleteNewsService;
-import com.alkemy.ong.application.service.abstraction.IGetCommentService;
 import com.alkemy.ong.application.service.abstraction.IGetNewsService;
 import com.alkemy.ong.application.service.abstraction.IUpdateNewsService;
 import com.alkemy.ong.application.util.PaginatedResultsRetrieved;
@@ -48,12 +47,9 @@ public class NewsResource {
   @Autowired
   private PaginatedResultsRetrieved paginatedResultsRetrieved;
 
-  @Autowired
-  private IGetCommentService getCommentService;
-
   @GetMapping(path = "/{id}/comments", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ListCommentsResponse> listCommentsByNewsId(@PathVariable Long id) {
-    return ResponseEntity.ok().body(getCommentService.listCommentsByNewsId(id));
+    return ResponseEntity.ok().body(getNewsService.listCommentsByNewsId(id));
   }
 
   @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,
