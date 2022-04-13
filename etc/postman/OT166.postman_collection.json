@@ -1078,11 +1078,11 @@
 								}
 							]
 						},
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"body\": \"Gran\"\r\n}",
+							"raw": "{\r\n    \"body\": \"Comentario modificado por administrador\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1090,13 +1090,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/comments/8",
+							"raw": "{{URL}}/comments/9",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"comments",
-								"8"
+								"9"
 							]
 						}
 					},
