@@ -12,6 +12,7 @@ import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
 import com.alkemy.ong.infrastructure.database.entity.OrganizationEntity;
 import com.alkemy.ong.infrastructure.database.entity.RoleEntity;
 import com.alkemy.ong.infrastructure.database.entity.SlideEntity;
+import com.alkemy.ong.infrastructure.database.entity.TestimonialEntity;
 import com.alkemy.ong.infrastructure.database.entity.UserEntity;
 import com.alkemy.ong.infrastructure.database.repository.IActivityRepository;
 import com.alkemy.ong.infrastructure.database.repository.ICategoryRepository;
@@ -21,6 +22,7 @@ import com.alkemy.ong.infrastructure.database.repository.INewsRepository;
 import com.alkemy.ong.infrastructure.database.repository.IOrganizationRepository;
 import com.alkemy.ong.infrastructure.database.repository.IRoleRepository;
 import com.alkemy.ong.infrastructure.database.repository.ISlideRepository;
+import com.alkemy.ong.infrastructure.database.repository.ITestimonialRepository;
 import com.alkemy.ong.infrastructure.database.repository.IUserRepository;
 import com.alkemy.ong.infrastructure.spring.config.security.Role;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -87,6 +89,9 @@ public abstract class BigTest {
   @Autowired
   protected IContactRepository contactRepository;
 
+  @Autowired
+  protected ITestimonialRepository testimonialRepository;
+
   @Before
   public void setup() {
     createCategoryNews();
@@ -138,6 +143,10 @@ public abstract class BigTest {
     contactRepository.deleteAllInBatch(Arrays.asList(contacts));
   }
 
+  protected void cleanTestimonialData(TestimonialEntity... testimonial) {
+    testimonialRepository.deleteAllInBatch(Arrays.asList(testimonial));
+  }
+
   private void deleteAllEntities() {
     organizationRepository.deleteAll();
     slideRepository.deleteAll();
@@ -184,6 +193,14 @@ public abstract class BigTest {
         .image("https://s3.com/news.jpg")
         .content("News content.")
         .name("My first News!!")
+        .build());
+  }
+
+  protected TestimonialEntity saveTestimonial() {
+    return testimonialRepository.save(TestimonialEntity.builder()
+        .name("My first Testimonial!!")
+        .image("https://s3.com/testimonial.jpg")
+        .content("Testimonial content.")
         .build());
   }
 
@@ -243,6 +260,15 @@ public abstract class BigTest {
         .build();
   }
 
+  private TestimonialEntity buildTestimonial(String name, String image, String content) {
+    return TestimonialEntity.builder()
+        .name(name)
+        .image(image)
+        .content(content)
+        .softDelete(false)
+        .build();
+  }
+
   protected String getAuthorizationTokenForAdminUser() throws Exception {
     return getAuthorizationTokenForUser(ADMIN_EMAIL);
   }
@@ -261,6 +287,14 @@ public abstract class BigTest {
         "Content Activity",
         "https://s3.com/activity.jpg"));
   }
+
+  protected TestimonialEntity getRandomTestimonial() {
+    return testimonialRepository.save(buildTestimonial(
+        "Name Testimonial",
+        "https://s3.com/testimonial.jpg",
+        "Content Testimonial"));
+  }
+
 
   private String getAuthorizationTokenForUser(String email) throws Exception {
     String content = mockMvc.perform(post("/auth/login")
