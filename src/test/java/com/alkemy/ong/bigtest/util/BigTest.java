@@ -147,6 +147,10 @@ public abstract class BigTest {
     testimonialRepository.deleteAllInBatch(Arrays.asList(testimonial));
   }
 
+  protected void cleanOrganizationData(OrganizationEntity... organization) {
+    organizationRepository.deleteAllInBatch(Arrays.asList(organization));
+  }
+
   private void deleteAllEntities() {
     organizationRepository.deleteAll();
     slideRepository.deleteAll();
@@ -269,6 +273,17 @@ public abstract class BigTest {
         .build();
   }
 
+  private OrganizationEntity buildOrganization(String name, String image, String address, String phone, String email, String welcomeText) {
+    return OrganizationEntity.builder()
+        .name(name)
+        .image(image)
+        .address(address)
+        .phone(phone)
+        .email(email)
+        .welcomeText(welcomeText)
+        .build();
+  }
+
   protected String getAuthorizationTokenForAdminUser() throws Exception {
     return getAuthorizationTokenForUser(ADMIN_EMAIL);
   }
@@ -295,6 +310,16 @@ public abstract class BigTest {
         "Content Testimonial"));
   }
 
+  protected OrganizationEntity getRamdomOrganization() {
+    return organizationRepository.save(buildOrganization(
+        "Somos Mas",
+        "http://alkemy.org",
+        "Elm Street 3",
+        "+5411345678",
+        "somos.mas@ong.com",
+        "Welcome to Somos Mas"
+    ));
+  }
 
   private String getAuthorizationTokenForUser(String email) throws Exception {
     String content = mockMvc.perform(post("/auth/login")
