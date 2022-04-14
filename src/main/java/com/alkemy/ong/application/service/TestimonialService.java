@@ -10,7 +10,7 @@ import com.alkemy.ong.application.service.abstraction.IDeleteTestimonialService;
 import com.alkemy.ong.application.service.abstraction.IGetTestimonialService;
 import com.alkemy.ong.application.service.abstraction.IUpdateTestimonialService;
 import com.alkemy.ong.infrastructure.database.entity.TestimonialEntity;
-import com.alkemy.ong.infrastructure.database.mapper.abstraction.ITestimonialMapper;
+import com.alkemy.ong.infrastructure.database.mapper.ITestimonialMapper;
 import com.alkemy.ong.infrastructure.database.repository.ITestimonialRepository;
 import java.util.List;
 import java.util.Optional;

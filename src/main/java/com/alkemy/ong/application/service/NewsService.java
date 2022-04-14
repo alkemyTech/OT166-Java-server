@@ -11,13 +11,13 @@ import com.alkemy.ong.application.service.abstraction.ICreateNewsService;
 import com.alkemy.ong.application.service.abstraction.IDeleteNewsService;
 import com.alkemy.ong.application.service.abstraction.IGetNewsService;
 import com.alkemy.ong.application.service.abstraction.IUpdateNewsService;
+import com.alkemy.ong.application.util.CommentUtils;
 import com.alkemy.ong.infrastructure.database.entity.CategoryEntity;
 import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
-import com.alkemy.ong.infrastructure.database.mapper.abstraction.INewsMapper;
+import com.alkemy.ong.infrastructure.database.mapper.INewsMapper;
 import com.alkemy.ong.infrastructure.database.repository.ICategoryRepository;
 import com.alkemy.ong.infrastructure.database.repository.INewsRepository;
 import java.sql.Timestamp;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -118,7 +118,7 @@ public class NewsService implements
   }
 
   private CommentResponse buildCommentResponse(Map<String, Object> queryResponse) {
-    String createdBy = createdBy((String) queryResponse.get("firstName"),
+    String createdBy = CommentUtils.createdBy((String) queryResponse.get("firstName"),
         (String) queryResponse.get("lastName"));
     return CommentResponse.builder()
         .id((Long) queryResponse.get("id"))
@@ -126,10 +126,6 @@ public class NewsService implements
         .createdBy(createdBy)
         .createTimestamp((Timestamp) queryResponse.get("createTimestamp"))
         .build();
-  }
-
-  private String createdBy(String firstName, String lastName) {
-    return MessageFormat.format("{0} {1}", firstName, lastName);
   }
 
 }

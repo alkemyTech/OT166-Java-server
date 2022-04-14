@@ -7,7 +7,7 @@ import com.alkemy.ong.application.rest.response.ActivityResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateActivityService;
 import com.alkemy.ong.application.service.abstraction.IUpdateActivityService;
 import com.alkemy.ong.infrastructure.database.entity.ActivityEntity;
-import com.alkemy.ong.infrastructure.database.mapper.abstraction.IActivityMapper;
+import com.alkemy.ong.infrastructure.database.mapper.IActivityMapper;
 import com.alkemy.ong.infrastructure.database.repository.IActivityRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

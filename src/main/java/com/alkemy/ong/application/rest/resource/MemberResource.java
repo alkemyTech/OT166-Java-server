@@ -5,7 +5,6 @@ import com.alkemy.ong.application.rest.request.UpdateMemberRequest;
 import com.alkemy.ong.application.rest.response.ErrorResponse;
 import com.alkemy.ong.application.rest.response.ListMembersResponse;
 import com.alkemy.ong.application.rest.response.MemberResponse;
-import com.alkemy.ong.application.rest.response.RegisterResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateMemberService;
 import com.alkemy.ong.application.service.abstraction.IDeleteMemberService;
 import com.alkemy.ong.application.service.abstraction.IGetMemberService;
@@ -116,7 +115,7 @@ public class MemberResource {
   public ResponseEntity<MemberResponse> update(
       @PathVariable Long id, @Valid @RequestBody @io.swagger.v3.oas.annotations.parameters
       .RequestBody(required = true, description = "Member updated", content = @Content(
-          schema = @Schema(implementation = UpdateMemberRequest.class)))
+      schema = @Schema(implementation = UpdateMemberRequest.class)))
       UpdateMemberRequest updateMemberRequest) {
     return ResponseEntity.ok().body(updateMemberService.update(id, updateMemberRequest));
   }

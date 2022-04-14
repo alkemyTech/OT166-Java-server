@@ -177,7 +177,8 @@ public class UpdateTestimonialIntegrationTest extends BigTest {
   }
 
   private void assertTestimonialHasBeenUpdated(Long testimonialId) {
-    Optional<TestimonialEntity> optionalTestimonialEntity = testimonialRepository.findById(testimonialId);
+    Optional<TestimonialEntity> optionalTestimonialEntity = testimonialRepository.findById(
+        testimonialId);
     assertTrue(optionalTestimonialEntity.isPresent());
     assertEquals("New name", optionalTestimonialEntity.get().getName());
     assertEquals("", optionalTestimonialEntity.get().getImage());

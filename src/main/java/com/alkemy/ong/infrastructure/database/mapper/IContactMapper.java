@@ -1,4 +1,4 @@
-package com.alkemy.ong.infrastructure.database.mapper.abstraction;
+package com.alkemy.ong.infrastructure.database.mapper;
 
 import com.alkemy.ong.application.rest.request.CreateContactRequest;
 import com.alkemy.ong.application.rest.response.ContactResponse;
