@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0ad127ee-0d39-477e-a884-8daf96c56894",
+		"_postman_id": "22b7ce81-3fef-48a5-9baa-7a0ad9fa6b24",
 		"name": "OT166",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1097,6 +1097,43 @@
 							],
 							"path": [
 								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT comment USER/ADMIN",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"body\": \"Comentario modificado por administrador\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/comments/9",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"comments",
+								"9"
 							]
 						}
 					},

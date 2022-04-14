@@ -3,9 +3,11 @@ package com.alkemy.ong.application.service;
 import com.alkemy.ong.application.exception.EntityNotFoundException;
 import com.alkemy.ong.application.exception.OperationNotPermittedException;
 import com.alkemy.ong.application.rest.request.CreateCommentRequest;
+import com.alkemy.ong.application.rest.request.UpdateCommentRequest;
 import com.alkemy.ong.application.rest.response.CommentResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateCommentService;
 import com.alkemy.ong.application.service.abstraction.IDeleteCommentService;
+import com.alkemy.ong.application.service.abstraction.IUpdateCommentService;
 import com.alkemy.ong.application.util.SecurityUtils;
 import com.alkemy.ong.infrastructure.database.entity.CommentEntity;
 import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
@@ -22,7 +24,8 @@ import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
 @Service
-public class CommentService implements IDeleteCommentService, ICreateCommentService {
+public class CommentService implements IDeleteCommentService, ICreateCommentService,
+    IUpdateCommentService {
 
   @Autowired
   private ICommentRepository commentRepository;
@@ -67,7 +70,7 @@ public class CommentService implements IDeleteCommentService, ICreateCommentServ
   private void validateIfOperationIsAllowed(UserEntity userEntity) {
     if (!securityUtils.hasAdminRole()
         && !userEntity.equals(securityUtils.getUserAuthenticated())) {
-      throw new OperationNotPermittedException("No permission to delete this comment.");
+      throw new OperationNotPermittedException("No permission to perform this operation.");
     }
   }
 
@@ -106,6 +109,23 @@ public class CommentService implements IDeleteCommentService, ICreateCommentServ
     commentResponse.setCreatedBy(
         MessageFormat.format("{0} {1}", userEntity.getFirstName(), userEntity.getLastName()));
     commentResponse.setAssociatedNews(newsEntity.getName());
+  }
+
+  @Override
+  public CommentResponse update(Long id, UpdateCommentRequest updateCommentRequest) {
+    CommentEntity commentUpdate = findBy(id);
+    validateIfOperationIsAllowed(commentUpdate.getUser());
+
+    UserEntity userEntity = commentUpdate.getUser();
+    NewsEntity newsEntity = commentUpdate.getNews();
+
+    commentUpdate.setBody(updateCommentRequest.getBody());
+
+    CommentResponse commentResponse =
+        commentMapper.toCommentResponse(commentRepository.save(commentUpdate));
+
+    buildCommentResponse(commentResponse, userEntity, newsEntity);
+    return commentResponse;
   }
 
 }
