@@ -14,4 +14,5 @@ import lombok.Setter;
 public class UpdateCommentRequest {
 
   private String body;
+
 }

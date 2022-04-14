@@ -1,12 +1,15 @@
 package com.alkemy.ong.application.rest.resource;
 
 import com.alkemy.ong.application.rest.request.CreateSlideRequest;
+import com.alkemy.ong.application.rest.request.UpdateSlideRequest;
 import com.alkemy.ong.application.rest.response.ListSlidesResponse;
 import com.alkemy.ong.application.rest.response.SlideResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateSlideService;
 import com.alkemy.ong.application.service.abstraction.IDeleteSlideService;
 import com.alkemy.ong.application.service.abstraction.IGetSlideService;
+import com.alkemy.ong.application.service.abstraction.IUpdateSlideService;
 import java.net.URI;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +35,9 @@ public class SlideResource {
 
   @Autowired
   private ICreateSlideService createSlideService;
+
+  @Autowired
+  private IUpdateSlideService updateSlideService;
 
 
   @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -60,6 +67,13 @@ public class SlideResource {
         .toUri();
 
     return ResponseEntity.created(location).body(slideResponse);
+  }
+
+  @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE,
+      consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<SlideResponse> update(@PathVariable Long id,
+      @Valid @RequestBody UpdateSlideRequest updateSlideRequest) {
+    return ResponseEntity.ok().body(updateSlideService.update(id, updateSlideRequest));
   }
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
