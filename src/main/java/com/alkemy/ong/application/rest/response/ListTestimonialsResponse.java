@@ -10,6 +10,6 @@ import lombok.Setter;
 @Setter
 public class ListTestimonialsResponse extends PaginationResponse {
 
-  private List<TestimonialResponse> testimonialResponses;
+  private List<TestimonialResponse> testimonials;
 
 }

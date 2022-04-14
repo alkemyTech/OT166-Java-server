@@ -65,23 +65,22 @@ public class TestimonialService implements IDeleteTestimonialService,
   public ListTestimonialsResponse list(Pageable pageable) {
     Page<TestimonialEntity> page = testimonialRepository.findByOrderByIdAsc(pageable);
     ListTestimonialsResponse listTestimonials = buildListTestimonialsResponse(page.getContent());
-    return setPagination(listTestimonials, page);
+    setPagination(listTestimonials, page);
+    return listTestimonials;
   }
 
   private ListTestimonialsResponse buildListTestimonialsResponse(
       List<TestimonialEntity> testimonialEntities) {
     return ListTestimonialsResponse.builder()
-        .testimonialResponses(testimonialMapper.toListTestimonialResponse(testimonialEntities))
+        .testimonials(testimonialMapper.toListTestimonialResponse(testimonialEntities))
         .build();
   }
 
-  private ListTestimonialsResponse setPagination(
-      ListTestimonialsResponse listTestimonialsResponse,
+  private void setPagination(ListTestimonialsResponse listTestimonialsResponse,
       Page<TestimonialEntity> page) {
     listTestimonialsResponse.setPage(page.getNumber());
     listTestimonialsResponse.setTotalPages(page.getTotalPages());
     listTestimonialsResponse.setSize(page.getSize());
-    return listTestimonialsResponse;
   }
 
 }
