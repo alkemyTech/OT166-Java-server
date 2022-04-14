@@ -3,10 +3,13 @@ package com.alkemy.ong.application.rest.resource;
 import com.alkemy.ong.application.rest.request.CreateTestimonialRequest;
 import com.alkemy.ong.application.rest.request.UpdateTestimonialRequest;
 import com.alkemy.ong.application.rest.response.ErrorResponse;
+import com.alkemy.ong.application.rest.response.ListTestimonialsResponse;
 import com.alkemy.ong.application.rest.response.TestimonialResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateTestimonialService;
 import com.alkemy.ong.application.service.abstraction.IDeleteTestimonialService;
+import com.alkemy.ong.application.service.abstraction.IGetTestimonialService;
 import com.alkemy.ong.application.service.abstraction.IUpdateTestimonialService;
+import com.alkemy.ong.application.util.PaginatedResultsRetrieved;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,11 +17,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.net.URI;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -26,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Tag(name = "Testimonial Endpoints", description = "Testimonial Endpoints")
 @RestController
@@ -40,6 +47,13 @@ public class TestimonialResource {
 
   @Autowired
   private IUpdateTestimonialService updateTestimonialService;
+
+  @Autowired
+  private PaginatedResultsRetrieved paginatedResultsRetrieved;
+
+  @Autowired
+  private IGetTestimonialService getTestimonialService;
+
 
   @Operation(summary = "Delete Testimonial.", description = "Delete testimonial.", tags = "Delete")
   @ApiResponses(value = {
@@ -98,5 +112,17 @@ public class TestimonialResource {
       schema = @Schema(implementation = UpdateTestimonialRequest.class)))
       UpdateTestimonialRequest updateTestimonialRequest) {
     return ResponseEntity.ok().body(updateTestimonialService.update(id, updateTestimonialRequest));
+  }
+
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<ListTestimonialsResponse> list(Pageable pageable,
+      UriComponentsBuilder uriBuilder, HttpServletResponse response) {
+    ListTestimonialsResponse testimonialsResponse = getTestimonialService.list(pageable);
+    paginatedResultsRetrieved.addLinkHeaderOnPagedResourceRetrieval(
+        uriBuilder, response, "/news",
+        testimonialsResponse.getPage(),
+        testimonialsResponse.getTotalPages(),
+        testimonialsResponse.getSize());
+    return ResponseEntity.ok().body(testimonialsResponse);
   }
 }
