@@ -8,6 +8,7 @@ import com.alkemy.ong.application.rest.response.CommentResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateCommentService;
 import com.alkemy.ong.application.service.abstraction.IDeleteCommentService;
 import com.alkemy.ong.application.service.abstraction.IUpdateCommentService;
+import com.alkemy.ong.application.util.CommentUtils;
 import com.alkemy.ong.application.util.SecurityUtils;
 import com.alkemy.ong.infrastructure.database.entity.CommentEntity;
 import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
@@ -16,7 +17,6 @@ import com.alkemy.ong.infrastructure.database.mapper.ICommentMapper;
 import com.alkemy.ong.infrastructure.database.repository.ICommentRepository;
 import com.alkemy.ong.infrastructure.database.repository.INewsRepository;
 import com.alkemy.ong.infrastructure.database.repository.IUserRepository;
-import java.text.MessageFormat;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +62,7 @@ public class CommentService implements IDeleteCommentService, ICreateCommentServ
     CommentResponse commentResponse =
         commentMapper.toCommentResponse(commentRepository.save(commentEntity));
 
-    buildCommentResponse(commentResponse, userEntity, newsEntity);
+    setAdditionalInformation(commentResponse, userEntity, newsEntity);
 
     return commentResponse;
   }
@@ -104,10 +104,10 @@ public class CommentService implements IDeleteCommentService, ICreateCommentServ
     commentEntity.setNews(newsEntity);
   }
 
-  private void buildCommentResponse(
+  private void setAdditionalInformation(
       CommentResponse commentResponse, UserEntity userEntity, NewsEntity newsEntity) {
     commentResponse.setCreatedBy(
-        MessageFormat.format("{0} {1}", userEntity.getFirstName(), userEntity.getLastName()));
+        CommentUtils.createdBy(userEntity.getFirstName(), userEntity.getLastName()));
     commentResponse.setAssociatedNews(newsEntity.getName());
   }
 
@@ -124,7 +124,7 @@ public class CommentService implements IDeleteCommentService, ICreateCommentServ
     CommentResponse commentResponse =
         commentMapper.toCommentResponse(commentRepository.save(commentUpdate));
 
-    buildCommentResponse(commentResponse, userEntity, newsEntity);
+    setAdditionalInformation(commentResponse, userEntity, newsEntity);
     return commentResponse;
   }
 

@@ -66,7 +66,7 @@ public class TestimonialResource {
   public ResponseEntity<TestimonialResponse> create(
       @Valid @RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody(required = true,
           description = "New testimonial to create", content = @Content(
-              schema = @Schema(implementation = CreateTestimonialRequest.class)))
+          schema = @Schema(implementation = CreateTestimonialRequest.class)))
           CreateTestimonialRequest createTestimonialRequest) {
     TestimonialResponse testimonialResponse = createTestimonialService.create(
         createTestimonialRequest);
@@ -84,19 +84,19 @@ public class TestimonialResource {
   @Operation(summary = "Update Testimonial.", description = "Update testimonial", tags = "Put")
   @ApiResponses(value = {
       @ApiResponse(responseCode = "200", description = "Returns testimonial update.", content =
-          @Content(schema = @Schema(implementation = TestimonialResponse.class))),
+      @Content(schema = @Schema(implementation = TestimonialResponse.class))),
       @ApiResponse(responseCode = "400", description = "Invalid input data.", content =
-          @Content(schema = @Schema(implementation = ErrorResponse.class))),
+      @Content(schema = @Schema(implementation = ErrorResponse.class))),
       @ApiResponse(responseCode = "404", description = "Testimonial not found.", content =
-          @Content(schema = @Schema(implementation = ErrorResponse.class)))
+      @Content(schema = @Schema(implementation = ErrorResponse.class)))
   })
   @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<TestimonialResponse> update(
       @PathVariable Long id, @Valid @RequestBody @io.swagger.v3.oas.annotations.parameters
       .RequestBody(required = true, description = "Testimonial Update", content = @Content(
-          schema = @Schema(implementation = UpdateTestimonialRequest.class)))
-          UpdateTestimonialRequest updateTestimonialRequest) {
+      schema = @Schema(implementation = UpdateTestimonialRequest.class)))
+      UpdateTestimonialRequest updateTestimonialRequest) {
     return ResponseEntity.ok().body(updateTestimonialService.update(id, updateTestimonialRequest));
   }
 }

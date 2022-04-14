@@ -48,7 +48,7 @@ public class DeleteTestimonialIntegrationTest extends BigTest {
     Long id = saveTestimonial().getId();
 
     mockMvc.perform(delete("/testimonials/{id}", String.valueOf(id))
-        .contentType(MediaType.APPLICATION_JSON))
+            .contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.statusCode", equalTo(403)))
         .andExpect(jsonPath("$.message",
             equalTo("Access denied. Please, try to login again or contact your admin.")))
