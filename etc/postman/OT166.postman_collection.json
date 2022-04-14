@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d3205636-54ce-4bb5-911b-91d920fc2772",
+		"_postman_id": "0ad127ee-0d39-477e-a884-8daf96c56894",
 		"name": "OT166",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -334,6 +334,43 @@
 							],
 							"path": [
 								"slides"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Slide Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6IlJPTEVfQURNSU4iLCJzdWIiOiJhbGZyZWRvQGdtYWlsLmNvbSIsImlhdCI6MTY0OTg3ODkwOSwiZXhwIjoxNjQ5ODgwNzA5fQ.Cu3Cnzj7Kqh3RZ9gUjbMOTSDN8PIiR7_pi0wTJchJ20",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"somos\",\r\n    \"order\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/slides/5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"slides",
+								"5"
 							]
 						}
 					},
