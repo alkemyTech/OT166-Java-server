@@ -1,6 +1,5 @@
 package com.alkemy.ong.application.rest.request;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,9 +8,9 @@ import lombok.Setter;
 @Setter
 public class UpdateSlideRequest {
 
-  @NotNull(message = "The text must not be null")
+  @NotNull(message = "Text must not be null.")
   private String text;
-  @NotNull(message = "The order must not be null or must be zero")
+  @NotNull(message = "Order must not be null or zero.")
   private Integer order;
 
 }

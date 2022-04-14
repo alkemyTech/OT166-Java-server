@@ -69,9 +69,10 @@ public class SlideResource {
     return ResponseEntity.created(location).body(slideResponse);
   }
 
-  @PutMapping("/{id}")
+  @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE,
+      consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SlideResponse> update(@PathVariable Long id, @Valid
-      @RequestBody UpdateSlideRequest updateSlideRequest) {
+  @RequestBody UpdateSlideRequest updateSlideRequest) {
     return ResponseEntity.ok().body(updateSlideService.update(id, updateSlideRequest));
   }
 
