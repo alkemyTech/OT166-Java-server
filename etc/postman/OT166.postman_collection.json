@@ -1120,6 +1120,33 @@
 			"name": "Comments",
 			"item": [
 				{
+					"name": "GET comment ADMIN/USER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/comments",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "DELETE comment --",
 					"request": {
 						"method": "DELETE",
