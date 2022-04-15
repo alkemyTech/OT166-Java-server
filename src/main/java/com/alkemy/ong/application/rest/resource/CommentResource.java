@@ -70,7 +70,7 @@ public class CommentResource {
 
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  private ResponseEntity<ListCommentsResponse> listComments() {
-    return ResponseEntity.ok().body(getCommentService.listComments());
+  private ResponseEntity<ListCommentsResponse> list() {
+    return ResponseEntity.ok().body(getCommentService.list());
   }
 }

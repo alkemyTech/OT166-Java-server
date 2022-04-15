@@ -72,7 +72,7 @@ public class CommentService implements IDeleteCommentService, ICreateCommentServ
   }
 
   @Override
-  public ListCommentsResponse listComments() {
+  public ListCommentsResponse list() {
     List<CommentEntity> commentEntities = commentRepository.findAll(Sort.by("createTimestamp"));
     ListCommentsResponse listCommentsResponse = new ListCommentsResponse();
     listCommentsResponse.setComments(commentMapper.toCommentsResponse(commentEntities));
