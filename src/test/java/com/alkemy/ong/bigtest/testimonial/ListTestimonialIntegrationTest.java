@@ -1,6 +1,8 @@
 package com.alkemy.ong.bigtest.testimonial;
 
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -29,6 +31,7 @@ public class ListTestimonialIntegrationTest extends BigTest {
             .value(hasItem("https://s3.com/testimonial.jpg")))
         .andExpect(jsonPath("$.testimonials[*].content")
             .value(hasItem("Content Testimonial")))
+        .andExpect(jsonPath("$.testimonials", hasSize(1)))
         .andExpect(status().isOk());
 
     cleanTestimonialData(randomTestimonial);
@@ -48,6 +51,7 @@ public class ListTestimonialIntegrationTest extends BigTest {
             .value(hasItem("https://s3.com/testimonial.jpg")))
         .andExpect(jsonPath("$.testimonials[*].content")
             .value(hasItem("Content Testimonial")))
+        .andExpect(jsonPath("$.testimonials", hasSize(1)))
         .andExpect(status().isOk());
 
     cleanTestimonialData(randomTestimonial);
@@ -61,6 +65,15 @@ public class ListTestimonialIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.message",
             equalTo("Access denied. Please, try to login again or contact your admin.")))
         .andExpect(status().isForbidden());
+  }
+
+  @Test
+  public void shouldReturnEmptyListOfTestimonialsWhenTestimonialsIsEmpty() throws Exception {
+    mockMvc.perform(get("/testimonials")
+            .contentType(MediaType.APPLICATION_JSON)
+            .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
+        .andExpect(jsonPath("$.testimonials").value(empty()))
+        .andExpect(status().isOk());
   }
 
 }
