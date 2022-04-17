@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d3205636-54ce-4bb5-911b-91d920fc2772",
+		"_postman_id": "22b7ce81-3fef-48a5-9baa-7a0ad9fa6b24",
 		"name": "OT166",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -9,7 +9,7 @@
 			"name": "Auth",
 			"item": [
 				{
-					"name": "Authenticatgition Endpoint",
+					"name": "Login ADMIN",
 					"event": [
 						{
 							"listen": "test",
@@ -26,7 +26,45 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"somos_mas@alkemy.com\",\r\n    \"password\": \"passpas\"\r\n}",
+							"raw": "{\r\n    \"email\": \"maga@gmail.com\",\r\n    \"password\": \"pass123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/auth/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login USER",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"postman.setEnvironmentVariable(\"token\", JSON.parse(responseBody).token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"matias.espinola@outlook.com\",\r\n    \"password\": \"pass123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -338,6 +376,43 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "POST Slide Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJhdXRob3JpdGllcyI6IlJPTEVfQURNSU4iLCJzdWIiOiJhbGZyZWRvQGdtYWlsLmNvbSIsImlhdCI6MTY0OTg3ODkwOSwiZXhwIjoxNjQ5ODgwNzA5fQ.Cu3Cnzj7Kqh3RZ9gUjbMOTSDN8PIiR7_pi0wTJchJ20",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"somos\",\r\n    \"order\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/slides/5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"slides",
+								"5"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -430,6 +505,39 @@
 							"path": [
 								"testimonials",
 								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Testimonial Pagination ADMIN/USER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/testimonials?page=0",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"testimonials"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								}
 							]
 						}
 					},
@@ -976,12 +1084,68 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "GET ListCommentsByNews ADMIN/USER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/news/1/comments",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"news",
+								"1",
+								"comments"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
 		{
 			"name": "Comments",
 			"item": [
+				{
+					"name": "GET comment ADMIN/USER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/comments",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "DELETE comment --",
 					"request": {
@@ -1031,6 +1195,43 @@
 							],
 							"path": [
 								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT comment USER/ADMIN",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"body\": \"Comentario modificado por administrador\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/comments/9",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"comments",
+								"9"
 							]
 						}
 					},

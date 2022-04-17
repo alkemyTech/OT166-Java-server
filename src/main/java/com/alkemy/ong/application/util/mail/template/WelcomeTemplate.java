@@ -17,7 +17,7 @@ public class WelcomeTemplate implements IEmail, IContent {
         + " font-family: 'Roboto', sans-serif;\">"
         + "<div style=\"height: 60px; padding: 10px 20px;\">"
         + "<div style=\"width: 150px; overflow: hidden;\">"
-        + "<img src=\"" + this.organizationEntity.getImage() + "\" alt=\"somosmas-logo\">"
+        + "<img src=\"" + organizationEntity.getImage() + "\" alt=\"somosmas-logo\">"
         + "</div>"
         + "</div>"
         + "<div style=\"border: 1px solid grey; width: 90%; margin: 10px 20px;\"></div>"

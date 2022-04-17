@@ -3,26 +3,33 @@ package com.alkemy.ong.application.service;
 import com.alkemy.ong.application.exception.EntityNotFoundException;
 import com.alkemy.ong.application.exception.OperationNotPermittedException;
 import com.alkemy.ong.application.rest.request.CreateCommentRequest;
+import com.alkemy.ong.application.rest.request.UpdateCommentRequest;
 import com.alkemy.ong.application.rest.response.CommentResponse;
+import com.alkemy.ong.application.rest.response.ListCommentsResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateCommentService;
 import com.alkemy.ong.application.service.abstraction.IDeleteCommentService;
+import com.alkemy.ong.application.service.abstraction.IGetCommentService;
+import com.alkemy.ong.application.service.abstraction.IUpdateCommentService;
+import com.alkemy.ong.application.util.CommentUtils;
 import com.alkemy.ong.application.util.SecurityUtils;
 import com.alkemy.ong.infrastructure.database.entity.CommentEntity;
 import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
 import com.alkemy.ong.infrastructure.database.entity.UserEntity;
-import com.alkemy.ong.infrastructure.database.mapper.abstraction.ICommentMapper;
+import com.alkemy.ong.infrastructure.database.mapper.ICommentMapper;
 import com.alkemy.ong.infrastructure.database.repository.ICommentRepository;
 import com.alkemy.ong.infrastructure.database.repository.INewsRepository;
 import com.alkemy.ong.infrastructure.database.repository.IUserRepository;
-import java.text.MessageFormat;
+import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
 @Service
-public class CommentService implements IDeleteCommentService, ICreateCommentService {
+public class CommentService implements IDeleteCommentService, ICreateCommentService,
+    IUpdateCommentService, IGetCommentService {
 
   @Autowired
   private ICommentRepository commentRepository;
@@ -59,15 +66,23 @@ public class CommentService implements IDeleteCommentService, ICreateCommentServ
     CommentResponse commentResponse =
         commentMapper.toCommentResponse(commentRepository.save(commentEntity));
 
-    buildCommentResponse(commentResponse, userEntity, newsEntity);
+    setAdditionalInformation(commentResponse, userEntity, newsEntity);
 
     return commentResponse;
+  }
+
+  @Override
+  public ListCommentsResponse list() {
+    List<CommentEntity> commentEntities = commentRepository.findAll(Sort.by("createTimestamp"));
+    ListCommentsResponse listCommentsResponse = new ListCommentsResponse();
+    listCommentsResponse.setComments(commentMapper.toCommentsResponse(commentEntities));
+    return listCommentsResponse;
   }
 
   private void validateIfOperationIsAllowed(UserEntity userEntity) {
     if (!securityUtils.hasAdminRole()
         && !userEntity.equals(securityUtils.getUserAuthenticated())) {
-      throw new OperationNotPermittedException("No permission to delete this comment.");
+      throw new OperationNotPermittedException("No permission to perform this operation.");
     }
   }
 
@@ -101,11 +116,28 @@ public class CommentService implements IDeleteCommentService, ICreateCommentServ
     commentEntity.setNews(newsEntity);
   }
 
-  private void buildCommentResponse(
+  private void setAdditionalInformation(
       CommentResponse commentResponse, UserEntity userEntity, NewsEntity newsEntity) {
     commentResponse.setCreatedBy(
-        MessageFormat.format("{0} {1}", userEntity.getFirstName(), userEntity.getLastName()));
+        CommentUtils.createdBy(userEntity.getFirstName(), userEntity.getLastName()));
     commentResponse.setAssociatedNews(newsEntity.getName());
+  }
+
+  @Override
+  public CommentResponse update(Long id, UpdateCommentRequest updateCommentRequest) {
+    CommentEntity commentUpdate = findBy(id);
+    validateIfOperationIsAllowed(commentUpdate.getUser());
+
+    UserEntity userEntity = commentUpdate.getUser();
+    NewsEntity newsEntity = commentUpdate.getNews();
+
+    commentUpdate.setBody(updateCommentRequest.getBody());
+
+    CommentResponse commentResponse =
+        commentMapper.toCommentResponse(commentRepository.save(commentUpdate));
+
+    setAdditionalInformation(commentResponse, userEntity, newsEntity);
+    return commentResponse;
   }
 
 }

@@ -100,11 +100,11 @@ public class UserEntity implements UserDetails {
     if (this == obj) {
       return true;
     }
-    if (obj == null || getClass() != obj.getClass()) {
+    if (!(obj instanceof UserEntity)) {
       return false;
     }
     UserEntity user = (UserEntity) obj;
-    return id.equals(user.id) && email.equals(user.email);
+    return id.equals(user.getId()) && email.equals(user.getEmail());
   }
 
   @Override

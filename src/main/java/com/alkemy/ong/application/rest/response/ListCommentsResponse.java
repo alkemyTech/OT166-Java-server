@@ -2,7 +2,7 @@ package com.alkemy.ong.application.rest.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import java.sql.Timestamp;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,16 +11,13 @@ import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Getter
 @Setter
-@Builder
 @JsonInclude(Include.NON_NULL)
-public class CommentResponse {
+public class ListCommentsResponse {
 
-  private Long id;
-  private String body;
-  private String createdBy;
-  private String associatedNews;
-  private Timestamp createTimestamp;
+  private String name;
+  private List<CommentResponse> comments;
 
 }
