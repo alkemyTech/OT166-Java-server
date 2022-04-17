@@ -9,6 +9,7 @@ import com.alkemy.ong.application.service.abstraction.ICreateCategoryService;
 import com.alkemy.ong.application.service.abstraction.IDeleteCategoryService;
 import com.alkemy.ong.application.service.abstraction.IGetCategoryService;
 import com.alkemy.ong.application.service.abstraction.IUpdateCategoryService;
+import com.alkemy.ong.application.util.GenericSetPagination;
 import com.alkemy.ong.infrastructure.database.entity.CategoryEntity;
 import com.alkemy.ong.infrastructure.database.mapper.ICategoryMapper;
 import com.alkemy.ong.infrastructure.database.repository.ICategoryRepository;
@@ -19,8 +20,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CategoryService implements ICreateCategoryService, IDeleteCategoryService,
-    IGetCategoryService, IUpdateCategoryService {
+public class CategoryService extends GenericSetPagination<CategoryEntity> implements
+    ICreateCategoryService, IDeleteCategoryService, IGetCategoryService, IUpdateCategoryService {
 
   @Autowired
   private ICategoryRepository categoryRepository;
@@ -75,10 +76,5 @@ public class CategoryService implements ICreateCategoryService, IDeleteCategoryS
     return categoryMapper.toCategoryResponse(categoryRepository.save(categoryEntity));
   }
 
-  private void setPagination(
-      ListCategoriesResponse listCategoriesResponse, Page<CategoryEntity> page) {
-    listCategoriesResponse.setPage(page.getNumber());
-    listCategoriesResponse.setTotalPages(page.getTotalPages());
-    listCategoriesResponse.setSize(page.getSize());
-  }
+
 }
