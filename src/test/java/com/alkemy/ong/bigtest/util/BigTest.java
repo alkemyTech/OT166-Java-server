@@ -155,6 +155,7 @@ public abstract class BigTest {
     categoryRepository.deleteAll();
     activityRepository.deleteAll();
     contactRepository.deleteAll();
+    testimonialRepository.deleteAll();
   }
 
   protected void saveOrganizationDetails() {
