@@ -43,7 +43,7 @@ public class ListTestimonialIntegrationTest extends BigTest {
 
     assertNotNull(response);
     assertEquals("{\"page\":0,\"totalPages\":1,\"size\":20,\"testimonials\":[{\""
-            + "id\":2,\"name\":\"Name Testimonial\",\"content\":\"Content Testimonial\",\""
+            + "id\":7,\"name\":\"Name Testimonial\",\"content\":\"Content Testimonial\",\""
             + "image\":\"https://s3.com/testimonial.jpg\"}]}",
         response.getContentAsString());
     cleanTestimonialData(randomTestimonial);
@@ -68,7 +68,7 @@ public class ListTestimonialIntegrationTest extends BigTest {
 
     assertNotNull(response);
     assertEquals("{\"page\":0,\"totalPages\":1,\"size\":20,\"testimonials\":[{\""
-            + "id\":1,\"name\":\"Name Testimonial\",\"content\":\"Content Testimonial\",\""
+            + "id\":6,\"name\":\"Name Testimonial\",\"content\":\"Content Testimonial\",\""
             + "image\":\"https://s3.com/testimonial.jpg\"}]}",
         response.getContentAsString());
     cleanTestimonialData(randomTestimonial);
