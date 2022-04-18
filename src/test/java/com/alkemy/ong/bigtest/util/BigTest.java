@@ -94,7 +94,6 @@ public abstract class BigTest {
 
   @Before
   public void setup() {
-    createCategoryNews();
     createRoles();
     createUserData();
     deleteAllEntities();
@@ -122,7 +121,7 @@ public abstract class BigTest {
     }
   }
 
-  private void createCategoryNews() {
+  protected void createCategoryNews() {
     saveCategory("news");
   }
 
