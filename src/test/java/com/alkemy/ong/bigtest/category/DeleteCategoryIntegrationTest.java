@@ -45,7 +45,6 @@ public class DeleteCategoryIntegrationTest extends BigTest {
   @Test
   public void shouldReturnForbiddenErrorResponseWhenTokenIsNotSent() throws Exception {
     mockMvc.perform(delete("/categories/{id}", "1")
-
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.statusCode", equalTo(403)))
         .andExpect(jsonPath("$.message",
