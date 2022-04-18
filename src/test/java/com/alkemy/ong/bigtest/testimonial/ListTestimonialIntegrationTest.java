@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -15,7 +14,6 @@ import com.alkemy.ong.infrastructure.database.entity.TestimonialEntity;
 import org.junit.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 
 public class ListTestimonialIntegrationTest extends BigTest {
 
@@ -23,7 +21,7 @@ public class ListTestimonialIntegrationTest extends BigTest {
   public void shouldReturnListOfTestimonialWhenUserHasAdminRole() throws Exception {
     TestimonialEntity randomTestimonial = getRandomTestimonial();
 
-    MockHttpServletResponse response = mockMvc.perform(get("/testimonials")
+    mockMvc.perform(get("/testimonials")
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$.testimonials[*].id", notNullValue()))
@@ -34,9 +32,8 @@ public class ListTestimonialIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.testimonials[*].content")
             .value(hasItem("Content Testimonial")))
         .andExpect(jsonPath("$.testimonials", hasSize(1)))
-        .andExpect(status().isOk()).andReturn().getResponse();
+        .andExpect(status().isOk());
 
-    assertNotNull(response);
     cleanTestimonialData(randomTestimonial);
   }
 
@@ -44,7 +41,7 @@ public class ListTestimonialIntegrationTest extends BigTest {
   public void shouldReturnListOfTestimonialWhenUserHasStandardUserRole() throws Exception {
     TestimonialEntity randomTestimonial = getRandomTestimonial();
 
-    MockHttpServletResponse response = mockMvc.perform(get("/testimonials")
+    mockMvc.perform(get("/testimonials")
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
         .andExpect(jsonPath("$.testimonials[*].id", notNullValue()))
@@ -55,9 +52,8 @@ public class ListTestimonialIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.testimonials[*].content")
             .value(hasItem("Content Testimonial")))
         .andExpect(jsonPath("$.testimonials", hasSize(1)))
-        .andExpect(status().isOk()).andReturn().getResponse();
+        .andExpect(status().isOk());
 
-    assertNotNull(response);
     cleanTestimonialData(randomTestimonial);
   }
 
@@ -73,14 +69,11 @@ public class ListTestimonialIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnEmptyListOfTestimonialsWhenTestimonialsIsEmpty() throws Exception {
-    MockHttpServletResponse response = mockMvc.perform(get("/testimonials")
+    mockMvc.perform(get("/testimonials")
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$.testimonials").value(empty()))
-        .andExpect(status().isOk()).andReturn().getResponse();
-
-    assertNotNull(response);
+        .andExpect(status().isOk());
   }
-
 
 }
