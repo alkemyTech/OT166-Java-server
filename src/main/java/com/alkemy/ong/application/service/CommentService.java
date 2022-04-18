@@ -5,8 +5,10 @@ import com.alkemy.ong.application.exception.OperationNotPermittedException;
 import com.alkemy.ong.application.rest.request.CreateCommentRequest;
 import com.alkemy.ong.application.rest.request.UpdateCommentRequest;
 import com.alkemy.ong.application.rest.response.CommentResponse;
+import com.alkemy.ong.application.rest.response.ListCommentsResponse;
 import com.alkemy.ong.application.service.abstraction.ICreateCommentService;
 import com.alkemy.ong.application.service.abstraction.IDeleteCommentService;
+import com.alkemy.ong.application.service.abstraction.IGetCommentService;
 import com.alkemy.ong.application.service.abstraction.IUpdateCommentService;
 import com.alkemy.ong.application.util.CommentUtils;
 import com.alkemy.ong.application.util.SecurityUtils;
@@ -17,15 +19,17 @@ import com.alkemy.ong.infrastructure.database.mapper.ICommentMapper;
 import com.alkemy.ong.infrastructure.database.repository.ICommentRepository;
 import com.alkemy.ong.infrastructure.database.repository.INewsRepository;
 import com.alkemy.ong.infrastructure.database.repository.IUserRepository;
+import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
 @Service
 public class CommentService implements IDeleteCommentService, ICreateCommentService,
-    IUpdateCommentService {
+    IUpdateCommentService, IGetCommentService {
 
   @Autowired
   private ICommentRepository commentRepository;
@@ -65,6 +69,14 @@ public class CommentService implements IDeleteCommentService, ICreateCommentServ
     setAdditionalInformation(commentResponse, userEntity, newsEntity);
 
     return commentResponse;
+  }
+
+  @Override
+  public ListCommentsResponse list() {
+    List<CommentEntity> commentEntities = commentRepository.findAll(Sort.by("createTimestamp"));
+    ListCommentsResponse listCommentsResponse = new ListCommentsResponse();
+    listCommentsResponse.setComments(commentMapper.toCommentsResponse(commentEntities));
+    return listCommentsResponse;
   }
 
   private void validateIfOperationIsAllowed(UserEntity userEntity) {

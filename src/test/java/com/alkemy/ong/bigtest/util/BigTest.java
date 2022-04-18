@@ -94,7 +94,6 @@ public abstract class BigTest {
 
   @Before
   public void setup() {
-    createCategoryNews();
     createRoles();
     createUserData();
     deleteAllEntities();
@@ -122,7 +121,7 @@ public abstract class BigTest {
     }
   }
 
-  private void createCategoryNews() {
+  protected void createCategoryNews() {
     saveCategory("news");
   }
 
@@ -139,16 +138,16 @@ public abstract class BigTest {
     activityRepository.deleteAllInBatch(Arrays.asList(activity));
   }
 
+  protected void cleanCategoryData(CategoryEntity... category) {
+    categoryRepository.deleteAllInBatch(Arrays.asList(category));
+  }
+
   protected void cleanContactData(ContactEntity... contacts) {
     contactRepository.deleteAllInBatch(Arrays.asList(contacts));
   }
 
   protected void cleanTestimonialData(TestimonialEntity... testimonial) {
     testimonialRepository.deleteAllInBatch(Arrays.asList(testimonial));
-  }
-
-  protected void cleanOrganizationData(OrganizationEntity... organization) {
-    organizationRepository.deleteAllInBatch(Arrays.asList(organization));
   }
 
   private void deleteAllEntities() {
@@ -159,6 +158,7 @@ public abstract class BigTest {
     categoryRepository.deleteAll();
     activityRepository.deleteAll();
     contactRepository.deleteAll();
+    testimonialRepository.deleteAll();
   }
 
   protected void saveOrganizationDetails() {
@@ -209,7 +209,11 @@ public abstract class BigTest {
   }
 
   protected CategoryEntity saveCategory(String name) {
-    return categoryRepository.save(CategoryEntity.builder().name(name).build());
+    return categoryRepository.save(CategoryEntity.builder()
+        .name(name)
+        .description("Category description.")
+        .image("https://s3.com/category.jpg")
+        .build());
   }
 
   private void saveStandardUser() {
@@ -273,14 +277,12 @@ public abstract class BigTest {
         .build();
   }
 
-  private OrganizationEntity buildOrganization(String name, String image, String address, String phone, String email, String welcomeText) {
-    return OrganizationEntity.builder()
+  private CategoryEntity buildCategory(String name, String description, String image) {
+    return CategoryEntity.builder()
         .name(name)
+        .description(description)
         .image(image)
-        .address(address)
-        .phone(phone)
-        .email(email)
-        .welcomeText(welcomeText)
+        .softDeleted(false)
         .build();
   }
 
@@ -310,16 +312,13 @@ public abstract class BigTest {
         "Content Testimonial"));
   }
 
-  protected OrganizationEntity getRamdomOrganization() {
-    return organizationRepository.save(buildOrganization(
-        "Somos Mas",
-        "http://alkemy.org",
-        "Elm Street 3",
-        "+5411345678",
-        "somos.mas@ong.com",
-        "Welcome to Somos Mas"
-    ));
+  protected CategoryEntity getRandomCategory() {
+    return categoryRepository.save(buildCategory(
+        "Name Category",
+        "Description Category",
+        "https://s3.com/category.jpg"));
   }
+
 
   private String getAuthorizationTokenForUser(String email) throws Exception {
     String content = mockMvc.perform(post("/auth/login")
@@ -334,6 +333,18 @@ public abstract class BigTest {
 
   protected ContactEntity getRandomContact() {
     return contactRepository.save(
-        buildContact("James", "159028080", "james@gmail.com", "my message"));
+        buildContact("James",
+            "159028080",
+            "james@gmail.com",
+            "my message"));
+  }
+
+  protected Long getRandomCategoryId() {
+    CategoryEntity randomCategory = getRandomCategory();
+    return randomCategory.getId();
+  }
+
+  protected void deleteCategory(Long categoryId) {
+    categoryRepository.deleteById(categoryId);
   }
 }

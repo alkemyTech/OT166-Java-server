@@ -114,6 +114,9 @@ public class TestimonialResource {
     return ResponseEntity.ok().body(updateTestimonialService.update(id, updateTestimonialRequest));
   }
 
+  @Operation(summary = "Get testimonials.", description = "Get actives testimonials.", tags = "Get")
+  @ApiResponse(responseCode = "200", description = "Returns list of testimonials",
+      content = @Content(schema = @Schema(implementation = TestimonialResponse.class)))
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ListTestimonialsResponse> list(Pageable pageable,
       UriComponentsBuilder uriBuilder, HttpServletResponse response) {

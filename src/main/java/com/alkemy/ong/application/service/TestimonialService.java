@@ -9,6 +9,7 @@ import com.alkemy.ong.application.service.abstraction.ICreateTestimonialService;
 import com.alkemy.ong.application.service.abstraction.IDeleteTestimonialService;
 import com.alkemy.ong.application.service.abstraction.IGetTestimonialService;
 import com.alkemy.ong.application.service.abstraction.IUpdateTestimonialService;
+import com.alkemy.ong.application.util.GenericSetPagination;
 import com.alkemy.ong.infrastructure.database.entity.TestimonialEntity;
 import com.alkemy.ong.infrastructure.database.mapper.ITestimonialMapper;
 import com.alkemy.ong.infrastructure.database.repository.ITestimonialRepository;
@@ -20,8 +21,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TestimonialService implements IDeleteTestimonialService,
-    ICreateTestimonialService, IUpdateTestimonialService, IGetTestimonialService {
+public class TestimonialService extends GenericSetPagination<TestimonialEntity> implements
+    IDeleteTestimonialService, ICreateTestimonialService, IUpdateTestimonialService,
+    IGetTestimonialService {
 
   @Autowired
   private ITestimonialRepository testimonialRepository;
@@ -74,13 +76,6 @@ public class TestimonialService implements IDeleteTestimonialService,
     return ListTestimonialsResponse.builder()
         .testimonials(testimonialMapper.toListTestimonialResponse(testimonialEntities))
         .build();
-  }
-
-  private void setPagination(ListTestimonialsResponse listTestimonialsResponse,
-      Page<TestimonialEntity> page) {
-    listTestimonialsResponse.setPage(page.getNumber());
-    listTestimonialsResponse.setTotalPages(page.getTotalPages());
-    listTestimonialsResponse.setSize(page.getSize());
   }
 
 }
