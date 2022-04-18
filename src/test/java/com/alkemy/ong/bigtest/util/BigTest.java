@@ -333,6 +333,18 @@ public abstract class BigTest {
 
   protected ContactEntity getRandomContact() {
     return contactRepository.save(
-        buildContact("James", "159028080", "james@gmail.com", "my message"));
+        buildContact("James",
+            "159028080",
+            "james@gmail.com",
+            "my message"));
+  }
+
+  protected Long getRandomCategoryId() {
+    CategoryEntity randomCategory = getRandomCategory();
+    return randomCategory.getId();
+  }
+
+  protected void deleteCategory(Long categoryId) {
+    categoryRepository.deleteById(categoryId);
   }
 }

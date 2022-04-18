@@ -5,12 +5,10 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.alkemy.ong.bigtest.util.BigTest;
-import com.alkemy.ong.infrastructure.database.entity.CategoryEntity;
 import org.junit.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -19,7 +17,9 @@ public class GetCategoryDetailsIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnCategoryWhenHasUserRole() throws Exception {
-    mockMvc.perform(get("/categories/{id}", String.valueOf(returnCategoryId()))
+    Long categoryId = getRandomCategoryId();
+
+    mockMvc.perform(get("/categories/{id}", String.valueOf(categoryId))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
         .andExpect(jsonPath("$.id", notNullValue()))
@@ -27,11 +27,15 @@ public class GetCategoryDetailsIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.description", equalTo("Description Category")))
         .andExpect(jsonPath("$.image", equalTo("https://s3.com/category.jpg")))
         .andExpect(status().isOk());
+
+    deleteCategory(categoryId);
   }
 
   @Test
   public void shouldReturnCategoryWhenHasAdminRole() throws Exception {
-    mockMvc.perform(get("/categories/{id}", String.valueOf(returnCategoryId()))
+    Long categoryId = getRandomCategoryId();
+
+    mockMvc.perform(get("/categories/{id}", String.valueOf(categoryId))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$.id", notNullValue()))
@@ -39,6 +43,8 @@ public class GetCategoryDetailsIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.description", equalTo("Description Category")))
         .andExpect(jsonPath("$.image", equalTo("https://s3.com/category.jpg")))
         .andExpect(status().isOk());
+
+    deleteCategory(categoryId);
   }
 
   @Test
@@ -61,12 +67,6 @@ public class GetCategoryDetailsIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
         .andExpect(jsonPath("$.moreInfo", hasItem("Category not found.")))
         .andExpect(status().isNotFound());
-  }
-
-  private Long returnCategoryId() {
-    CategoryEntity randomCategory = getRandomCategory();
-    Long randomCategoryId = randomCategory.getId();
-    return randomCategoryId;
   }
 
 }

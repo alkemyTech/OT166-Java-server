@@ -9,7 +9,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 import com.alkemy.ong.bigtest.util.BigTest;
 import com.alkemy.ong.infrastructure.database.entity.CategoryEntity;
 import java.util.Optional;

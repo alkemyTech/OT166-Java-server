@@ -23,11 +23,11 @@ public class UpdateCategoryIntegrationTest extends BigTest {
 
   @Test
   public void shouldUpdateCategoryWhenUserHasAdminRole() throws Exception {
-    CategoryEntity randomCategory = getRandomCategory();
-    Long randomCategoryId = randomCategory.getId();
+    Long randomCategoryId = getRandomCategoryId();
 
     mockMvc.perform(put("/categories/{id}", String.valueOf(randomCategoryId))
-            .content(getContent("New name", "New description",
+            .content(getContent("New name",
+                "New description",
                 "https://s3.com/mycategory.jpg"))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
@@ -38,24 +38,19 @@ public class UpdateCategoryIntegrationTest extends BigTest {
         .andExpect(status().isOk());
 
     assertCategoryHasBeenUpdated(randomCategoryId);
-    cleanCategoryData(randomCategory);
   }
 
   @Test
   public void shouldReturnForbiddenErrorResponseWhenTokenIsNotSent() throws Exception {
-    CategoryEntity randomCategory = getRandomCategory();
-    Long randomCategoryId = randomCategory.getId();
-
-    mockMvc.perform(put("/categories/{id}", String.valueOf(randomCategoryId))
-            .content(getContent("New name", "New description",
+    mockMvc.perform(put("/categories/{id}", "1")
+            .content(getContent("New name",
+                "New description",
                 "https://s3.com/mycategory.jpg"))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.statusCode", equalTo(403)))
         .andExpect(jsonPath("$.message",
             equalTo("Access denied. Please, try to login again or contact your admin.")))
         .andExpect(status().isForbidden());
-
-    cleanCategoryData(randomCategory);
   }
 
   @Test
@@ -63,7 +58,8 @@ public class UpdateCategoryIntegrationTest extends BigTest {
     String nonExistCategoryId = "1000000";
 
     mockMvc.perform(put("/categories/{id}", nonExistCategoryId)
-            .content(getContent("New name", "New description",
+            .content(getContent("New name",
+                "New description",
                 "https://s3.com/mycategory.jpg"))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
@@ -76,11 +72,11 @@ public class UpdateCategoryIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnBadRequestWhenNameIsNull() throws Exception {
-    CategoryEntity randomCategory = getRandomCategory();
-    Long randomCategoryId = randomCategory.getId();
+    Long randomCategoryId = getRandomCategoryId();
 
     mockMvc.perform(put("/categories/{id}", String.valueOf(randomCategoryId))
-            .content(getContent(null, "New description",
+            .content(getContent(null,
+                "New description",
                 "https://s3.com/mycategory.jpg"))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
@@ -90,16 +86,16 @@ public class UpdateCategoryIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.moreInfo", hasItem("The name must not be empty or null.")))
         .andExpect(status().isBadRequest());
 
-    cleanCategoryData(randomCategory);
+    deleteCategory(randomCategoryId);
   }
 
   @Test
   public void shouldReturnBadRequestWhenNameContainsNumbers() throws Exception {
-    CategoryEntity randomCategory = getRandomCategory();
-    Long randomCategoryId = randomCategory.getId();
+    Long randomCategoryId = getRandomCategoryId();
 
     mockMvc.perform(put("/categories/{id}", String.valueOf(randomCategoryId))
-            .content(getContent("Nam3 whit numb3rs", "New description",
+            .content(getContent("Nam3 whit numb3rs",
+                "New description",
                 "https://s3.com/mycategory.jpg"))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
@@ -109,7 +105,7 @@ public class UpdateCategoryIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.moreInfo", hasItem("The name has an invalid format.")))
         .andExpect(status().isBadRequest());
 
-    cleanCategoryData(randomCategory);
+    deleteCategory(randomCategoryId);
   }
 
   private String getContent(String name, String description, String image)
