@@ -9,6 +9,7 @@ import com.alkemy.ong.application.service.abstraction.ICreateMemberService;
 import com.alkemy.ong.application.service.abstraction.IDeleteMemberService;
 import com.alkemy.ong.application.service.abstraction.IGetMemberService;
 import com.alkemy.ong.application.service.abstraction.IUpdateMemberService;
+import com.alkemy.ong.application.util.GenericSetPagination;
 import com.alkemy.ong.infrastructure.database.entity.MemberEntity;
 import com.alkemy.ong.infrastructure.database.mapper.IMemberMapper;
 import com.alkemy.ong.infrastructure.database.repository.IMemberRepository;
@@ -21,9 +22,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class MemberService implements ICreateMemberService,
-    IGetMemberService,
-    IDeleteMemberService, IUpdateMemberService {
+public class MemberService extends GenericSetPagination<MemberEntity> implements
+    ICreateMemberService, IGetMemberService, IDeleteMemberService, IUpdateMemberService {
 
   @Autowired
   private IMemberRepository memberRepository;
@@ -59,14 +59,7 @@ public class MemberService implements ICreateMemberService,
     Page<MemberEntity> page = memberRepository.findBySoftDeletedIsFalse(pageable);
     ListMembersResponse listMembersResponse = new ListMembersResponse();
     listMembersResponse.setMembers(memberMapper.toListMemberResponse(page.getContent()));
-    return buildListResponse(listMembersResponse, page);
-  }
-
-  private ListMembersResponse buildListResponse(
-      ListMembersResponse listMembersResponse, Page<MemberEntity> page) {
-    listMembersResponse.setPage(page.getNumber());
-    listMembersResponse.setTotalPages(page.getTotalPages());
-    listMembersResponse.setSize(page.getSize());
+    setPagination(listMembersResponse, page);
     return listMembersResponse;
   }
 
