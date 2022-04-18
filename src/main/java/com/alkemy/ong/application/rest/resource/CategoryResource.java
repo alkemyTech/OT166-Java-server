@@ -67,8 +67,8 @@ public class CategoryResource {
   public ResponseEntity<CategoryResponse> create(
       @Valid @RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody(required = true,
           description = "New category to create", content = @Content(schema =
-          @Schema(implementation = CreateCategoryRequest.class))) 
-      CreateCategoryRequest createCategoryRequest) {
+      @Schema(implementation = CreateCategoryRequest.class)))
+          CreateCategoryRequest createCategoryRequest) {
     CategoryResponse categoryResponse = createCategoryService.create(createCategoryRequest);
     URI location = ServletUriComponentsBuilder
         .fromCurrentRequest()
@@ -92,9 +92,9 @@ public class CategoryResource {
       produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<CategoryResponse> update(@PathVariable Long id,
       @Valid @RequestBody @io.swagger.v3.oas.annotations.parameters
-      .RequestBody(required = true, description = "Category updated", content = @Content(
-      schema = @Schema(implementation = UpdateCategoryRequest.class)))
-      UpdateCategoryRequest updateCategoryRequest) {
+          .RequestBody(required = true, description = "Category updated", content = @Content(
+          schema = @Schema(implementation = UpdateCategoryRequest.class)))
+          UpdateCategoryRequest updateCategoryRequest) {
     return ResponseEntity.ok().body(updateCategoryService.update(id, updateCategoryRequest));
   }
 

@@ -4,8 +4,8 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -58,7 +58,7 @@ public class CreateCategoryIntegrationTest extends BigTest {
   public void shouldReturnBadRequestWhenNameIsNull() throws Exception {
     mockMvc.perform(post("/categories")
             .content(getContent(null, "Category Description",
-                  "https://s3.com/category.jpg"))
+                "https://s3.com/category.jpg"))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$.statusCode", IsEqual.equalTo(400)))
@@ -72,7 +72,7 @@ public class CreateCategoryIntegrationTest extends BigTest {
   public void shouldReturnBadRequestWhenNameContainsNumbers() throws Exception {
     mockMvc.perform(post("/categories")
             .content(getContent("Nam3 whit numb3rs", "Category Description",
-                  "https://s3.com/category.jpg"))
+                "https://s3.com/category.jpg"))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$.statusCode", IsEqual.equalTo(400)))

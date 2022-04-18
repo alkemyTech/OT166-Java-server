@@ -12,6 +12,7 @@ import com.alkemy.ong.application.service.abstraction.IDeleteNewsService;
 import com.alkemy.ong.application.service.abstraction.IGetNewsService;
 import com.alkemy.ong.application.service.abstraction.IUpdateNewsService;
 import com.alkemy.ong.application.util.CommentUtils;
+import com.alkemy.ong.application.util.GenericSetPagination;
 import com.alkemy.ong.infrastructure.database.entity.CategoryEntity;
 import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
 import com.alkemy.ong.infrastructure.database.mapper.INewsMapper;
@@ -28,7 +29,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class NewsService implements
+public class NewsService extends GenericSetPagination<NewsEntity> implements
     ICreateNewsService, IDeleteNewsService, IUpdateNewsService, IGetNewsService {
 
   @Autowired
@@ -89,12 +90,6 @@ public class NewsService implements
       throw new EntityNotFoundException("News not found.");
     }
     return optionalNewsEntity.get();
-  }
-
-  private void setPagination(ListNewsResponse listNewsResponse, Page<NewsEntity> page) {
-    listNewsResponse.setPage(page.getNumber());
-    listNewsResponse.setTotalPages(page.getTotalPages());
-    listNewsResponse.setSize(page.getSize());
   }
 
   @Override
