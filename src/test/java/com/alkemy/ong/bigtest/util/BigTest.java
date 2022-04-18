@@ -277,6 +277,15 @@ public abstract class BigTest {
         .build();
   }
 
+  private CategoryEntity buildCategory(String name, String description, String image) {
+    return CategoryEntity.builder()
+        .name(name)
+        .description(description)
+        .image(image)
+        .softDeleted(false)
+        .build();
+  }
+
   protected String getAuthorizationTokenForAdminUser() throws Exception {
     return getAuthorizationTokenForUser(ADMIN_EMAIL);
   }
@@ -303,6 +312,13 @@ public abstract class BigTest {
         "Content Testimonial"));
   }
 
+  protected CategoryEntity getRandomCategory() {
+    return categoryRepository.save(buildCategory(
+        "Name Category",
+        "Description Category",
+        "https://s3.com/category.jpg"));
+  }
+
 
   private String getAuthorizationTokenForUser(String email) throws Exception {
     String content = mockMvc.perform(post("/auth/login")
@@ -317,6 +333,18 @@ public abstract class BigTest {
 
   protected ContactEntity getRandomContact() {
     return contactRepository.save(
-        buildContact("James", "159028080", "james@gmail.com", "my message"));
+        buildContact("James",
+            "159028080",
+            "james@gmail.com",
+            "my message"));
+  }
+
+  protected Long getRandomCategoryId() {
+    CategoryEntity randomCategory = getRandomCategory();
+    return randomCategory.getId();
+  }
+
+  protected void deleteCategory(Long categoryId) {
+    categoryRepository.deleteById(categoryId);
   }
 }
