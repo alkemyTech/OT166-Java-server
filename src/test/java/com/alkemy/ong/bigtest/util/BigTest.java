@@ -278,6 +278,15 @@ public abstract class BigTest {
         .build();
   }
 
+  private CategoryEntity buildCategory(String name, String description, String image) {
+    return CategoryEntity.builder()
+        .name(name)
+        .description(description)
+        .image(image)
+        .softDeleted(false)
+        .build();
+  }
+
   protected String getAuthorizationTokenForAdminUser() throws Exception {
     return getAuthorizationTokenForUser(ADMIN_EMAIL);
   }
@@ -302,6 +311,13 @@ public abstract class BigTest {
         "Name Testimonial",
         "https://s3.com/testimonial.jpg",
         "Content Testimonial"));
+  }
+
+  protected CategoryEntity getRandomCategory() {
+    return categoryRepository.save(buildCategory(
+        "Name Category",
+        "Description Category",
+        "https://s3.com/category.jpg"));
   }
 
 
