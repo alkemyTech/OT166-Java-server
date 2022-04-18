@@ -139,6 +139,10 @@ public abstract class BigTest {
     activityRepository.deleteAllInBatch(Arrays.asList(activity));
   }
 
+  protected void cleanCategoryData(CategoryEntity... category) {
+    categoryRepository.deleteAllInBatch(Arrays.asList(category));
+  }
+
   protected void cleanContactData(ContactEntity... contacts) {
     contactRepository.deleteAllInBatch(Arrays.asList(contacts));
   }
@@ -206,7 +210,11 @@ public abstract class BigTest {
   }
 
   protected CategoryEntity saveCategory(String name) {
-    return categoryRepository.save(CategoryEntity.builder().name(name).build());
+    return categoryRepository.save(CategoryEntity.builder()
+        .name(name)
+        .description("Category description.")
+        .image("https://s3.com/category.jpg")
+        .build());
   }
 
   private void saveStandardUser() {
