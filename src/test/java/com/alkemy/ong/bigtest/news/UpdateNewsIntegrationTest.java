@@ -12,7 +12,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.alkemy.ong.application.rest.request.CreateNewsRequest;
 import com.alkemy.ong.bigtest.util.BigTest;
-import com.alkemy.ong.infrastructure.database.entity.CategoryEntity;
 import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.Optional;
@@ -25,9 +24,7 @@ public class UpdateNewsIntegrationTest extends BigTest {
 
   @Test
   public void shouldUpdateNewsWhenRequestUserHasAdminRole() throws Exception {
-    CategoryEntity categoryNews = saveCategory("news");
-    NewsEntity news = saveNews();
-    Long newsId = news.getId();
+    Long newsId = saveNews().getId();
 
     mockMvc.perform(put("/news/{id}", String.valueOf(newsId))
             .content(getContent("New name", "", "https://s3.com/news.jpg"))
@@ -40,23 +37,19 @@ public class UpdateNewsIntegrationTest extends BigTest {
         .andExpect(status().isOk());
 
     assertNewsHasBeenUpdated(newsId);
-    cleanData(news, categoryNews);
+    cleanNewsData();
   }
 
   @Test
   public void shouldReturnForbiddenErrorResponseWhenTokenIsNotSent() throws Exception {
-    CategoryEntity categoryNews = saveCategory("news");
-    NewsEntity news = saveNews();
 
-    mockMvc.perform(put("/news/{id}", String.valueOf(news.getId()))
+    mockMvc.perform(put("/news/{id}", "12")
             .content(getContent("New name", "", "https://s3.com/news.jpg"))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.statusCode", equalTo(403)))
         .andExpect(jsonPath("$.message",
             equalTo("Access denied. Please, try to login again or contact your admin.")))
         .andExpect(status().isForbidden());
-
-    cleanData(news, categoryNews);
   }
 
   @Test
@@ -74,31 +67,26 @@ public class UpdateNewsIntegrationTest extends BigTest {
         .andExpect(status().isNotFound());
   }
 
+  @Test
   public void shouldReturnBadRequestWhenNameIsTooLong() throws Exception {
-    CategoryEntity categoryNews = saveCategory("news");
-    NewsEntity news = saveNews();
     String nameTooLong = RandomStringUtils.random(60, "n");
 
-    mockMvc.perform(put("/news/{id}", String.valueOf(news.getId()))
+    mockMvc.perform(put("/news/{id}", "12")
             .content(getContent(nameTooLong, "", "https://s3.com/news.jpg"))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
         .andExpect(jsonPath("$.message", equalTo("Invalid input data.")))
-        .andExpect(jsonPath("$.moreInfo", hasSize(2)))
+        .andExpect(jsonPath("$.moreInfo", hasSize(1)))
         .andExpect(jsonPath("$.moreInfo",
             hasItem("Maximum size for name is 50 characters.")))
         .andExpect(status().isBadRequest());
-
-    cleanData(news, categoryNews);
   }
 
   @Test
   public void shouldReturnBadRequestWhenNameContainsNumbers() throws Exception {
-    CategoryEntity categoryNews = saveCategory("news");
-    NewsEntity news = saveNews();
 
-    mockMvc.perform(put("/news/{id}", String.valueOf(news.getId()))
+    mockMvc.perform(put("/news/{id}", "12")
             .content(getContent("N4m3 w1th numb3rs", "", "https://s3.com/news.jpg"))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
@@ -108,16 +96,13 @@ public class UpdateNewsIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.moreInfo",
             hasItem("The name accepts only alphabetic characters and blank spaces.")))
         .andExpect(status().isBadRequest());
-
-    cleanData(news, categoryNews);
   }
 
-  public void shouldReturnBadRequestWhenTextContainsNumbers() throws Exception {
-    CategoryEntity categoryNews = saveCategory("news");
-    NewsEntity news = saveNews();
+  @Test
+  public void shouldReturnBadRequestWhenTextContainsSpecialCharacters() throws Exception {
 
-    mockMvc.perform(put("/news/{id}", String.valueOf(news.getId()))
-            .content(getContent("", "T3xt w1th numb3rs", "https://s3.com/news.jpg"))
+    mockMvc.perform(put("/news/{id}", "12")
+            .content(getContent("", "T3xt w1th sp$ecial c#ar4c^er", "https://s3.com/news.jpg"))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
@@ -126,16 +111,12 @@ public class UpdateNewsIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.moreInfo",
             hasItem("The text accepts only alphanumeric characters and blank spaces.")))
         .andExpect(status().isBadRequest());
-
-    cleanData(news, categoryNews);
   }
 
   @Test
   public void shouldReturnBadRequestWhenImageContainsBlankSpaces() throws Exception {
-    CategoryEntity categoryNews = saveCategory("news");
-    NewsEntity news = saveNews();
 
-    mockMvc.perform(put("/news/{id}", String.valueOf(news.getId()))
+    mockMvc.perform(put("/news/{id}", "12")
             .content(getContent("", "New Text", "https://s3.com /news.jpg"))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
@@ -145,8 +126,6 @@ public class UpdateNewsIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.moreInfo",
             hasItem("The image accepts only alphanumeric characters.")))
         .andExpect(status().isBadRequest());
-
-    cleanData(news, categoryNews);
   }
 
   private String getContent(String name, String text, String image) throws JsonProcessingException {
@@ -163,11 +142,6 @@ public class UpdateNewsIntegrationTest extends BigTest {
     assertEquals("New name", optionalNewsEntity.get().getName());
     assertEquals("", optionalNewsEntity.get().getContent());
     assertEquals("https://s3.com/news.jpg", optionalNewsEntity.get().getImage());
-  }
-
-  private void cleanData(NewsEntity news, CategoryEntity categoryNews) {
-    cleanNewsData(news);
-    cleanCategoryData(categoryNews);
   }
 
 }

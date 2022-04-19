@@ -10,7 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.alkemy.ong.bigtest.util.BigTest;
-import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
 import org.junit.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -19,7 +18,6 @@ public class ListNewsIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnListOfNewsWhenUserHasAdminRole() throws Exception {
-    createCategoryNews();
     saveNews();
 
     mockMvc.perform(get("/news")
@@ -33,7 +31,23 @@ public class ListNewsIntegrationTest extends BigTest {
         .andExpect(status().isOk());
 
     cleanNewsData();
-    cleanCategoryData();
+  }
+
+  @Test
+  public void shouldReturnListOfNewsWhenUserHasUserRole() throws Exception {
+    saveNews();
+
+    mockMvc.perform(get("/news")
+            .contentType(MediaType.APPLICATION_JSON)
+            .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
+        .andExpect(jsonPath("$.news[*].id", notNullValue()))
+        .andExpect(jsonPath("$.news[*].name").value(hasItem("My first News!!")))
+        .andExpect(jsonPath("$.news[*].image").value(hasItem("https://s3.com/news.jpg")))
+        .andExpect(jsonPath("$.news[*].text").value(hasItem("News content.")))
+        .andExpect(jsonPath("$.news", hasSize(1)))
+        .andExpect(status().isOk());
+
+    cleanNewsData();
   }
 
   @Test
