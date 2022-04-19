@@ -130,6 +130,9 @@ public abstract class BigTest {
     saveCategory("news");
   }
 
+  protected  void cleanNewsData(NewsEntity... news) {
+    newsRepository.deleteAllInBatch(Arrays.asList(news));
+  }
   protected void cleanUsersData() {
     roleRepository.deleteAll();
     userRepository.deleteAll();
@@ -208,6 +211,7 @@ public abstract class BigTest {
         .image("https://s3.com/news.jpg")
         .content("News content.")
         .name("My first News!!")
+        .softDeleted(false)
         .build());
   }
 
@@ -232,6 +236,7 @@ public abstract class BigTest {
         .name(name)
         .description("Category description.")
         .image("https://s3.com/category.jpg")
+        .softDeleted(false)
         .build());
   }
 
