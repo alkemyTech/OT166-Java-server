@@ -125,6 +125,9 @@ public abstract class BigTest {
     saveCategory("news");
   }
 
+  protected  void cleanNewsData(NewsEntity... news) {
+    newsRepository.deleteAllInBatch(Arrays.asList(news));
+  }
   protected void cleanUsersData() {
     roleRepository.deleteAll();
     userRepository.deleteAll();
