@@ -21,27 +21,30 @@ import org.springframework.http.MediaType;
 
 public class UpdateMemberIntegrationTest extends BigTest {
 
-  final static String newName = "Magali Kain Senior Developer Consultant";
-  final static String newImage = "https://s3.com/maga-smiling.png";
+  private static final String NEW_NAME = "Magali Kain Senior Developer Consultant";
+  private static final String NEW_IMAGE = "https://s3.com/maga-smiling.png";
 
   @Test
   public void shouldUpdateMemberWhenUserHasStandardUserRole() throws Exception {
-    final MemberEntity randomMember = getRandomMember();
+    MemberEntity randomMember = getRandomMember();
+
     mockMvc.perform(put("/members/{id}", String.valueOf(randomMember.getId()))
-            .content(getContent(newName, newImage))
+            .content(getContent(NEW_NAME, NEW_IMAGE))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
         .andExpect(jsonPath("$.id").value(randomMember.getId()))
-        .andExpect(jsonPath("$.name", equalTo(newName)))
-        .andExpect(jsonPath("$.image", equalTo(newImage)))
+        .andExpect(jsonPath("$.name", equalTo(NEW_NAME)))
+        .andExpect(jsonPath("$.image", equalTo(NEW_IMAGE)))
         .andExpect(status().isOk());
+
     assertMemberHasBeenUpdated(randomMember.getId());
     cleanMemberData(randomMember);
   }
 
   @Test
   public void shouldReturnForbiddenErrorResponseWhenUserHasAdminRole() throws Exception {
-    final MemberEntity randomMember = getRandomMember();
+    MemberEntity randomMember = getRandomMember();
+
     mockMvc.perform(put("/members/{id}", String.valueOf(randomMember.getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
@@ -49,28 +52,27 @@ public class UpdateMemberIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.message",
             equalTo("Access denied. Please, try to login again or contact your admin.")))
         .andExpect(status().isForbidden());
+
     assertMemberHasNotBeenUpdated(randomMember.getId());
     cleanMemberData(randomMember);
   }
 
   @Test
   public void shouldReturnForbiddenErrorResponseWhenTokenIsNotSent() throws Exception {
-    final MemberEntity randomMember = getRandomMember();
-    mockMvc.perform(put("/members/{id}", String.valueOf(randomMember.getId()))
+    mockMvc.perform(put("/members/{id}", "1")
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.statusCode", equalTo(403)))
         .andExpect(jsonPath("$.message",
             equalTo("Access denied. Please, try to login again or contact your admin.")))
         .andExpect(status().isForbidden());
-    assertMemberHasNotBeenUpdated(randomMember.getId());
-    cleanMemberData(randomMember);
   }
 
   @Test
   public void shouldReturnBadRequestWhenNameIsNull() throws Exception {
-    final MemberEntity randomMember = getRandomMember();
+    MemberEntity randomMember = getRandomMember();
+
     mockMvc.perform(put("/members/{id}", String.valueOf(randomMember.getId()))
-            .content(getContent(null, newImage))
+            .content(getContent(null, NEW_IMAGE))
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
@@ -78,16 +80,18 @@ public class UpdateMemberIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
         .andExpect(jsonPath("$.moreInfo", hasItem("The name must not be null")))
         .andExpect(status().isBadRequest());
+
     assertMemberHasNotBeenUpdated(randomMember.getId());
     cleanMemberData(randomMember);
   }
 
   @Test
   public void shouldReturnBadRequestWhenInvalidName() throws Exception {
-    final String invalidName = "M4gálï K@1ñ";
-    final MemberEntity randomMember = getRandomMember();
+    String invalidName = "M4gálï K@1ñ";
+    MemberEntity randomMember = getRandomMember();
+
     mockMvc.perform(put("/members/{id}", String.valueOf(randomMember.getId()))
-            .content(getContent(invalidName, newImage))
+            .content(getContent(invalidName, NEW_IMAGE))
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
@@ -95,15 +99,17 @@ public class UpdateMemberIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
         .andExpect(jsonPath("$.moreInfo", hasItem("The name has invalid format.")))
         .andExpect(status().isBadRequest());
+
     assertMemberHasNotBeenUpdated(randomMember.getId());
     cleanMemberData(randomMember);
   }
 
   @Test
   public void shouldReturnBadRequestWhenImageIsNull() throws Exception {
-    final MemberEntity randomMember = getRandomMember();
+    MemberEntity randomMember = getRandomMember();
+
     mockMvc.perform(put("/members/{id}", String.valueOf(randomMember.getId()))
-            .content(getContent(newName, null))
+            .content(getContent(NEW_NAME, null))
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
@@ -111,16 +117,18 @@ public class UpdateMemberIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
         .andExpect(jsonPath("$.moreInfo", hasItem("The image must not be null")))
         .andExpect(status().isBadRequest());
+
     assertMemberHasNotBeenUpdated(randomMember.getId());
     cleanMemberData(randomMember);
   }
 
   @Test
   public void shouldReturnBadRequestWhenInvalidImage() throws Exception {
-    final String invalidImage = "Magali's-dog-photo.png";
-    final MemberEntity randomMember = getRandomMember();
+    String invalidImage = "Magali's-dog-photo.png";
+    MemberEntity randomMember = getRandomMember();
+
     mockMvc.perform(put("/members/{id}", String.valueOf(randomMember.getId()))
-            .content(getContent(newName, invalidImage))
+            .content(getContent(NEW_NAME, invalidImage))
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
@@ -128,15 +136,17 @@ public class UpdateMemberIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.moreInfo", hasSize(1)))
         .andExpect(jsonPath("$.moreInfo", hasItem("The image has invalid format.")))
         .andExpect(status().isBadRequest());
+
     assertMemberHasNotBeenUpdated(randomMember.getId());
     cleanMemberData(randomMember);
   }
 
   @Test
   public void shouldReturnNotFoundErrorResponseWhenUserNotExist() throws Exception {
-    final String nonExistMemberId = "1000000";
+    String nonExistMemberId = "1000000";
+
     mockMvc.perform(put("/members/{id}", nonExistMemberId)
-            .content(getContent(newName, newImage))
+            .content(getContent(NEW_NAME, NEW_IMAGE))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
         .andExpect(jsonPath("$.statusCode", equalTo(404)))
@@ -154,20 +164,20 @@ public class UpdateMemberIntegrationTest extends BigTest {
   }
 
   private void assertMemberHasBeenUpdated(Long memberId) {
-    final Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberId);
+    Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberId);
     assertTrue(optionalMemberEntity.isPresent());
     optionalMemberEntity.ifPresent(memberEntity -> {
-      assertEquals(newName, memberEntity.getName());
-      assertEquals(newImage, memberEntity.getImage());
+      assertEquals(NEW_NAME, memberEntity.getName());
+      assertEquals(NEW_IMAGE, memberEntity.getImage());
     });
   }
 
   private void assertMemberHasNotBeenUpdated(Long memberId) {
-    final Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberId);
+    Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberId);
     assertTrue(optionalMemberEntity.isPresent());
     optionalMemberEntity.ifPresent(memberEntity -> {
-      assertNotEquals(newName, memberEntity.getName());
-      assertNotEquals(newImage, memberEntity.getImage());
+      assertNotEquals(NEW_NAME, memberEntity.getName());
+      assertNotEquals(NEW_IMAGE, memberEntity.getImage());
     });
   }
 

@@ -20,19 +20,22 @@ public class DeleteMemberIntegrationTest extends BigTest {
 
   @Test
   public void shouldDeleteMemberWhenUserHasAdminRole() throws Exception {
-    final MemberEntity randomMember = getRandomMember();
+    MemberEntity randomMember = getRandomMember();
+
     mockMvc.perform(delete("/members/{id}", String.valueOf(randomMember.getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$").doesNotExist())
         .andExpect(status().isNoContent());
+
     assertMemberHasBeenDeleted(randomMember.getId());
     cleanMemberData(randomMember);
   }
 
   @Test
   public void shouldReturnForbiddenErrorResponseWhenUserHasStandardUserRole() throws Exception {
-    final MemberEntity randomMember = getRandomMember();
+    MemberEntity randomMember = getRandomMember();
+
     mockMvc.perform(delete("/members/{id}", String.valueOf(randomMember.getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
@@ -40,26 +43,30 @@ public class DeleteMemberIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.message",
             equalTo("Access denied. Please, try to login again or contact your admin.")))
         .andExpect(status().isForbidden());
+
     assertMemberHasNotBeenDeleted(randomMember.getId());
     cleanMemberData(randomMember);
   }
 
   @Test
   public void shouldReturnForbiddenErrorResponseWhenTokenIsNotSent() throws Exception {
-    final MemberEntity randomMember = getRandomMember();
+    MemberEntity randomMember = getRandomMember();
+
     mockMvc.perform(delete("/members/{id}", String.valueOf(randomMember.getId()))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.statusCode", equalTo(403)))
         .andExpect(jsonPath("$.message",
             equalTo("Access denied. Please, try to login again or contact your admin.")))
         .andExpect(status().isForbidden());
+
     assertMemberHasNotBeenDeleted(randomMember.getId());
     cleanMemberData(randomMember);
   }
 
   @Test
   public void shouldReturnNotFoundErrorResponseWhenUserNotExist() throws Exception {
-    final String nonExistMemberId = "1000000";
+    String nonExistMemberId = "1000000";
+
     mockMvc.perform(delete("/members/{id}", nonExistMemberId)
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
@@ -71,12 +78,12 @@ public class DeleteMemberIntegrationTest extends BigTest {
   }
 
   private void assertMemberHasBeenDeleted(Long memberId) {
-    final Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberId);
+    Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberId);
     optionalMemberEntity.ifPresent(memberEntity -> assertTrue(memberEntity.getSoftDeleted()));
   }
 
   private void assertMemberHasNotBeenDeleted(Long memberId) {
-    final Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberId);
+    Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberId);
     optionalMemberEntity.ifPresent(memberEntity -> assertFalse(memberEntity.getSoftDeleted()));
   }
 

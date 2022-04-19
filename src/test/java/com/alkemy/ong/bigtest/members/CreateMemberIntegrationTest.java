@@ -23,13 +23,13 @@ import org.springframework.http.MediaType;
 
 public class CreateMemberIntegrationTest extends BigTest {
 
-  private static final String correctName = "Magali Kain";
-  private static final String correctImage = "https://s3.com/maga.png";
+  private static final String CORRECT_NAME = "Magali Kain";
+  private static final String CORRECT_IMAGE = "https://s3.com/maga.png";
 
   @Test
   public void shouldCreateMemberWhenUserHasStandardUserRole() throws Exception {
     String response = mockMvc.perform(post("/members")
-            .content(getContent(correctName, correctImage))
+            .content(getContent(CORRECT_NAME, CORRECT_IMAGE))
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
         .andExpect(jsonPath("$.id", notNullValue()))
@@ -37,6 +37,7 @@ public class CreateMemberIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.image", equalTo("https://s3.com/maga.png")))
         .andExpect(status().isCreated())
         .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
     Integer memberId = JsonPath.read(response, "$.id");
     assertMemberHasBeenCreated(Long.valueOf(memberId));
   }
@@ -65,7 +66,7 @@ public class CreateMemberIntegrationTest extends BigTest {
   @Test
   public void shouldReturnBadRequestWhenNameIsNull() throws Exception {
     mockMvc.perform(post("/members")
-            .content(getContent(null, correctImage))
+            .content(getContent(null, CORRECT_IMAGE))
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
@@ -78,7 +79,7 @@ public class CreateMemberIntegrationTest extends BigTest {
   @Test
   public void shouldReturnBadRequestWhenInvalidName() throws Exception {
     mockMvc.perform(post("/members")
-            .content(getContent("M4gálï K@1ñ", correctImage))
+            .content(getContent("M4gálï K@1ñ", CORRECT_IMAGE))
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
@@ -91,7 +92,7 @@ public class CreateMemberIntegrationTest extends BigTest {
   @Test
   public void shouldReturnBadRequestWhenImageIsNull() throws Exception {
     mockMvc.perform(post("/members")
-            .content(getContent(correctName, null))
+            .content(getContent(CORRECT_NAME, null))
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
@@ -104,7 +105,7 @@ public class CreateMemberIntegrationTest extends BigTest {
   @Test
   public void shouldReturnBadRequestWhenInvalidImage() throws Exception {
     mockMvc.perform(post("/members")
-            .content(getContent(correctName, "Magali's-dog-photo.png"))
+            .content(getContent(CORRECT_NAME, "Magali's-dog-photo.png"))
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
         .andExpect(jsonPath("$.statusCode", equalTo(400)))
@@ -125,8 +126,8 @@ public class CreateMemberIntegrationTest extends BigTest {
     final Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberId);
     assertTrue(optionalMemberEntity.isPresent());
     optionalMemberEntity.ifPresent(memberEntity -> {
-      assertEquals(correctName, memberEntity.getName());
-      assertEquals(correctImage, memberEntity.getImage());
+      assertEquals(CORRECT_NAME, memberEntity.getName());
+      assertEquals(CORRECT_IMAGE, memberEntity.getImage());
       cleanMemberData(memberEntity);
     });
   }

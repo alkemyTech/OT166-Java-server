@@ -2,6 +2,7 @@ package com.alkemy.ong.bigtest.members;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -16,7 +17,8 @@ public class ListMemberIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnListOfMemberWhenUserHasAdminRole() throws Exception {
-    final MemberEntity randomMember = getRandomMember();
+    MemberEntity randomMember = getRandomMember();
+
     mockMvc.perform(get("/members")
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
@@ -28,7 +30,9 @@ public class ListMemberIntegrationTest extends BigTest {
             .value(hasItem(randomMember.getName())))
         .andExpect(jsonPath("$.members[*].image")
             .value(hasItem(randomMember.getImage())))
+        .andExpect(jsonPath("$.members", hasSize(1)))
         .andExpect(status().isOk());
+
     cleanMemberData(randomMember);
   }
 
