@@ -8,6 +8,7 @@ import com.alkemy.ong.infrastructure.database.entity.ActivityEntity;
 import com.alkemy.ong.infrastructure.database.entity.CategoryEntity;
 import com.alkemy.ong.infrastructure.database.entity.CommentEntity;
 import com.alkemy.ong.infrastructure.database.entity.ContactEntity;
+import com.alkemy.ong.infrastructure.database.entity.MemberEntity;
 import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
 import com.alkemy.ong.infrastructure.database.entity.OrganizationEntity;
 import com.alkemy.ong.infrastructure.database.entity.RoleEntity;
@@ -18,6 +19,7 @@ import com.alkemy.ong.infrastructure.database.repository.IActivityRepository;
 import com.alkemy.ong.infrastructure.database.repository.ICategoryRepository;
 import com.alkemy.ong.infrastructure.database.repository.ICommentRepository;
 import com.alkemy.ong.infrastructure.database.repository.IContactRepository;
+import com.alkemy.ong.infrastructure.database.repository.IMemberRepository;
 import com.alkemy.ong.infrastructure.database.repository.INewsRepository;
 import com.alkemy.ong.infrastructure.database.repository.IOrganizationRepository;
 import com.alkemy.ong.infrastructure.database.repository.IRoleRepository;
@@ -92,6 +94,9 @@ public abstract class BigTest {
   @Autowired
   protected ITestimonialRepository testimonialRepository;
 
+  @Autowired
+  protected IMemberRepository memberRepository;
+
   @Before
   public void setup() {
     createRoles();
@@ -153,6 +158,10 @@ public abstract class BigTest {
     testimonialRepository.deleteAllInBatch(Arrays.asList(testimonial));
   }
 
+  protected void cleanMemberData(MemberEntity... member) {
+    memberRepository.deleteAllInBatch(Arrays.asList(member));
+  }
+
   private void deleteAllEntities() {
     organizationRepository.deleteAll();
     slideRepository.deleteAll();
@@ -164,8 +173,8 @@ public abstract class BigTest {
     testimonialRepository.deleteAll();
   }
 
-  protected void saveOrganizationDetails() {
-    organizationRepository.save(OrganizationEntity.builder()
+  protected Long saveOrganizationDetails() {
+    OrganizationEntity organizationEntity = organizationRepository.save(OrganizationEntity.builder()
         .name("Somos Mas")
         .image("https://s3.com/logo.jpg/")
         .welcomeText("Welcome to Somos Mas")
@@ -178,6 +187,8 @@ public abstract class BigTest {
         .build());
 
     saveSlide();
+
+    return organizationEntity.getId();
   }
 
   protected SlideEntity saveSlide() {
@@ -209,6 +220,14 @@ public abstract class BigTest {
         .name("My first Testimonial!!")
         .image("https://s3.com/testimonial.jpg")
         .content("Testimonial content.")
+        .build());
+  }
+
+  protected MemberEntity getRandomMember() {
+    return memberRepository.save(MemberEntity.builder()
+        .name("Matias Espinola")
+        .image("https://s3.com/matias.png")
+        .softDeleted(false)
         .build());
   }
 
