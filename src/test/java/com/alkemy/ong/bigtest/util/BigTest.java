@@ -161,8 +161,8 @@ public abstract class BigTest {
     testimonialRepository.deleteAll();
   }
 
-  protected void saveOrganizationDetails() {
-    organizationRepository.save(OrganizationEntity.builder()
+  protected Long saveOrganizationDetails() {
+    OrganizationEntity organizationEntity = organizationRepository.save(OrganizationEntity.builder()
         .name("Somos Mas")
         .image("https://s3.com/logo.jpg/")
         .welcomeText("Welcome to Somos Mas")
@@ -175,6 +175,8 @@ public abstract class BigTest {
         .build());
 
     saveSlide();
+
+    return organizationEntity.getId();
   }
 
   protected SlideEntity saveSlide() {

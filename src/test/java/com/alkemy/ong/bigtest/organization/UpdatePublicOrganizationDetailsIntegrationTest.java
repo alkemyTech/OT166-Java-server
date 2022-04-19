@@ -1,12 +1,9 @@
 package com.alkemy.ong.bigtest.organization;
 
-import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -14,8 +11,6 @@ import com.alkemy.ong.application.rest.request.UpdateOrganizationRequest;
 import com.alkemy.ong.bigtest.util.BigTest;
 import com.alkemy.ong.infrastructure.database.entity.OrganizationEntity;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.jayway.jsonpath.JsonPath;
-import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import org.junit.Test;
 import org.springframework.http.HttpHeaders;
@@ -25,18 +20,19 @@ public class UpdatePublicOrganizationDetailsIntegrationTest extends BigTest {
 
   @Test
   public void shouldUpdateOrganizationWhenUserHasAdminRole() throws Exception {
-    saveOrganizationDetails();
-    OrganizationEntity ramdomOrganization = organizationRepository.findAll().get(0);
-    Long randomOrganizationId = ramdomOrganization.getId();
+    Long randomOrganizationId = saveOrganizationDetails();
 
     mockMvc.perform(patch("/organization/public", String.valueOf(randomOrganizationId))
-            .content(getContent("Somos Mas", "Elm Street 3", "+5411345678", "somos.mas@ong.com"))
+            .content(getContent("Somos Mas",
+                "Street 1234",
+                "+5411345678",
+                "somos@mas.com"))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
         .andExpect(jsonPath("$.name", equalTo("Somos Mas")))
-        .andExpect(jsonPath("$.address", equalTo("Elm Street 3")))
+        .andExpect(jsonPath("$.address", equalTo("Street 1234")))
         .andExpect(jsonPath("$.phone", equalTo("+5411345678")))
-        .andExpect(jsonPath("$.email", equalTo("somos.mas@ong.com")))
+        .andExpect(jsonPath("$.email", equalTo("somos@mas.com")))
         .andExpect(status().isOk());
 
     assertOrganizationHasBeenUpdated(randomOrganizationId);
@@ -79,8 +75,8 @@ public class UpdatePublicOrganizationDetailsIntegrationTest extends BigTest {
         organizationId);
     assertTrue(optionalOrganizationEntityEntity.isPresent());
     assertEquals("Somos Mas", optionalOrganizationEntityEntity.get().getName());
-    assertEquals("Elm Street 3", optionalOrganizationEntityEntity.get().getAddress());
+    assertEquals("Street 1234", optionalOrganizationEntityEntity.get().getAddress());
     assertEquals("+5411345678", optionalOrganizationEntityEntity.get().getPhone());
-    assertEquals("somos.mas@ong.com", optionalOrganizationEntityEntity.get().getEmail());
+    assertEquals("somos@mas.com", optionalOrganizationEntityEntity.get().getEmail());
   }
 }
