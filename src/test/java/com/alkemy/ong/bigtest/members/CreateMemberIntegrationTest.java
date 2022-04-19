@@ -28,7 +28,6 @@ public class CreateMemberIntegrationTest extends BigTest {
 
   @Test
   public void shouldCreateMemberWhenUserHasStandardUserRole() throws Exception {
-
     String response = mockMvc.perform(post("/members")
             .content(getContent(correctName, correctImage))
             .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -38,7 +37,6 @@ public class CreateMemberIntegrationTest extends BigTest {
         .andExpect(jsonPath("$.image", equalTo("https://s3.com/maga.png")))
         .andExpect(status().isCreated())
         .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
-
     Integer memberId = JsonPath.read(response, "$.id");
     assertMemberHasBeenCreated(Long.valueOf(memberId));
   }
@@ -124,7 +122,7 @@ public class CreateMemberIntegrationTest extends BigTest {
   }
 
   private void assertMemberHasBeenCreated(Long memberId) {
-    Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberId);
+    final Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberId);
     assertTrue(optionalMemberEntity.isPresent());
     optionalMemberEntity.ifPresent(memberEntity -> {
       assertEquals(correctName, memberEntity.getName());

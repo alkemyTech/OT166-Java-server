@@ -154,7 +154,7 @@ public class UpdateMemberIntegrationTest extends BigTest {
   }
 
   private void assertMemberHasBeenUpdated(Long memberId) {
-    Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberId);
+    final Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberId);
     assertTrue(optionalMemberEntity.isPresent());
     optionalMemberEntity.ifPresent(memberEntity -> {
       assertEquals(newName, memberEntity.getName());
@@ -163,7 +163,7 @@ public class UpdateMemberIntegrationTest extends BigTest {
   }
 
   private void assertMemberHasNotBeenUpdated(Long memberId) {
-    Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberId);
+    final Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberId);
     assertTrue(optionalMemberEntity.isPresent());
     optionalMemberEntity.ifPresent(memberEntity -> {
       assertNotEquals(newName, memberEntity.getName());

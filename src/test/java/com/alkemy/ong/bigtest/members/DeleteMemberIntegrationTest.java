@@ -20,7 +20,7 @@ public class DeleteMemberIntegrationTest extends BigTest {
 
   @Test
   public void shouldDeleteMemberWhenUserHasAdminRole() throws Exception {
-    MemberEntity randomMember = getRandomMember();
+    final MemberEntity randomMember = getRandomMember();
     mockMvc.perform(delete("/members/{id}", String.valueOf(randomMember.getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
@@ -32,7 +32,7 @@ public class DeleteMemberIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnForbiddenErrorResponseWhenUserHasStandardUserRole() throws Exception {
-    MemberEntity randomMember = getRandomMember();
+    final MemberEntity randomMember = getRandomMember();
     mockMvc.perform(delete("/members/{id}", String.valueOf(randomMember.getId()))
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForStandardUser()))
@@ -46,7 +46,7 @@ public class DeleteMemberIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnForbiddenErrorResponseWhenTokenIsNotSent() throws Exception {
-    MemberEntity randomMember = getRandomMember();
+    final MemberEntity randomMember = getRandomMember();
     mockMvc.perform(delete("/members/{id}", String.valueOf(randomMember.getId()))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.statusCode", equalTo(403)))
@@ -71,12 +71,12 @@ public class DeleteMemberIntegrationTest extends BigTest {
   }
 
   private void assertMemberHasBeenDeleted(Long memberId) {
-    Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberId);
+    final Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberId);
     optionalMemberEntity.ifPresent(memberEntity -> assertTrue(memberEntity.getSoftDeleted()));
   }
 
   private void assertMemberHasNotBeenDeleted(Long memberId) {
-    Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberId);
+    final Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberId);
     optionalMemberEntity.ifPresent(memberEntity -> assertFalse(memberEntity.getSoftDeleted()));
   }
 

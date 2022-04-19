@@ -16,7 +16,7 @@ public class ListMemberIntegrationTest extends BigTest {
 
   @Test
   public void shouldReturnListOfMemberWhenUserHasAdminRole() throws Exception {
-    MemberEntity randomMember = getRandomMember();
+    final MemberEntity randomMember = getRandomMember();
     mockMvc.perform(get("/members")
             .contentType(MediaType.APPLICATION_JSON)
             .header(HttpHeaders.AUTHORIZATION, getAuthorizationTokenForAdminUser()))
