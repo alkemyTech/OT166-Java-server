@@ -200,6 +200,7 @@ public abstract class BigTest {
         .image("https://s3.com/news.jpg")
         .content("News content.")
         .name("My first News!!")
+        .softDeleted(false)
         .build());
   }
 
@@ -216,6 +217,7 @@ public abstract class BigTest {
         .name(name)
         .description("Category description.")
         .image("https://s3.com/category.jpg")
+        .softDeleted(false)
         .build());
   }
 
