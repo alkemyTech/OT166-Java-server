@@ -71,12 +71,14 @@ public class UpdatePublicOrganizationDetailsIntegrationTest extends BigTest {
   }
 
   private void assertOrganizationHasBeenUpdated(Long organizationId) {
-    Optional<OrganizationEntity> optionalOrganizationEntityEntity = organizationRepository.findById(
-        organizationId);
+    Optional<OrganizationEntity> optionalOrganizationEntityEntity =
+        organizationRepository.findById(organizationId);
     assertTrue(optionalOrganizationEntityEntity.isPresent());
     assertEquals("Somos Mas", optionalOrganizationEntityEntity.get().getName());
     assertEquals("Street 1234", optionalOrganizationEntityEntity.get().getAddress());
     assertEquals("+5411345678", optionalOrganizationEntityEntity.get().getPhone());
     assertEquals("somos@mas.com", optionalOrganizationEntityEntity.get().getEmail());
+
+    organizationRepository.delete(optionalOrganizationEntityEntity.get());
   }
 }
