@@ -109,6 +109,8 @@ mvn checkstyle:checkstyle
     - [Mockito tutorial](https://www.baeldung.com/mockito-series)
     - [Unit tests with Mockito](https://www.vogella.com/tutorials/Mockito/article.html)
     - [jUnit5: user guide](https://junit.org/junit5/docs/current/user-guide/#overview)
+    - [How do I write tests?](https://blog.devgenius.io/how-do-i-write-tests-17640185171c)
+    - [How to perfect Software Design with Test Driven Development](https://www.youtube.com/watch?v=ln4WnxX-wrw&ab_channel=ContinuousDelivery)
 - API documentation:
     - [OpenAPI 3 with Spring Boot](https://springdoc.org/)
 - Agile:
