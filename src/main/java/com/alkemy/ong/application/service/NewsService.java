@@ -11,7 +11,6 @@ import com.alkemy.ong.application.service.abstraction.ICreateNewsService;
 import com.alkemy.ong.application.service.abstraction.IDeleteNewsService;
 import com.alkemy.ong.application.service.abstraction.IGetNewsService;
 import com.alkemy.ong.application.service.abstraction.IUpdateNewsService;
-import com.alkemy.ong.application.util.CommentUtils;
 import com.alkemy.ong.application.util.GenericSetPagination;
 import com.alkemy.ong.infrastructure.database.entity.CategoryEntity;
 import com.alkemy.ong.infrastructure.database.entity.NewsEntity;
@@ -21,8 +20,8 @@ import com.alkemy.ong.infrastructure.database.repository.INewsRepository;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import javax.persistence.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -94,32 +93,33 @@ public class NewsService extends GenericSetPagination<NewsEntity> implements
 
   @Override
   public ListCommentsResponse listCommentsByNewsId(Long id) {
-    List<Map<String, Object>> queryResponses = newsRepository.findNewsWithAssociatedCommentsBy(id);
-    if (queryResponses.isEmpty()) {
+    return toListCommentsResponse(newsRepository.findByCriteria(id));
+  }
+
+  private ListCommentsResponse toListCommentsResponse(List<Tuple> queryResponse) {
+    if (queryResponse.isEmpty()) {
       throw new EntityNotFoundException("Comments not found in the news.");
     }
     return ListCommentsResponse.builder()
-        .name((String) queryResponses.get(0).get("newsName"))
-        .comments(buildCommentResponses(queryResponses))
+        .name(queryResponse.get(0).get(0, String.class))
+        .comments(buildCommentResponseList(queryResponse))
         .build();
   }
 
-  private List<CommentResponse> buildCommentResponses(List<Map<String, Object>> queryResponses) {
+  private List<CommentResponse> buildCommentResponseList(List<Tuple> tupleList) {
     List<CommentResponse> commentResponses = new ArrayList<>();
-    for (Map<String, Object> queryResponse : queryResponses) {
-      commentResponses.add(buildCommentResponse(queryResponse));
+    for (Tuple tuple : tupleList) {
+      commentResponses.add(buildSingleCommentResponse(tuple));
     }
     return commentResponses;
   }
 
-  private CommentResponse buildCommentResponse(Map<String, Object> queryResponse) {
-    String createdBy = CommentUtils.createdBy((String) queryResponse.get("firstName"),
-        (String) queryResponse.get("lastName"));
+  private CommentResponse buildSingleCommentResponse(Tuple tuple) {
     return CommentResponse.builder()
-        .id((Long) queryResponse.get("id"))
-        .body((String) queryResponse.get("body"))
-        .createdBy(createdBy)
-        .createTimestamp((Timestamp) queryResponse.get("createTimestamp"))
+        .id(tuple.get(1, Long.class))
+        .body(tuple.get(2, String.class))
+        .createdBy(tuple.get(3, String.class))
+        .createTimestamp((tuple.get(4, Timestamp.class)))
         .build();
   }
 
